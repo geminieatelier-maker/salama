@@ -13,9 +13,9 @@ export default function Rapports() {
       <div className="card">
         <div className="card-title"><Building2 size={16}/> CA par société — Juin 2026</div>
         {[
-          { nom:'Ouest Sucre', montant:'205 912 490', pct:94 },
-          { nom:'SIRAMA', montant:'8 450 200', pct:4 },
-          { nom:'SUCOMA', montant:'4 187 500', pct:2 },
+          { nom:'Société Alpha', montant:'205 912 490', pct:94 },
+          { nom:'Société Beta', montant:'8 450 200', pct:4 },
+          { nom:'Société Gamma', montant:'4 187 500', pct:2 },
         ].map((s,i) => <div key={i} style={{marginBottom:12}}>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:13,marginBottom:4}}>
             <span style={{fontWeight:500}}>{s.nom}</span>

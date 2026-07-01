@@ -57,10 +57,20 @@ body { font-family:'Segoe UI',system-ui,sans-serif; background:#0a1628; color:#f
 .alert-g { background:rgba(16,185,129,.1); color:#6ee7b7; }
 .search-bar { display:flex; align-items:center; gap:8px; background:#0a1628; border:1px solid #1e3a5f; border-radius:8px; padding:6px 12px; flex:1; max-width:350px; }
 .search-bar input { background:none; border:none; color:#f8fafc; font-size:13px; outline:none; flex:1; }
+.mobile-menu-btn { display:none; background:none; border:none; color:#94a3b8; cursor:pointer; padding:4px; }
+.mobile-close { display:none; background:none; border:none; color:#94a3b8; cursor:pointer; padding:4px; margin-left:auto; }
+.sidebar-overlay { display:none; }
 @media(max-width:768px) {
-  .sidebar { display:none; }
+  .sidebar { position:fixed; left:-260px; z-index:100; transition:left .3s; }
+  .sidebar.open { left:0; }
+  .sidebar-overlay { display:block; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:99; }
+  .mobile-menu-btn { display:flex; }
+  .mobile-close { display:flex; }
   .main { margin-left:0; }
   .form-grid { grid-template-columns:1fr; }
   .grid2 { grid-template-columns:1fr; }
   .stats { grid-template-columns:1fr 1fr; }
+  .hide-mobile { display:none !important; }
+  .topbar h1 { font-size:15px; }
+  .content { padding:16px 12px; }
 }

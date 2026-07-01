@@ -19,7 +19,7 @@ export default function EtatControle() {
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
       <div style={{display:'flex',gap:8}}>
         <select className="btn btn-outline" style={{fontSize:13}}>
-          <option>Ouest Sucre</option><option>SIRAMA</option><option>SUCOMA</option>
+          <option>Société Alpha</option><option>Société Beta</option><option>Société Gamma</option>
         </select>
         <select className="btn btn-outline" style={{fontSize:13}}>
           <option>Juin 2026</option><option>Mai 2026</option><option>Avril 2026</option>
@@ -45,7 +45,7 @@ export default function EtatControle() {
     </div>
 
     {tab === 'controle' && <div className="card">
-      <div className="card-title"><ClipboardCheck size={16}/> État de contrôle — Ouest Sucre — Juin 2026</div>
+      <div className="card-title"><ClipboardCheck size={16}/> État de contrôle — Société Alpha — Juin 2026</div>
       <div style={{fontSize:12,color:'#64748b',marginBottom:16}}>Enregistrement de toutes les ordonnances et factures détaillées des médicaments consommés</div>
       <div className="tbl-wrap">
       <table className="tbl">
@@ -86,7 +86,7 @@ export default function EtatControle() {
     </div>}
 
     {tab === 'stock' && <div className="card">
-      <div className="card-title">État de stock — Médicaments consommés par Ouest Sucre — Juin 2026</div>
+      <div className="card-title">État de stock — Médicaments consommés par Société Alpha — Juin 2026</div>
       <div className="tbl-wrap">
       <table className="tbl">
         <thead><tr><th>Référence</th><th>Médicament</th><th>Qté consommée</th><th>Prix unitaire</th><th>Montant total</th></tr></thead>

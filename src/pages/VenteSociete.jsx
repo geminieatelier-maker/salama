@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Search, Plus, Minus, Trash2, Building2, User, FileText } from 'lucide-react'
 
 export default function VenteSociete() {
-  const [societe] = useState('Ouest Sucre')
+  const [societe] = useState('Société Alpha')
   const [travailleur] = useState({ matricule:'00234/003', nom:'RAKOTO Jean Baptiste', section:'EOM PERMANENTS', type:'EOM Permanents' })
 
   const panier = [
@@ -19,15 +19,15 @@ export default function VenteSociete() {
         <div className="form-group" style={{marginBottom:12}}>
           <label>Sélectionner la société</label>
           <select style={{background:'#0a1628',border:'1px solid #1e3a5f',borderRadius:8,padding:'8px 12px',color:'#f8fafc',fontSize:13}}>
-            <option>Ouest Sucre — Ankarana-AMBILOBE</option>
-            <option>SIRAMA — Ambilobe</option>
-            <option>SUCOMA — Namakia</option>
+            <option>Société Alpha — Mahamasina-ANTANANARIVO</option>
+            <option>Société Beta — Ambilobe</option>
+            <option>Société Gamma — Namakia</option>
           </select>
         </div>
         <div style={{background:'rgba(16,185,129,.1)',borderRadius:8,padding:12}}>
           <div style={{fontSize:12,color:'#64748b'}}>Société sélectionnée</div>
           <div style={{fontSize:16,fontWeight:700,color:'#10b981'}}>{societe}</div>
-          <div style={{fontSize:12,color:'#94a3b8'}}>Ankarana-AMBILOBE • Convention active • Pas de plafond</div>
+          <div style={{fontSize:12,color:'#94a3b8'}}>Mahamasina-ANTANANARIVO • Convention active • Pas de plafond</div>
         </div>
       </div>
 

@@ -3,7 +3,7 @@ import { FileText, Download, Building2, Calendar, Printer } from 'lucide-react'
 
 export default function Facturation() {
   const [mois] = useState('Juin 2026')
-  const [societe] = useState('Ouest Sucre')
+  const [societe] = useState('Société Alpha')
 
   const categories = [
     { type:'ACHAT POUR L\'HOPITAL', famille:0, travailleur:2054500, nombre:8, montant:null },
@@ -20,18 +20,18 @@ export default function Facturation() {
   const totalTTC = totalHT + tva
 
   const historique = [
-    { mois:'Juin 2026', societe:'Ouest Sucre', montant:'205 912 490', statut:'En attente', nb:5660 },
-    { mois:'Mai 2026', societe:'Ouest Sucre', montant:'198 456 200', statut:'Payée', nb:5210 },
-    { mois:'Mai 2026', societe:'SIRAMA', montant:'45 230 800', statut:'Payée', nb:1847 },
-    { mois:'Avril 2026', societe:'Ouest Sucre', montant:'187 320 100', statut:'Payée', nb:4980 },
-    { mois:'Avril 2026', societe:'SIRAMA', montant:'42 110 500', statut:'En retard', nb:1623 },
+    { mois:'Juin 2026', societe:'Société Alpha', montant:'205 912 490', statut:'En attente', nb:5660 },
+    { mois:'Mai 2026', societe:'Société Alpha', montant:'198 456 200', statut:'Payée', nb:5210 },
+    { mois:'Mai 2026', societe:'Société Beta', montant:'45 230 800', statut:'Payée', nb:1847 },
+    { mois:'Avril 2026', societe:'Société Alpha', montant:'187 320 100', statut:'Payée', nb:4980 },
+    { mois:'Avril 2026', societe:'Société Beta', montant:'42 110 500', statut:'En retard', nb:1623 },
   ]
 
   return <>
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
       <div style={{display:'flex',gap:8,alignItems:'center'}}>
         <select className="btn btn-outline" style={{fontSize:13}}>
-          <option>Ouest Sucre</option><option>SIRAMA</option><option>SUCOMA</option>
+          <option>Société Alpha</option><option>Société Beta</option><option>Société Gamma</option>
         </select>
         <select className="btn btn-outline" style={{fontSize:13}}>
           <option>Juin 2026</option><option>Mai 2026</option><option>Avril 2026</option>
@@ -48,8 +48,8 @@ export default function Facturation() {
       <div style={{textAlign:'center',marginBottom:20,paddingBottom:16,borderBottom:'2px solid #10b981'}}>
         <div style={{fontSize:11,color:'#64748b',letterSpacing:2}}>DÉPÔT DE MÉDICAMENTS</div>
         <div style={{fontSize:24,fontWeight:800,color:'#10b981'}}>SALAMA</div>
-        <div style={{fontSize:12,color:'#94a3b8',marginTop:4}}>RABEMANANJARA SOLOFO Naina Jean Aimé</div>
-        <div style={{fontSize:11,color:'#64748b'}}>Ankarana • N° STAT: 477 22 71 2017 0 00816 • NIF: 400 19 44848 • CMS: 034 73 108 93</div>
+        <div style={{fontSize:12,color:'#94a3b8',marginTop:4}}>RANDRIA Michel André</div>
+        <div style={{fontSize:11,color:'#64748b'}}>Mahamasina • N° STAT: 512 33 82 2024 0 01234 • NIF: 500 22 55667 • CMS: 034 00 000 00</div>
       </div>
 
       <div style={{display:'flex',justifyContent:'space-between',marginBottom:20}}>
@@ -60,11 +60,11 @@ export default function Facturation() {
         <div style={{textAlign:'right'}}>
           <div style={{fontSize:11,color:'#64748b'}}>Doit: Société</div>
           <div style={{fontSize:16,fontWeight:700}}>"{societe}"</div>
-          <div style={{fontSize:12,color:'#94a3b8'}}>Ankarana-AMBILOBE</div>
+          <div style={{fontSize:12,color:'#94a3b8'}}>Mahamasina-ANTANANARIVO</div>
         </div>
       </div>
 
-      <div style={{fontSize:13,color:'#94a3b8',marginBottom:8}}>Ankarana, le 29/06/2026</div>
+      <div style={{fontSize:13,color:'#94a3b8',marginBottom:8}}>Mahamasina, le 29/06/2026</div>
 
       <div className="tbl-wrap">
       <table className="tbl">
@@ -114,7 +114,7 @@ export default function Facturation() {
 
       <div style={{textAlign:'center',marginTop:20,fontSize:12,color:'#64748b'}}>
         <div>Le dépositaire</div>
-        <div style={{marginTop:24,fontWeight:600,color:'#e2e8f0'}}>RABEMANANJARA SOLOFO Naina Jean Aimé</div>
+        <div style={{marginTop:24,fontWeight:600,color:'#e2e8f0'}}>RANDRIA Michel André</div>
       </div>
     </div>
 

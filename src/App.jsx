@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Package, ArrowDownToLine, ShoppingCart, Building2, FileText, ClipboardCheck, Users, BarChart3, Settings, LogOut, Search, Bell, Pill } from 'lucide-react'
+import { LayoutDashboard, Package, ArrowDownToLine, ShoppingCart, Building2, FileText, ClipboardCheck, Users, BarChart3, Settings, LogOut, Search, Bell, Pill, Menu, X } from 'lucide-react'
 import Dashboard from './pages/Dashboard'
 import Produits from './pages/Produits'
 import Entrees from './pages/Entrees'
@@ -41,16 +41,20 @@ const titles = {
 export default function App() {
   const nav = useNavigate()
   const loc = useLocation()
+  const [mobileMenu, setMobileMenu] = useState(false)
+  const goTo = (path) => { nav(path); setMobileMenu(false); }
   return <div className="app">
-    <aside className="sidebar">
+    {mobileMenu && <div className="sidebar-overlay" onClick={()=>setMobileMenu(false)}/>}
+    <aside className={`sidebar${mobileMenu?' open':''}`}>
       <div className="sidebar-logo">
         <div className="logo-icon"><Pill size={22}/></div>
         <div><div className="logo-text">SALAMA</div><div className="logo-sub">Dépôt de médicaments</div></div>
+        <button className="mobile-close" onClick={()=>setMobileMenu(false)}><X size={20}/></button>
       </div>
       <nav>
         {menu.map((m,i) => m.section
           ? <div key={i} className="nav-section">{m.section}</div>
-          : <button key={m.path} className={`nav-item${loc.pathname===m.path?' active':''}`} onClick={()=>nav(m.path)}>
+          : <button key={m.path} className={`nav-item${loc.pathname===m.path?' active':''}`} onClick={()=>goTo(m.path)}>
               <m.icon size={18}/> {m.label}
             </button>
         )}
@@ -64,9 +68,9 @@ export default function App() {
     </aside>
     <div className="main">
       <div className="topbar">
-        <h1>{titles[loc.pathname]||'SALAMA'}</h1>
+        <div style={{display:'flex',alignItems:'center',gap:12}}><button className="mobile-menu-btn" onClick={()=>setMobileMenu(true)}><Menu size={22}/></button><h1>{titles[loc.pathname]||'SALAMA'}</h1></div>
         <div className="topbar-actions">
-          <div className="search-bar"><Search size={16} color="#64748b"/><input placeholder="Rechercher un médicament..."/></div>
+          <div className="search-bar hide-mobile"><Search size={16} color="#64748b"/><input placeholder="Rechercher un médicament..."/></div>
           <button className="btn btn-outline" style={{position:'relative'}}><Bell size={16}/><span style={{position:'absolute',top:4,right:4,width:8,height:8,background:'#ef4444',borderRadius:'50%'}}/></button>
         </div>
       </div>

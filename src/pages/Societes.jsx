@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { Building2, Users, Upload, Search, Plus, ChevronDown, ChevronRight } from 'lucide-react'
 
 const societes = [
-  { nom:'Ouest Sucre', lieu:'Ankarana-AMBILOBE', travailleurs:951, sections:['Direction','Cadres','Agents de maîtrise','EOM Permanents','EOM Temporaires'], convention:'Active', contact:'034 00 000 00' },
-  { nom:'SIRAMA', lieu:'Ambilobe', travailleurs:623, sections:['Direction','Production','Maintenance','Transport'], convention:'Active', contact:'034 11 111 11' },
-  { nom:'SUCOMA', lieu:'Namakia', travailleurs:412, sections:['Administration','Usine','Champs','Logistique'], convention:'Active', contact:'034 22 222 22' },
+  { nom:'Société Alpha', lieu:'Mahamasina-ANTANANARIVO', travailleurs:951, sections:['Direction','Cadres','Agents de maîtrise','EOM Permanents','EOM Temporaires'], convention:'Active', contact:'034 00 000 00' },
+  { nom:'Société Beta', lieu:'Ambilobe', travailleurs:623, sections:['Direction','Production','Maintenance','Transport'], convention:'Active', contact:'034 11 111 11' },
+  { nom:'Société Gamma', lieu:'Namakia', travailleurs:412, sections:['Administration','Usine','Champs','Logistique'], convention:'Active', contact:'034 22 222 22' },
 ]
 
 const travailleurs = [

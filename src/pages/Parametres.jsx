@@ -16,13 +16,13 @@ export default function Parametres() {
     {tab === 'entreprise' && <div className="card">
       <div className="card-title"><Building2 size={16}/> Informations du dépôt</div>
       <div className="form-grid">
-        <div className="form-group"><label>Nom du dépôt</label><input defaultValue="DEPOT DE MEDICAMENTS SALAMA"/></div>
-        <div className="form-group"><label>Dépositaire</label><input defaultValue="RABEMANANJARA SOLOFO Naina Jean Aimé"/></div>
-        <div className="form-group"><label>Adresse</label><input defaultValue="Ankarana"/></div>
-        <div className="form-group"><label>Téléphone</label><input defaultValue="034 73 108 93"/></div>
-        <div className="form-group"><label>N° STAT</label><input defaultValue="477 22 71 2017 0 00816"/></div>
-        <div className="form-group"><label>NIF</label><input defaultValue="400 19 44848"/></div>
-        <div className="form-group"><label>CMS</label><input defaultValue="034 73 108 93"/></div>
+        <div className="form-group"><label>Nom du dépôt</label><input defaultValue="DEPOT DE MEDICAMENTS DEMO"/></div>
+        <div className="form-group"><label>Dépositaire</label><input defaultValue="RANDRIA Michel André"/></div>
+        <div className="form-group"><label>Adresse</label><input defaultValue="Mahamasina"/></div>
+        <div className="form-group"><label>Téléphone</label><input defaultValue="034 00 000 00"/></div>
+        <div className="form-group"><label>N° STAT</label><input defaultValue="512 33 82 2024 0 01234"/></div>
+        <div className="form-group"><label>NIF</label><input defaultValue="500 22 55667"/></div>
+        <div className="form-group"><label>CMS</label><input defaultValue="034 00 000 00"/></div>
         <div className="form-group"><label>Email</label><input placeholder="email@exemple.com"/></div>
         <div className="form-group form-full"><label>Logo du dépôt</label><input type="file"/></div>
         <div className="form-full" style={{display:'flex',justifyContent:'flex-end'}}><button className="btn btn-primary"><Save size={14}/> Enregistrer</button></div>

@@ -3,7 +3,7 @@ import { Search, Plus, Minus, Trash2, Building2, User, FileText } from 'lucide-r
 
 export default function VenteSociete() {
   const [societe] = useState('Société Alpha')
-  const [travailleur] = useState({ matricule:'00234/003', nom:'RAKOTO Jean Baptiste', section:'EOM PERMANENTS', type:'EOM Permanents' })
+  const [travailleur] = useState({ matricule:'000234', section:'220', dpt:'Hospitalier', nom:'RAKOTO Jean Baptiste', type:'Permanent', embauche:'12/03/2018' })
 
   const panier = [
     { ref:'PAR00011', nom:'PARACETAMOL 500MG', prix:2500, qte:2 },
@@ -33,14 +33,14 @@ export default function VenteSociete() {
 
       <div className="card" style={{borderColor:'#3b82f6',borderWidth:2}}>
         <div className="card-title"><User size={16}/> Travailleur</div>
-        <div className="form-group" style={{marginBottom:8}}>
-          <label>Matricule / Section</label>
-          <input placeholder="Ex: 00234/003" defaultValue="00234/003" style={{background:'#0a1628',border:'1px solid #1e3a5f',borderRadius:8,padding:'8px 12px',color:'#f8fafc',fontSize:13}}/>
+        <div className="form-grid" style={{marginBottom:8}}>
+          <div className="form-group"><label>Matricule</label><input placeholder="Ex: 000234" defaultValue="000234" style={{background:'#0a1628',border:'1px solid #1e3a5f',borderRadius:8,padding:'8px 12px',color:'#f8fafc',fontSize:13}}/></div>
+          <div className="form-group"><label>Section</label><input placeholder="Ex: 034" defaultValue="220" style={{background:'#0a1628',border:'1px solid #1e3a5f',borderRadius:8,padding:'8px 12px',color:'#f8fafc',fontSize:13}}/></div>
         </div>
         <div style={{background:'rgba(59,130,246,.1)',borderRadius:8,padding:12}}>
           <div style={{fontSize:16,fontWeight:700,color:'#3b82f6'}}>{travailleur.nom}</div>
-          <div style={{fontSize:12,color:'#94a3b8'}}>Matricule: {travailleur.matricule} • {travailleur.section}</div>
-          <div style={{fontSize:12,color:'#94a3b8'}}>Type: {travailleur.type}</div>
+          <div style={{fontSize:12,color:'#94a3b8'}}>Matricule: {travailleur.matricule} • Section: {travailleur.section} ({travailleur.dpt})</div>
+          <div style={{fontSize:12,color:'#94a3b8'}}>Type: {travailleur.type} • Embauché le {travailleur.embauche}</div>
         </div>
       </div>
     </div>
@@ -49,10 +49,12 @@ export default function VenteSociete() {
       <div className="card">
         <div className="card-title">Ordonnance</div>
         <div className="form-grid">
-          <div className="form-group"><label>N° Ordonnance</label><input placeholder="Ex: ORD-2026-0547"/></div>
+          <div className="form-group"><label>N° ordonnance (hôpital)</label><input placeholder="Ex: 2026-0547" style={{fontWeight:600}}/></div>
           <div className="form-group"><label>Date ordonnance</label><input type="date" defaultValue="2026-07-01"/></div>
-          <div className="form-group"><label>N° Pharmacien</label><select><option>001 — Dr RABE</option><option>002 — Dr SOLO</option><option>003 — Dr NAINA</option><option>004 — Dr JEAN</option></select></div>
-          <div className="form-group"><label>Patient (si famille)</label><input placeholder="Nom du patient si différent"/></div>
+          <div className="form-group"><label>N° facture pharmacie</label><input placeholder="Auto — ex: F-2026-1042" defaultValue="F-2026-1042"/></div>
+          <div className="form-group"><label>Bénéficiaire</label><select><option value="T">T — Travailleur</option><option value="F">F — Famille</option></select></div>
+          <div className="form-group"><label>Pharmacien signataire</label><select><option>001 — Dr RABE</option><option>002 — Dr SOLO</option><option>003 — Dr NAINA</option><option>004 — Dr JEAN</option></select></div>
+          <div className="form-group"><label>Nom du patient (si Famille)</label><input placeholder="Rempli si bénéficiaire = F"/></div>
         </div>
       </div>
 

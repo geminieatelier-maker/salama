@@ -1,16 +1,20 @@
 import { useState } from 'react'
 import { ClipboardCheck, Download, Calendar, Building2, Printer, FileText } from 'lucide-react'
 
+// Trié par date d'ordonnance (ordre chronologique)
 const ordonnances = [
-  { date:'01/07/2026', numOrd:'ORD-4521', numPharm:'001', matricule:'00234/003', nom:'RAKOTO Jean Baptiste', section:'EOM Permanents', type:'EOM Permanents', medicaments:'PARACETAMOL 500MG x2, AMOXICILLINE 500MG x1', montant:9500 },
-  { date:'01/07/2026', numOrd:'ORD-4520', numPharm:'002', matricule:'00112/001', nom:'RABE Marie Josée', section:'Cadres', type:'Cadres', medicaments:'OMEPRAZOLE 20MG x1, IBUPROFENE 400MG x2', montant:14000 },
-  { date:'30/06/2026', numOrd:'ORD-4519', numPharm:'001', matricule:'00456/002', nom:'ANDRIA Paul Henri', section:'Agents de maîtrise', type:'Agents de maîtrise', medicaments:'ASPIRINE 500MG x3, VITAMINE C x2', montant:12000 },
-  { date:'30/06/2026', numOrd:'ORD-4518', numPharm:'003', matricule:'00789/004', nom:'RASOA Hery Lala', section:'EOM Permanents', type:'EOM Permanents', medicaments:'PARACETAMOL 500MG x5, ACIDE FOLIQUE x3', montant:17000 },
-  { date:'29/06/2026', numOrd:'ORD-4517', numPharm:'002', matricule:'01023/005', nom:'RINA Volatiana', section:'EOM Temporaires', type:'EOM Temporaires', medicaments:'AMOXICILLINE 500MG x2, OMEPRAZOLE 20MG x1', montant:16000 },
-  { date:'29/06/2026', numOrd:'ORD-4516', numPharm:'001', matricule:'00567/001', nom:'FIDY Toavina', section:'Direction', type:'Cadres', medicaments:'ATENOLOL 50MG x1', montant:5800 },
-  { date:'28/06/2026', numOrd:'ORD-4515', numPharm:'004', matricule:'00890/003', nom:'NORO Hanitra', section:'EOM Permanents', type:'EOM Permanents', medicaments:'PARACETAMOL 500MG x3, IBUPROFENE 400MG x1, VITAMINE C x2', montant:14000 },
-  { date:'28/06/2026', numOrd:'ORD-4514', numPharm:'002', matricule:'01234/004', nom:'TIANA Mamitiana', section:'EOM Temporaires', type:'EOM Temporaires', medicaments:'ASPIRINE 500MG x2, ACIDE FOLIQUE x1', montant:7500 },
+  { date:'28/06/2026', numOrd:'2026-4514', numFacture:'F-2026-1035', matricule:'001234', section:'400', benef:'T', nom:'TIANA Mamitiana', type:'Saisonnier', medicaments:'ASPIRINE 500MG x2, ACIDE FOLIQUE x1', montant:7500 },
+  { date:'28/06/2026', numOrd:'2026-4515', numFacture:'F-2026-1036', matricule:'000890', section:'400', benef:'F', nom:'NORO Hanitra', type:'Permanent', medicaments:'PARACETAMOL 500MG x3, IBUPROFENE 400MG x1, VITAMINE C x2', montant:14000 },
+  { date:'29/06/2026', numOrd:'2026-4516', numFacture:'F-2026-1037', matricule:'000567', section:'220', benef:'T', nom:'FIDY Toavina', type:'Cadre', medicaments:'ATENOLOL 50MG x1', montant:5800 },
+  { date:'29/06/2026', numOrd:'2026-4517', numFacture:'F-2026-1038', matricule:'001023', section:'400', benef:'T', nom:'RINA Volatiana', type:'Temporaire', medicaments:'AMOXICILLINE 500MG x2, OMEPRAZOLE 20MG x1', montant:16000 },
+  { date:'30/06/2026', numOrd:'2026-4518', numFacture:'F-2026-1039', matricule:'000789', section:'220', benef:'T', nom:'RASOA Hery Lala', type:'Permanent', medicaments:'PARACETAMOL 500MG x5, ACIDE FOLIQUE x3', montant:17000 },
+  { date:'30/06/2026', numOrd:'2026-4519', numFacture:'F-2026-1040', matricule:'000456', section:'400', benef:'F', nom:'ANDRIA Paul Henri', type:'Agent de maîtrise', medicaments:'ASPIRINE 500MG x3, VITAMINE C x2', montant:12000 },
+  { date:'01/07/2026', numOrd:'2026-4520', numFacture:'F-2026-1041', matricule:'000112', section:'220', benef:'T', nom:'RABE Marie Josée', type:'Cadre', medicaments:'OMEPRAZOLE 20MG x1, IBUPROFENE 400MG x2', montant:14000 },
+  { date:'01/07/2026', numOrd:'2026-4521', numFacture:'F-2026-1042', matricule:'000234', section:'220', benef:'T', nom:'RAKOTO Jean Baptiste', type:'Permanent', medicaments:'PARACETAMOL 500MG x2, AMOXICILLINE 500MG x1', montant:9500 },
 ]
+
+const deptOf = s => s.startsWith('2') ? 'Hospitalier' : s.startsWith('4') ? 'Usine' : 'Autre'
+const typeBadge = t => t==='Cadre'?'b-b':t==='Agent de maîtrise'?'b-p':t==='Permanent'?'b-g':t==='Temporaire'?'b-y':'b-r'
 
 export default function EtatControle() {
   const [tab, setTab] = useState('controle')
@@ -32,7 +36,7 @@ export default function EtatControle() {
     </div>
 
     <div className="stats" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
-      <div className="stat"><div className="label">Ordonnances</div><div className="value" style={{color:'#10b981'}}>4 237</div><div className="sub" style={{color:'#94a3b8'}}>Ce mois</div></div>
+      <div className="stat"><div className="label">Ordonnances</div><div className="value" style={{color:'#10b981'}}>6 085</div><div className="sub" style={{color:'#94a3b8'}}>Ce mois • 190 pages</div></div>
       <div className="stat"><div className="label">Travailleurs servis</div><div className="value" style={{color:'#3b82f6'}}>1 842</div><div className="sub" style={{color:'#94a3b8'}}>Sur 5 660</div></div>
       <div className="stat"><div className="label">Médicaments délivrés</div><div className="value" style={{color:'#a855f7'}}>12 480</div><div className="sub" style={{color:'#94a3b8'}}>287 références</div></div>
       <div className="stat"><div className="label">Montant total</div><div className="value" style={{color:'#f59e0b'}}>96.4M</div><div className="sub" style={{color:'#94a3b8'}}>Ar HT</div></div>
@@ -46,19 +50,23 @@ export default function EtatControle() {
 
     {tab === 'controle' && <div className="card">
       <div className="card-title"><ClipboardCheck size={16}/> État de contrôle — Société Alpha — Juin 2026</div>
-      <div style={{fontSize:12,color:'#64748b',marginBottom:16}}>Enregistrement de toutes les ordonnances et factures détaillées des médicaments consommés</div>
+      <div style={{fontSize:12,color:'#64748b',marginBottom:8}}>Enregistrement de toutes les ordonnances et factures détaillées des médicaments consommés — trié par date d'ordonnance</div>
+      <div style={{fontSize:11,color:'#94a3b8',marginBottom:16,background:'rgba(245,158,11,.06)',borderRadius:8,padding:'8px 12px'}}>
+        📄 Format papier listing 3 plis — gros volume supporté (exemple : ~6 085 ordonnances / 190 pages). Le N° d'ordonnance (hôpital) est la référence principale.
+      </div>
       <div className="tbl-wrap">
       <table className="tbl">
-        <thead><tr><th>Date</th><th>N° Ord</th><th>N° Pharm</th><th>Matricule</th><th>Nom & Prénom</th><th>Section</th><th>Type</th><th>Montant</th></tr></thead>
+        <thead><tr><th>Date ord.</th><th>N° ordonnance (hôpital)</th><th>N° facture pharm.</th><th>Bénéf.</th><th>Matricule</th><th>Section</th><th>Nom & Prénom</th><th>Type</th><th>Montant</th></tr></thead>
         <tbody>
           {ordonnances.map((o,i) => <tr key={i}>
             <td>{o.date}</td>
-            <td style={{fontFamily:'monospace',color:'#10b981'}}>{o.numOrd}</td>
-            <td style={{textAlign:'center'}}>{o.numPharm}</td>
+            <td style={{fontFamily:'monospace',color:'#10b981',fontWeight:700}}>{o.numOrd}</td>
+            <td style={{fontFamily:'monospace',fontSize:11,color:'#94a3b8'}}>{o.numFacture}</td>
+            <td style={{textAlign:'center'}}><span className={`badge ${o.benef==='T'?'b-b':'b-p'}`}>{o.benef}</span></td>
             <td style={{fontFamily:'monospace',fontSize:11}}>{o.matricule}</td>
+            <td style={{fontFamily:'monospace',fontSize:11}}>{o.section} <span style={{color:'#64748b'}}>({deptOf(o.section)})</span></td>
             <td style={{fontWeight:500}}>{o.nom}</td>
-            <td style={{fontSize:12}}>{o.section}</td>
-            <td><span className={`badge ${o.type==='Cadres'?'b-b':o.type==='Agents de maîtrise'?'b-p':o.type==='EOM Permanents'?'b-g':'b-y'}`}>{o.type}</span></td>
+            <td><span className={`badge ${typeBadge(o.type)}`}>{o.type}</span></td>
             <td style={{fontWeight:600}}>{o.montant.toLocaleString()} Ar</td>
           </tr>)}
         </tbody>
@@ -73,7 +81,7 @@ export default function EtatControle() {
           <div>
             <span style={{fontFamily:'monospace',color:'#10b981',fontWeight:600}}>{o.numOrd}</span>
             <span style={{color:'#64748b',fontSize:12,marginLeft:12}}>{o.date}</span>
-            <span style={{color:'#64748b',fontSize:12,marginLeft:12}}>Pharm: {o.numPharm}</span>
+            <span style={{color:'#64748b',fontSize:12,marginLeft:12}}>Facture: {o.numFacture}</span>
           </div>
           <span style={{fontWeight:600}}>{o.montant.toLocaleString()} Ar</span>
         </div>

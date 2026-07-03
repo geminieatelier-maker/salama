@@ -18,20 +18,20 @@ const typeBadge = t => t==='Cadre'?'b-b':t==='Agent de maîtrise'?'b-p':t==='Per
 
 // Reproduction du listing papier "Etat de controle des frais pharmaceutiques"
 const controleRows = [
-  { sec:'381', matr:'43770', nom:'ISMAEL HACHIM BACAR', pharm:'0001/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:37000 },
-  { sec:'381', matr:'46256', nom:'EMETE', pharm:'0002/01', hopital:'0900000', du:'30/06/2026', famille:33600, travailleur:0 },
-  { sec:'381', matr:'46591', nom:'EPIERA', pharm:'0003/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:24600 },
-  { sec:'381', matr:'47372', nom:'CHRISTIAN', pharm:'0004/01', hopital:'0900000', du:'30/06/2026', famille:124800, travailleur:0 },
-  { sec:'381', matr:'46651', nom:'KAMALY AMAD', pharm:'0005/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:133500 },
-  { sec:'381', matr:'44898', nom:'FADZIA ALY', pharm:'0006/01', hopital:'0900000', du:'30/06/2026', famille:72500, travailleur:0 },
-  { sec:'381', matr:'46901', nom:'BENJARA CHRISTOPHE', pharm:'0007/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:61900 },
-  { sec:'381', matr:'44551', nom:'TOMBO JEAN', pharm:'0008/01', hopital:'0900000', du:'30/06/2026', famille:44000, travailleur:0 },
-  { sec:'381', matr:'44223', nom:'JEAN PIERRE', pharm:'0009/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:80000 },
-  { sec:'361', matr:'44420', nom:'RABIALAHY HONORE', pharm:'0010/01', hopital:'0900000', du:'30/06/2026', famille:19000, travailleur:0 },
-  { sec:'341', matr:'43005', nom:'RANDRIA JEAN PIERRE', pharm:'0011/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:14000 },
-  { sec:'341', matr:'45120', nom:'BEHAJA NHAMED', pharm:'0012/01', hopital:'0900000', du:'01/06/2026', famille:9000, travailleur:0 },
-  { sec:'302', matr:'46732', nom:'NORINE', pharm:'0013/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:12500 },
-  { sec:'371', matr:'46255', nom:'MAHERINIRINA FALICENCE', pharm:'0014/01', hopital:'0900000', du:'01/06/2026', famille:8200, travailleur:0 },
+  { sec:'381', matr:'043770', nom:'ISMAEL HACHIM BACAR', pharm:'0001/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:37000 },
+  { sec:'381', matr:'046256', nom:'EMETE', pharm:'0002/01', hopital:'0900000', du:'30/06/2026', famille:33600, travailleur:0 },
+  { sec:'381', matr:'046591', nom:'EPIERA', pharm:'0003/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:24600 },
+  { sec:'381', matr:'047372', nom:'CHRISTIAN', pharm:'0004/01', hopital:'0900000', du:'30/06/2026', famille:124800, travailleur:0 },
+  { sec:'381', matr:'046651', nom:'KAMALY AMAD', pharm:'0005/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:133500 },
+  { sec:'381', matr:'044898', nom:'FADZIA ALY', pharm:'0006/01', hopital:'0900000', du:'30/06/2026', famille:72500, travailleur:0 },
+  { sec:'381', matr:'046901', nom:'BENJARA CHRISTOPHE', pharm:'0007/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:61900 },
+  { sec:'381', matr:'044551', nom:'TOMBO JEAN', pharm:'0008/01', hopital:'0900000', du:'30/06/2026', famille:44000, travailleur:0 },
+  { sec:'381', matr:'044223', nom:'JEAN PIERRE', pharm:'0009/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:80000 },
+  { sec:'361', matr:'044420', nom:'RABIALAHY HONORE', pharm:'0010/01', hopital:'0900000', du:'30/06/2026', famille:19000, travailleur:0 },
+  { sec:'341', matr:'043005', nom:'RANDRIA JEAN PIERRE', pharm:'0011/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:14000 },
+  { sec:'341', matr:'045120', nom:'BEHAJA NHAMED', pharm:'0012/01', hopital:'0900000', du:'01/06/2026', famille:9000, travailleur:0 },
+  { sec:'302', matr:'046732', nom:'NORINE', pharm:'0013/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:12500 },
+  { sec:'371', matr:'046255', nom:'MAHERINIRINA FALICENCE', pharm:'0014/01', hopital:'0900000', du:'01/06/2026', famille:8200, travailleur:0 },
 ]
 const MOIS_FAMILLE = 116296500
 const MOIS_TRAV = 103288630
@@ -42,6 +42,7 @@ const pr = { ...pc, textAlign:'right' }
 
 export default function EtatControle() {
   const [tab, setTab] = useState('controle')
+  const [showListing, setShowListing] = useState(false)
 
   return <>
     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:20}}>
@@ -74,13 +75,41 @@ export default function EtatControle() {
 
     {tab === 'controle' && <div className="card">
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
-        <div className="card-title" style={{margin:0}}><ClipboardCheck size={16}/> État de contrôle — aperçu format papier listing</div>
-        <button className="btn btn-outline"><Printer size={14}/> Imprimer le listing</button>
+        <div className="card-title" style={{margin:0}}><ClipboardCheck size={16}/> État de contrôle — Société Alpha — Juin 2026</div>
+        <div style={{display:'flex',gap:8}}>
+          <button className="btn btn-outline" onClick={()=>setShowListing(!showListing)}>{showListing ? 'Vue tableau' : 'Aperçu du listing (PDF)'}</button>
+          <button className="btn btn-primary" style={{background:'#a855f7'}}><Download size={14}/> Télécharger le listing</button>
+        </div>
       </div>
-      <div style={{fontSize:11,color:'#94a3b8',marginBottom:12}}>Reproduction fidèle du listing papier 3 plis. Trié par date d'ordonnance • gros volume (ex : 6 085 ordonnances / 190 pages).</div>
+      <div style={{fontSize:11,color:'#94a3b8',marginBottom:12}}>{showListing ? 'Rendu exact du document téléchargé / imprimé (listing papier 3 plis).' : "Affichage à l'écran. Le téléchargement PDF sort au format listing papier — cliquez « Aperçu du listing » pour voir le rendu."}</div>
+
+      {!showListing && <div className="tbl-wrap">
+        <table className="tbl">
+          <thead><tr><th>SEC</th><th>MATR</th><th>Nom & Prénoms</th><th>N° pharmacie</th><th>N° hôpital</th><th>Du</th><th style={{textAlign:'right'}}>Famille</th><th style={{textAlign:'right'}}>Travailleur</th><th style={{textAlign:'right'}}>Total</th></tr></thead>
+          <tbody>
+            {controleRows.map((r,i) => <tr key={i}>
+              <td style={{fontFamily:'monospace'}}>{r.sec}</td>
+              <td style={{fontFamily:'monospace',color:'#10b981'}}>{r.matr}</td>
+              <td style={{fontWeight:500}}>{r.nom}</td>
+              <td style={{fontFamily:'monospace',fontSize:11}}>{r.pharm}</td>
+              <td style={{fontFamily:'monospace',fontSize:11}}>{r.hopital}</td>
+              <td>{r.du}</td>
+              <td style={{textAlign:'right'}}>{r.famille ? r.famille.toLocaleString() : '—'}</td>
+              <td style={{textAlign:'right'}}>{r.travailleur ? r.travailleur.toLocaleString() : '—'}</td>
+              <td style={{textAlign:'right',fontWeight:600}}>{((r.famille||0)+(r.travailleur||0)).toLocaleString()}</td>
+            </tr>)}
+            <tr style={{fontWeight:700,borderTop:'2px solid #1e3a5f'}}>
+              <td colSpan={6}>TOTAL DU MOIS ( 6 085 ordonnances )</td>
+              <td style={{textAlign:'right',color:'#10b981'}}>{MOIS_FAMILLE.toLocaleString()}</td>
+              <td style={{textAlign:'right',color:'#10b981'}}>{MOIS_TRAV.toLocaleString()}</td>
+              <td style={{textAlign:'right',color:'#10b981'}}>{(MOIS_FAMILLE+MOIS_TRAV).toLocaleString()}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>}
 
       {/* Reproduction papier : fond blanc, encre bleue, picots listing */}
-      <div style={{display:'flex',gap:0,alignItems:'stretch'}}>
+      {showListing && <div style={{display:'flex',gap:0,alignItems:'stretch'}}>
         <div style={{width:16,background:'repeating-linear-gradient(#fff,#fff 14px,#1e3a8a 14px,#1e3a8a 15px,#fff 15px,#fff 22px)',border:'1px solid #cbd5e1',borderRight:'none',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'space-around',padding:'8px 0'}}>
           {Array.from({length:12}).map((_,i)=><div key={i} style={{width:6,height:6,borderRadius:'50%',background:'#e2e8f0',border:'1px solid #94a3b8'}}/>)}
         </div>
@@ -136,7 +165,7 @@ export default function EtatControle() {
         <div style={{width:16,background:'repeating-linear-gradient(#fff,#fff 14px,#1e3a8a 14px,#1e3a8a 15px,#fff 15px,#fff 22px)',border:'1px solid #cbd5e1',borderLeft:'none',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'space-around',padding:'8px 0'}}>
           {Array.from({length:12}).map((_,i)=><div key={i} style={{width:6,height:6,borderRadius:'50%',background:'#e2e8f0',border:'1px solid #94a3b8'}}/>)}
         </div>
-      </div>
+      </div>}
     </div>}
 
     {tab === 'detail' && <div className="card">

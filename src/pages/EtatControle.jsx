@@ -16,6 +16,30 @@ const ordonnances = [
 const deptOf = s => s.startsWith('2') ? 'Hospitalier' : s.startsWith('4') ? 'Usine' : 'Autre'
 const typeBadge = t => t==='Cadre'?'b-b':t==='Agent de maîtrise'?'b-p':t==='Permanent'?'b-g':t==='Temporaire'?'b-y':'b-r'
 
+// Reproduction du listing papier "Etat de controle des frais pharmaceutiques"
+const controleRows = [
+  { sec:'381', matr:'43770', nom:'ISMAEL HACHIM BACAR', pharm:'0001/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:37000 },
+  { sec:'381', matr:'46256', nom:'EMETE', pharm:'0002/01', hopital:'0900000', du:'30/06/2026', famille:33600, travailleur:0 },
+  { sec:'381', matr:'46591', nom:'EPIERA', pharm:'0003/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:24600 },
+  { sec:'381', matr:'47372', nom:'CHRISTIAN', pharm:'0004/01', hopital:'0900000', du:'30/06/2026', famille:124800, travailleur:0 },
+  { sec:'381', matr:'46651', nom:'KAMALY AMAD', pharm:'0005/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:133500 },
+  { sec:'381', matr:'44898', nom:'FADZIA ALY', pharm:'0006/01', hopital:'0900000', du:'30/06/2026', famille:72500, travailleur:0 },
+  { sec:'381', matr:'46901', nom:'BENJARA CHRISTOPHE', pharm:'0007/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:61900 },
+  { sec:'381', matr:'44551', nom:'TOMBO JEAN', pharm:'0008/01', hopital:'0900000', du:'30/06/2026', famille:44000, travailleur:0 },
+  { sec:'381', matr:'44223', nom:'JEAN PIERRE', pharm:'0009/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:80000 },
+  { sec:'361', matr:'44420', nom:'RABIALAHY HONORE', pharm:'0010/01', hopital:'0900000', du:'30/06/2026', famille:19000, travailleur:0 },
+  { sec:'341', matr:'43005', nom:'RANDRIA JEAN PIERRE', pharm:'0011/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:14000 },
+  { sec:'341', matr:'45120', nom:'BEHAJA NHAMED', pharm:'0012/01', hopital:'0900000', du:'01/06/2026', famille:9000, travailleur:0 },
+  { sec:'302', matr:'46732', nom:'NORINE', pharm:'0013/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:12500 },
+  { sec:'371', matr:'46255', nom:'MAHERINIRINA FALICENCE', pharm:'0014/01', hopital:'0900000', du:'01/06/2026', famille:8200, travailleur:0 },
+]
+const MOIS_FAMILLE = 116296500
+const MOIS_TRAV = 103288630
+const EN_LETTRES = 'DEUX CENT DIX-NEUF MILLIONS CINQ CENT QUATRE-VINGT-CINQ MILLE CENT TRENTE'
+const pc = { border:'1px solid #93c5fd', padding:'3px 6px', textAlign:'center', whiteSpace:'nowrap', fontSize:11 }
+const pl = { ...pc, textAlign:'left' }
+const pr = { ...pc, textAlign:'right' }
+
 export default function EtatControle() {
   const [tab, setTab] = useState('controle')
 
@@ -49,28 +73,69 @@ export default function EtatControle() {
     </div>
 
     {tab === 'controle' && <div className="card">
-      <div className="card-title"><ClipboardCheck size={16}/> État de contrôle — Société Alpha — Juin 2026</div>
-      <div style={{fontSize:12,color:'#64748b',marginBottom:8}}>Enregistrement de toutes les ordonnances et factures détaillées des médicaments consommés — trié par date d'ordonnance</div>
-      <div style={{fontSize:11,color:'#94a3b8',marginBottom:16,background:'rgba(245,158,11,.06)',borderRadius:8,padding:'8px 12px'}}>
-        📄 Format papier listing 3 plis — gros volume supporté (exemple : ~6 085 ordonnances / 190 pages). Le N° d'ordonnance (hôpital) est la référence principale.
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
+        <div className="card-title" style={{margin:0}}><ClipboardCheck size={16}/> État de contrôle — aperçu format papier listing</div>
+        <button className="btn btn-outline"><Printer size={14}/> Imprimer le listing</button>
       </div>
-      <div className="tbl-wrap">
-      <table className="tbl">
-        <thead><tr><th>Date ord.</th><th>N° ordonnance (hôpital)</th><th>N° facture pharm.</th><th>Bénéf.</th><th>Matricule</th><th>Section</th><th>Nom & Prénom</th><th>Type</th><th>Montant</th></tr></thead>
-        <tbody>
-          {ordonnances.map((o,i) => <tr key={i}>
-            <td>{o.date}</td>
-            <td style={{fontFamily:'monospace',color:'#10b981',fontWeight:700}}>{o.numOrd}</td>
-            <td style={{fontFamily:'monospace',fontSize:11,color:'#94a3b8'}}>{o.numFacture}</td>
-            <td style={{textAlign:'center'}}><span className={`badge ${o.benef==='T'?'b-b':'b-p'}`}>{o.benef}</span></td>
-            <td style={{fontFamily:'monospace',fontSize:11}}>{o.matricule}</td>
-            <td style={{fontFamily:'monospace',fontSize:11}}>{o.section} <span style={{color:'#64748b'}}>({deptOf(o.section)})</span></td>
-            <td style={{fontWeight:500}}>{o.nom}</td>
-            <td><span className={`badge ${typeBadge(o.type)}`}>{o.type}</span></td>
-            <td style={{fontWeight:600}}>{o.montant.toLocaleString()} Ar</td>
-          </tr>)}
-        </tbody>
-      </table>
+      <div style={{fontSize:11,color:'#94a3b8',marginBottom:12}}>Reproduction fidèle du listing papier 3 plis. Trié par date d'ordonnance • gros volume (ex : 6 085 ordonnances / 190 pages).</div>
+
+      {/* Reproduction papier : fond blanc, encre bleue, picots listing */}
+      <div style={{display:'flex',gap:0,alignItems:'stretch'}}>
+        <div style={{width:16,background:'repeating-linear-gradient(#fff,#fff 14px,#1e3a8a 14px,#1e3a8a 15px,#fff 15px,#fff 22px)',border:'1px solid #cbd5e1',borderRight:'none',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'space-around',padding:'8px 0'}}>
+          {Array.from({length:12}).map((_,i)=><div key={i} style={{width:6,height:6,borderRadius:'50%',background:'#e2e8f0',border:'1px solid #94a3b8'}}/>)}
+        </div>
+        <div style={{flex:1,background:'#fff',color:'#1e3a8a',padding:'16px 14px',fontFamily:'"Courier New",monospace',overflowX:'auto',border:'1px solid #cbd5e1'}}>
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:10,marginBottom:6}}>
+            <span>DEPOT DE MEDICAMENTS DEMO</span>
+            <span>Cx 000000&nbsp;&nbsp;Page 1</span>
+          </div>
+          <div style={{textAlign:'center',fontWeight:700,letterSpacing:1,fontSize:13}}>ETAT DE CONTROLE DES FRAIS PHARMACEUTIQUES</div>
+          <div style={{textAlign:'center',marginBottom:10,fontSize:12}}>JUIN 2026</div>
+          <table style={{width:'100%',borderCollapse:'collapse',color:'#1e3a8a'}}>
+            <thead>
+              <tr>
+                <th rowSpan={2} style={pc}>SEC</th>
+                <th rowSpan={2} style={pc}>MATR</th>
+                <th rowSpan={2} style={pl}>NOM ET PRENOMS</th>
+                <th colSpan={2} style={pc}>ORDONNANCE</th>
+                <th rowSpan={2} style={pc}>DU</th>
+                <th colSpan={2} style={pc}>PATENT</th>
+                <th rowSpan={2} style={pc}>TOTAL</th>
+              </tr>
+              <tr>
+                <th style={pc}>N° PHARMACIE</th>
+                <th style={pc}>N° HOPITAL</th>
+                <th style={pc}>FAMILLE</th>
+                <th style={pc}>TRAVAILLEUR</th>
+              </tr>
+            </thead>
+            <tbody>
+              {controleRows.map((r,i) => <tr key={i}>
+                <td style={pc}>{r.sec}</td>
+                <td style={pc}>{r.matr}</td>
+                <td style={pl}>{r.nom}</td>
+                <td style={pc}>{r.pharm}</td>
+                <td style={pc}>{r.hopital}</td>
+                <td style={pc}>{r.du}</td>
+                <td style={pr}>{r.famille ? r.famille.toLocaleString() : ''}</td>
+                <td style={pr}>{r.travailleur ? r.travailleur.toLocaleString() : ''}</td>
+                <td style={pr}>{((r.famille||0)+(r.travailleur||0)).toLocaleString()}</td>
+              </tr>)}
+            </tbody>
+          </table>
+          <table style={{width:'100%',borderCollapse:'collapse',color:'#1e3a8a',fontWeight:700,marginTop:2}}>
+            <tbody><tr>
+              <td colSpan={6} style={{...pl,borderTop:'2px solid #1e3a8a'}}>TOTAL DU MOIS DE JUIN 2026&nbsp;&nbsp;( 6085 Ordonnances )</td>
+              <td style={{...pr,borderTop:'2px solid #1e3a8a'}}>{MOIS_FAMILLE.toLocaleString()}</td>
+              <td style={{...pr,borderTop:'2px solid #1e3a8a'}}>{MOIS_TRAV.toLocaleString()}</td>
+              <td style={{...pr,borderTop:'2px solid #1e3a8a'}}>{(MOIS_FAMILLE+MOIS_TRAV).toLocaleString()}</td>
+            </tr></tbody>
+          </table>
+          <div style={{marginTop:8,fontSize:11}}>EN LETTRE : {EN_LETTRES} Ariary</div>
+        </div>
+        <div style={{width:16,background:'repeating-linear-gradient(#fff,#fff 14px,#1e3a8a 14px,#1e3a8a 15px,#fff 15px,#fff 22px)',border:'1px solid #cbd5e1',borderLeft:'none',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'space-around',padding:'8px 0'}}>
+          {Array.from({length:12}).map((_,i)=><div key={i} style={{width:6,height:6,borderRadius:'50%',background:'#e2e8f0',border:'1px solid #94a3b8'}}/>)}
+        </div>
       </div>
     </div>}
 

@@ -3,39 +3,40 @@ import { ClipboardCheck, Download, Calendar, Building2, Printer, FileText } from
 
 // Trié par date d'ordonnance (ordre chronologique)
 const ordonnances = [
-  { date:'28/06/2026', numOrd:'2026-4514', numFacture:'F-2026-1035', matricule:'001234', section:'400', benef:'T', nom:'TIANA Mamitiana', type:'Saisonnier', medicaments:'ASPIRINE 500MG x2, ACIDE FOLIQUE x1', montant:7500 },
-  { date:'28/06/2026', numOrd:'2026-4515', numFacture:'F-2026-1036', matricule:'000890', section:'400', benef:'F', nom:'NORO Hanitra', type:'Permanent', medicaments:'PARACETAMOL 500MG x3, IBUPROFENE 400MG x1, VITAMINE C x2', montant:14000 },
-  { date:'29/06/2026', numOrd:'2026-4516', numFacture:'F-2026-1037', matricule:'000567', section:'220', benef:'T', nom:'FIDY Toavina', type:'Cadre', medicaments:'ATENOLOL 50MG x1', montant:5800 },
-  { date:'29/06/2026', numOrd:'2026-4517', numFacture:'F-2026-1038', matricule:'001023', section:'400', benef:'T', nom:'RINA Volatiana', type:'Temporaire', medicaments:'AMOXICILLINE 500MG x2, OMEPRAZOLE 20MG x1', montant:16000 },
-  { date:'30/06/2026', numOrd:'2026-4518', numFacture:'F-2026-1039', matricule:'000789', section:'220', benef:'T', nom:'RASOA Hery Lala', type:'Permanent', medicaments:'PARACETAMOL 500MG x5, ACIDE FOLIQUE x3', montant:17000 },
-  { date:'30/06/2026', numOrd:'2026-4519', numFacture:'F-2026-1040', matricule:'000456', section:'400', benef:'F', nom:'ANDRIA Paul Henri', type:'Agent de maîtrise', medicaments:'ASPIRINE 500MG x3, VITAMINE C x2', montant:12000 },
-  { date:'01/07/2026', numOrd:'2026-4520', numFacture:'F-2026-1041', matricule:'000112', section:'220', benef:'T', nom:'RABE Marie Josée', type:'Cadre', medicaments:'OMEPRAZOLE 20MG x1, IBUPROFENE 400MG x2', montant:14000 },
-  { date:'01/07/2026', numOrd:'2026-4521', numFacture:'F-2026-1042', matricule:'000234', section:'220', benef:'T', nom:'RAKOTO Jean Baptiste', type:'Permanent', medicaments:'PARACETAMOL 500MG x2, AMOXICILLINE 500MG x1', montant:9500 },
+  { date:'28/06/2026', numOrd:'2026-4514', numFacture:'F-2026-1035', matricule:'01234', section:'400', benef:'T', nom:'TIANA Mamitiana', type:'Saisonnier', medicaments:'ASPIRINE 500MG x2, ACIDE FOLIQUE x1', montant:7500 },
+  { date:'28/06/2026', numOrd:'2026-4515', numFacture:'F-2026-1036', matricule:'00890', section:'400', benef:'F', nom:'NORO Hanitra', type:'Permanent', medicaments:'PARACETAMOL 500MG x3, IBUPROFENE 400MG x1, VITAMINE C x2', montant:14000 },
+  { date:'29/06/2026', numOrd:'2026-4516', numFacture:'F-2026-1037', matricule:'00567', section:'220', benef:'T', nom:'FIDY Toavina', type:'Cadre', medicaments:'ATENOLOL 50MG x1', montant:5800 },
+  { date:'29/06/2026', numOrd:'2026-4517', numFacture:'F-2026-1038', matricule:'01023', section:'400', benef:'T', nom:'RINA Volatiana', type:'Temporaire', medicaments:'AMOXICILLINE 500MG x2, OMEPRAZOLE 20MG x1', montant:16000 },
+  { date:'30/06/2026', numOrd:'2026-4518', numFacture:'F-2026-1039', matricule:'00789', section:'220', benef:'T', nom:'RASOA Hery Lala', type:'Permanent', medicaments:'PARACETAMOL 500MG x5, ACIDE FOLIQUE x3', montant:17000 },
+  { date:'30/06/2026', numOrd:'2026-4519', numFacture:'F-2026-1040', matricule:'00456', section:'400', benef:'F', nom:'ANDRIA Paul Henri', type:'Agent de maîtrise', medicaments:'ASPIRINE 500MG x3, VITAMINE C x2', montant:12000 },
+  { date:'01/07/2026', numOrd:'2026-4520', numFacture:'F-2026-1041', matricule:'00112', section:'220', benef:'T', nom:'RABE Marie Josée', type:'Cadre', medicaments:'OMEPRAZOLE 20MG x1, IBUPROFENE 400MG x2', montant:14000 },
+  { date:'01/07/2026', numOrd:'2026-4521', numFacture:'F-2026-1042', matricule:'00234', section:'220', benef:'T', nom:'RAKOTO Jean Baptiste', type:'Permanent', medicaments:'PARACETAMOL 500MG x2, AMOXICILLINE 500MG x1', montant:9500 },
 ]
 
 const deptOf = s => s.startsWith('2') ? 'Hospitalier' : s.startsWith('4') ? 'Usine' : 'Autre'
 const typeBadge = t => t==='Cadre'?'b-b':t==='Agent de maîtrise'?'b-p':t==='Permanent'?'b-g':t==='Temporaire'?'b-y':'b-r'
 
 // Reproduction du listing papier "Etat de controle des frais pharmaceutiques"
+// Données 100% fictives (démo) — aucune donnée réelle
 const controleRows = [
-  { sec:'381', matr:'043770', nom:'ISMAEL HACHIM BACAR', pharm:'0001/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:37000 },
-  { sec:'381', matr:'046256', nom:'EMETE', pharm:'0002/01', hopital:'0900000', du:'30/06/2026', famille:33600, travailleur:0 },
-  { sec:'381', matr:'046591', nom:'EPIERA', pharm:'0003/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:24600 },
-  { sec:'381', matr:'047372', nom:'CHRISTIAN', pharm:'0004/01', hopital:'0900000', du:'30/06/2026', famille:124800, travailleur:0 },
-  { sec:'381', matr:'046651', nom:'KAMALY AMAD', pharm:'0005/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:133500 },
-  { sec:'381', matr:'044898', nom:'FADZIA ALY', pharm:'0006/01', hopital:'0900000', du:'30/06/2026', famille:72500, travailleur:0 },
-  { sec:'381', matr:'046901', nom:'BENJARA CHRISTOPHE', pharm:'0007/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:61900 },
-  { sec:'381', matr:'044551', nom:'TOMBO JEAN', pharm:'0008/01', hopital:'0900000', du:'30/06/2026', famille:44000, travailleur:0 },
-  { sec:'381', matr:'044223', nom:'JEAN PIERRE', pharm:'0009/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:80000 },
-  { sec:'361', matr:'044420', nom:'RABIALAHY HONORE', pharm:'0010/01', hopital:'0900000', du:'30/06/2026', famille:19000, travailleur:0 },
-  { sec:'341', matr:'043005', nom:'RANDRIA JEAN PIERRE', pharm:'0011/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:14000 },
-  { sec:'341', matr:'045120', nom:'BEHAJA NHAMED', pharm:'0012/01', hopital:'0900000', du:'01/06/2026', famille:9000, travailleur:0 },
-  { sec:'302', matr:'046732', nom:'NORINE', pharm:'0013/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:12500 },
-  { sec:'371', matr:'046255', nom:'MAHERINIRINA FALICENCE', pharm:'0014/01', hopital:'0900000', du:'01/06/2026', famille:8200, travailleur:0 },
+  { sec:'220', matr:'00234', nom:'RAKOTO Jeanine', pharm:'0001/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:38500 },
+  { sec:'220', matr:'00112', nom:'RABE Solofo', pharm:'0002/01', hopital:'0900000', du:'30/06/2026', famille:27400, travailleur:0 },
+  { sec:'220', matr:'00456', nom:'ANDRY Mamy', pharm:'0003/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:21600 },
+  { sec:'400', matr:'00789', nom:'RASOA Vola', pharm:'0004/01', hopital:'0900000', du:'30/06/2026', famille:115200, travailleur:0 },
+  { sec:'400', matr:'01023', nom:'HERY Nirina', pharm:'0005/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:142300 },
+  { sec:'220', matr:'00567', nom:'NAINA Feno', pharm:'0006/01', hopital:'0900000', du:'30/06/2026', famille:64800, travailleur:0 },
+  { sec:'400', matr:'00890', nom:'TOJO Bao', pharm:'0007/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:53100 },
+  { sec:'220', matr:'01234', nom:'MIORA Lanto', pharm:'0008/01', hopital:'0900000', du:'30/06/2026', famille:47500, travailleur:0 },
+  { sec:'400', matr:'00345', nom:'FANO Tiana', pharm:'0009/01', hopital:'0900000', du:'30/06/2026', famille:0, travailleur:76200 },
+  { sec:'221', matr:'00678', nom:'VOLA Hanta', pharm:'0010/01', hopital:'0900000', du:'30/06/2026', famille:18300, travailleur:0 },
+  { sec:'220', matr:'00901', nom:'RIVO Sitraka', pharm:'0011/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:16400 },
+  { sec:'401', matr:'01122', nom:'DERA Aina', pharm:'0012/01', hopital:'0900000', du:'01/06/2026', famille:11200, travailleur:0 },
+  { sec:'400', matr:'00223', nom:'FY Manda', pharm:'0013/01', hopital:'0900000', du:'01/06/2026', famille:0, travailleur:13700 },
+  { sec:'221', matr:'00334', nom:'KOTO Bema', pharm:'0014/01', hopital:'0900000', du:'01/06/2026', famille:9500, travailleur:0 },
 ]
-const MOIS_FAMILLE = 116296500
-const MOIS_TRAV = 103288630
-const EN_LETTRES = 'DEUX CENT DIX-NEUF MILLIONS CINQ CENT QUATRE-VINGT-CINQ MILLE CENT TRENTE'
+const MOIS_FAMILLE = 45200000
+const MOIS_TRAV = 38600000
+const EN_LETTRES = 'QUATRE-VINGT-TROIS MILLIONS HUIT CENT MILLE'
 const pc = { border:'1px solid #93c5fd', padding:'3px 6px', textAlign:'center', whiteSpace:'nowrap', fontSize:11 }
 const pl = { ...pc, textAlign:'left' }
 const pr = { ...pc, textAlign:'right' }

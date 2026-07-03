@@ -8,14 +8,14 @@ const societes = [
 ]
 
 const travailleurs = [
-  { matricule:'000234', section:'220', nom:'RAKOTO Jean Baptiste', type:'Permanent', embauche:'15/03/2018' },
-  { matricule:'000112', section:'220', nom:'RABE Marie Josée', type:'Cadre', embauche:'02/01/2015' },
-  { matricule:'000456', section:'400', nom:'ANDRIA Paul Henri', type:'Agent de maîtrise', embauche:'10/06/2020' },
-  { matricule:'000789', section:'220', nom:'RASOA Hery Lala', type:'Permanent', embauche:'22/09/2019' },
-  { matricule:'001023', section:'400', nom:'RINA Volatiana', type:'Temporaire', embauche:'01/01/2026' },
-  { matricule:'000567', section:'220', nom:'FIDY Toavina', type:'Cadre', embauche:'05/04/2012' },
-  { matricule:'000890', section:'400', nom:'NORO Hanitra', type:'Permanent', embauche:'18/07/2021' },
-  { matricule:'001234', section:'400', nom:'TIANA Mamitiana', type:'Saisonnier', embauche:'15/03/2026' },
+  { matricule:'00234', section:'220', nom:'RAKOTO Jean Baptiste', type:'Permanent', embauche:'15/03/2018' },
+  { matricule:'00112', section:'220', nom:'RABE Marie Josée', type:'Cadre', embauche:'02/01/2015' },
+  { matricule:'00456', section:'400', nom:'ANDRIA Paul Henri', type:'Agent de maîtrise', embauche:'10/06/2020' },
+  { matricule:'00789', section:'220', nom:'RASOA Hery Lala', type:'Permanent', embauche:'22/09/2019' },
+  { matricule:'01023', section:'400', nom:'RINA Volatiana', type:'Temporaire', embauche:'01/01/2026' },
+  { matricule:'00567', section:'220', nom:'FIDY Toavina', type:'Cadre', embauche:'05/04/2012' },
+  { matricule:'00890', section:'400', nom:'NORO Hanitra', type:'Permanent', embauche:'18/07/2021' },
+  { matricule:'01234', section:'400', nom:'TIANA Mamitiana', type:'Saisonnier', embauche:'15/03/2026' },
 ]
 
 // La section identifie le département : 2xx = hospitalier, 4xx = usine

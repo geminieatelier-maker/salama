@@ -3,7 +3,7 @@ import { Search, Plus, Minus, Trash2, Building2, User, FileText } from 'lucide-r
 
 export default function VenteSociete() {
   const [societe] = useState('Société Alpha')
-  const [travailleur] = useState({ matricule:'000234', section:'220', dpt:'Hospitalier', nom:'RAKOTO Jean Baptiste', type:'Permanent', embauche:'12/03/2018' })
+  const [travailleur] = useState({ matricule:'00234', section:'220', dpt:'Hospitalier', nom:'RAKOTO Jean Baptiste', type:'Permanent', embauche:'12/03/2018' })
 
   const panier = [
     { ref:'PAR00011', nom:'PARACETAMOL 500MG', prix:2500, qte:2 },
@@ -34,7 +34,7 @@ export default function VenteSociete() {
       <div className="card" style={{borderColor:'#3b82f6',borderWidth:2}}>
         <div className="card-title"><User size={16}/> Travailleur</div>
         <div className="form-grid" style={{marginBottom:8}}>
-          <div className="form-group"><label>Matricule</label><input placeholder="Ex: 000234" defaultValue="000234" style={{background:'#0a1628',border:'1px solid #1e3a5f',borderRadius:8,padding:'8px 12px',color:'#f8fafc',fontSize:13}}/></div>
+          <div className="form-group"><label>Matricule</label><input placeholder="Ex: 00234" defaultValue="00234" style={{background:'#0a1628',border:'1px solid #1e3a5f',borderRadius:8,padding:'8px 12px',color:'#f8fafc',fontSize:13}}/></div>
           <div className="form-group"><label>Section</label><input placeholder="Ex: 034" defaultValue="220" style={{background:'#0a1628',border:'1px solid #1e3a5f',borderRadius:8,padding:'8px 12px',color:'#f8fafc',fontSize:13}}/></div>
         </div>
         <div style={{background:'rgba(59,130,246,.1)',borderRadius:8,padding:12}}>

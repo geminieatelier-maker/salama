@@ -6,11 +6,12 @@ export default function Facturation() {
   const [societe] = useState('Société Alpha')
 
   const categories = [
-    { type:'ACHAT POUR L\'HOPITAL', famille:0, travailleur:2054500, nombre:8, montant:null },
-    { type:'CADRES', famille:2210090, travailleur:1844700, nombre:80, montant:null },
-    { type:'AGENTS DE MAÎTRISE', famille:3569970, travailleur:2426810, nombre:172, montant:null },
-    { type:'EOM PERMANENTS', famille:22808140, travailleur:12761250, nombre:951, montant:null },
-    { type:'EOM TEMPORAIRES', famille:80866200, travailleur:77360830, nombre:4449, montant:null },
+    { type:'ACHAT POUR L\'HOPITAL', famille:0, travailleur:2000000, nombre:8, montant:null },
+    { type:'CADRE', famille:2200000, travailleur:1800000, nombre:80, montant:null },
+    { type:'PERMANENT', famille:22800000, travailleur:12700000, nombre:950, montant:null },
+    { type:'AGENT DE MAÎTRISE', famille:3500000, travailleur:2400000, nombre:170, montant:null },
+    { type:'TEMPORAIRE', famille:8000000, travailleur:7000000, nombre:450, montant:null },
+    { type:'SAISONNIER', famille:1500000, travailleur:1100000, nombre:90, montant:null },
   ]
   const totalFamille = categories.reduce((s,c) => s + c.famille, 0)
   const totalTravailleur = categories.reduce((s,c) => s + c.travailleur, 0)
@@ -20,7 +21,7 @@ export default function Facturation() {
   const totalTTC = totalHT + tva
 
   const historique = [
-    { mois:'Juin 2026', societe:'Société Alpha', montant:'205 912 490', statut:'En attente', nb:5660 },
+    { mois:'Juin 2026', societe:'Société Alpha', montant:'78 000 000', statut:'En attente', nb:5660 },
     { mois:'Mai 2026', societe:'Société Alpha', montant:'198 456 200', statut:'Payée', nb:5210 },
     { mois:'Mai 2026', societe:'Société Beta', montant:'45 230 800', statut:'Payée', nb:1847 },
     { mois:'Avril 2026', societe:'Société Alpha', montant:'187 320 100', statut:'Payée', nb:4980 },
@@ -47,7 +48,7 @@ export default function Facturation() {
     <div className="card" style={{marginBottom:20}}>
       <div style={{textAlign:'center',marginBottom:20,paddingBottom:16,borderBottom:'2px solid #10b981'}}>
         <div style={{fontSize:11,color:'#64748b',letterSpacing:2}}>DÉPÔT DE MÉDICAMENTS</div>
-        <div style={{fontSize:24,fontWeight:800,color:'#10b981'}}>SALAMA</div>
+        <div style={{fontSize:24,fontWeight:800,color:'#10b981'}}>DEMO</div>
         <div style={{fontSize:12,color:'#94a3b8',marginTop:4}}>RANDRIA Michel André</div>
         <div style={{fontSize:11,color:'#64748b'}}>Mahamasina • N° STAT: 512 33 82 2024 0 01234 • NIF: 500 22 55667 • CMS: 034 00 000 00</div>
       </div>
@@ -55,7 +56,7 @@ export default function Facturation() {
       <div style={{display:'flex',justifyContent:'space-between',marginBottom:20}}>
         <div>
           <div style={{fontSize:11,color:'#64748b',textTransform:'uppercase',letterSpacing:1}}>Facture N°</div>
-          <div style={{fontSize:16,fontWeight:700,color:'#10b981'}}>FACT-06-2026-SALAMA</div>
+          <div style={{fontSize:16,fontWeight:700,color:'#10b981'}}>FACT-06-2026-001</div>
         </div>
         <div style={{textAlign:'right'}}>
           <div style={{fontSize:11,color:'#64748b'}}>Doit: Société</div>
@@ -109,7 +110,7 @@ export default function Facturation() {
       </div>
 
       <div style={{marginTop:20,padding:16,background:'rgba(16,185,129,.05)',borderRadius:8,fontSize:12,color:'#94a3b8',textAlign:'center'}}>
-        Arrêté la présente facture à la somme de <strong style={{color:'#e2e8f0'}}>DEUX CENT CINQ MILLIONS NEUF CENT DOUZE MILLE QUATRE CENT QUATRE-VINGT DIX, Ariary</strong>
+        Arrêté la présente facture à la somme de <strong style={{color:'#e2e8f0'}}>SOIXANTE-DIX-HUIT MILLIONS Ariary</strong> (T.T.C)
       </div>
 
       <div style={{textAlign:'center',marginTop:20,fontSize:12,color:'#64748b'}}>

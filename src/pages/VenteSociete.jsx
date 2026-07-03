@@ -52,7 +52,7 @@ export default function VenteSociete() {
           <div className="form-group"><label>N° ordonnance (hôpital)</label><input placeholder="Ex: 2026-0547" style={{fontWeight:600}}/></div>
           <div className="form-group"><label>Date ordonnance</label><input type="date" defaultValue="2026-07-01"/></div>
           <div className="form-group"><label>N° facture pharmacie</label><input placeholder="Auto — ex: F-2026-1042" defaultValue="F-2026-1042"/></div>
-          <div className="form-group"><label>Bénéficiaire</label><select><option value="T">T — Travailleur</option><option value="F">F — Famille</option></select></div>
+          <div className="form-group"><label>Patient</label><select><option value="T">T — Travailleur</option><option value="F">F — Famille</option></select></div>
           <div className="form-group"><label>Pharmacien signataire</label><select><option>001 — Dr RABE</option><option>002 — Dr SOLO</option><option>003 — Dr NAINA</option><option>004 — Dr JEAN</option></select></div>
           <div className="form-group"><label>Nom du patient (si Famille)</label><input placeholder="Rempli si bénéficiaire = F"/></div>
         </div>

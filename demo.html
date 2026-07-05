@@ -156,7 +156,9 @@ var DB={
 };
 
 function initDB(){
-  if(DB.isInit())return;
+  var DEMO_VERSION=2;
+  if(DB._get('demo_version')===DEMO_VERSION)return;
+  Object.keys(localStorage).forEach(function(k){if(k.indexOf('salama_')===0)localStorage.removeItem(k)});
   var prods=[
     {id:1,reference:'MED001',code_barre:'6901234567890',designation:'Paracétamol 500mg (Bte 100)',categorie:'Analgésique',stock:450,seuil_alerte:50,prix_achat:8500,prix_vente:12000,date_expiration:'2027-06-15',unite:'Boite',actif:true},
     {id:2,reference:'MED002',code_barre:'6901234567891',designation:'Amoxicilline 500mg (Bte 30)',categorie:'Antibiotique',stock:120,seuil_alerte:30,prix_achat:15000,prix_vente:22000,date_expiration:'2027-03-20',unite:'Boite',actif:true},
@@ -185,8 +187,59 @@ function initDB(){
     {id:8,matricule:'30102',nom_prenom:'RAVELO Noro',section_code:'C2',type_trav:'H',societe_id:4},
   ];
   DB.saveTravailleurs(travs);DB._set('seq_travailleur',8);
-  DB.saveOrdonnances([]);DB.saveVentesCivil([]);DB.saveMouvements([]);
-  DB.markInit();
+
+  // --- DONNÉES FICTIVES MASSIVES ---
+  var ords=[];var oid=0;
+  var jours=['2026-06-02','2026-06-03','2026-06-05','2026-06-06','2026-06-09','2026-06-10','2026-06-12','2026-06-13','2026-06-16','2026-06-17','2026-06-19','2026-06-20','2026-06-23','2026-06-24','2026-06-25','2026-06-27','2026-06-30','2026-07-01','2026-07-02','2026-07-03','2026-07-04','2026-07-05'];
+  var combos=[
+    {ti:1,s:'A1',tp:'H',n:'RAKOTO Jean',m:'10254',sc:'STAR Brasseries'},
+    {ti:2,s:'A1',tp:'H',n:'RABE Marie',m:'10389',sc:'STAR Brasseries'},
+    {ti:3,s:'B2',tp:'C',n:'ANDRIA Paul',m:'20105',sc:'JIRAMA'},
+    {ti:4,s:'B2',tp:'C',n:'RASOA Hanta',m:'20210',sc:'JIRAMA'},
+    {ti:5,s:'C1',tp:'H',n:'RANDRIANA Fidy',m:'30044',sc:'TELMA'},
+    {ti:6,s:'A3',tp:'H',n:'RAZAFY Luc',m:'10512',sc:'STAR Brasseries'},
+    {ti:7,s:'B1',tp:'P',n:'SOLO Hery',m:'20315',sc:'JIRAMA'},
+    {ti:8,s:'C2',tp:'H',n:'RAVELO Noro',m:'30102',sc:'TELMA'},
+  ];
+  var medPrix=[12000,22000,14000,18000,10500,11500,16000,7500,13500,5500,25000,9000];
+  var medNom=['Paracétamol 500mg','Amoxicilline 500mg','Ibuprofène 400mg','Oméprazole 20mg','Métronidazole 250mg','Diclofénac 50mg','Cotrimoxazole 480mg','Vitamine C 500mg','Chloroquine 100mg','Sérum physio 500ml','Ciprofloxacine 500mg','Doliprane 1000mg'];
+  jours.forEach(function(jour){
+    var nbOrd=2+Math.floor(Math.random()*4);
+    for(var i=0;i<nbOrd;i++){
+      oid++;var c=combos[Math.floor(Math.random()*combos.length)];
+      var pat=Math.random()<0.3?'F':'T';
+      var nbLig=1+Math.floor(Math.random()*3);var lignes=[];var tot=0;
+      for(var j=0;j<nbLig;j++){
+        var mi=Math.floor(Math.random()*12);var q=1+Math.floor(Math.random()*3);var mt=medPrix[mi]*q;tot+=mt;
+        lignes.push({id:mi+1,designation:medNom[mi],prix:medPrix[mi],qte:q});
+      }
+      ords.push({id:oid,num_pharmacie:'PH-2026-'+String(oid).padStart(4,'0'),num_hopital:'HP-'+jour.slice(5).replace('-','')+'-'+String(oid).padStart(3,'0'),date_ord:jour,matricule:c.m,nom_prenom:c.n,section_code:c.s,type_trav:c.tp,patient:pat,pharmacien:'PH001',total:tot,societe:c.sc,lignes:lignes});
+    }
+  });
+  DB.saveOrdonnances(ords);DB._set('seq_ordonnance',oid);
+
+  var ventes=[];var vid=0;
+  var clientMeds=[[0,7,11],[1,3],[2,5,8],[0,11],[3,10],[7,8],[0,2,5,11],[1,9],[4,6],[0,3,7]];
+  jours.forEach(function(jour){
+    var nbV=1+Math.floor(Math.random()*3);
+    for(var i=0;i<nbV;i++){
+      vid++;var choix=clientMeds[Math.floor(Math.random()*clientMeds.length)];
+      var lignes=[];var tot=0;
+      choix.forEach(function(mi){var q=1+Math.floor(Math.random()*2);var mt=medPrix[mi]*q;tot+=mt;lignes.push({designation:medNom[mi],quantite:q,prix_unitaire:medPrix[mi],montant:mt})});
+      ventes.push({id:vid,numero:'VC-'+jour.replace(/-/g,'')+'-'+String(vid).padStart(3,'0'),date:jour+'T'+String(8+Math.floor(Math.random()*9)).padStart(2,'0')+':'+String(Math.floor(Math.random()*60)).padStart(2,'0')+':00',total:tot,lignes:lignes});
+    }
+  });
+  DB.saveVentesCivil(ventes);DB._set('seq_vente',vid);
+
+  var mvs=[];var mid=0;
+  ['2026-06-01','2026-06-15','2026-07-01'].forEach(function(jour){
+    for(var pi=1;pi<=12;pi++){
+      mid++;var q=20+Math.floor(Math.random()*80);
+      mvs.push({id:mid,produit_id:pi,type:'entree',quantite:q,date:jour+'T08:00:00',motif:'Approvisionnement'});
+    }
+  });
+  DB.saveMouvements(mvs);DB._set('seq_mouvement',mid);
+  DB._set('demo_version',DEMO_VERSION);
 }
 
 // ===================== UTILITAIRES =====================

@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SALAMA — Démonstration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SALAMA — Dépôt de médicaments</title>
 <style>
 :root{--bg:#0a1628;--bg2:#0f1d32;--border:#1e3a5f;--primary:#10b981;--primary2:#059669;
  --text:#f8fafc;--text2:#94a3b8;--text3:#64748b;--red:#ef4444;--yellow:#f59e0b;--blue:#3b82f6;--purple:#a855f7;}
@@ -12,19 +12,18 @@ body{background:var(--bg);color:var(--text)}
 button{cursor:pointer;font-family:inherit}
 input,select{font-family:inherit}
 .hidden{display:none!important}
-#login{min-height:100vh;display:flex;align-items:center;justify-content:center}
-.login-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px;width:360px;text-align:center}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.login-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px;width:360px;max-width:100%;text-align:center}
 .logo-badge{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--primary2));display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 16px}
 .login-card h1{font-size:24px;font-weight:800;color:var(--primary)}
 .login-card .sub{font-size:11px;color:var(--primary);letter-spacing:3px;text-transform:uppercase;margin-bottom:24px}
 .field{text-align:left;margin-bottom:14px}
 .field label{font-size:12px;color:var(--text3);display:block;margin-bottom:4px}
-.field input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);outline:none}
-.field input:focus{border-color:var(--primary)}
+.field input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);outline:none;font-size:16px}
 .app{display:flex;min-height:100vh}
-.sidebar{width:230px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;height:100vh;overflow:hidden}
+.sidebar{width:230px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;height:100vh;overflow:hidden;z-index:50;transition:transform .3s}
 .sidebar .brand{padding:18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
-.sidebar .brand .b-ic{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary2));display:flex;align-items:center;justify-content:center;font-size:20px}
+.sidebar .brand .b-ic{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary2));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .sidebar .brand .b-t{font-size:17px;font-weight:700}
 .sidebar .brand .b-s{font-size:9px;color:var(--primary);letter-spacing:2px;text-transform:uppercase}
 nav{flex:1;padding:10px 8px;overflow-y:auto;min-height:0}
@@ -34,29 +33,29 @@ nav{flex:1;padding:10px 8px;overflow-y:auto;min-height:0}
 .nav-sec{font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:1.5px;padding:14px 14px 6px;font-weight:600}
 .sb-foot{padding:14px;border-top:1px solid var(--border);font-size:11px;color:var(--text3)}
 .main{flex:1;margin-left:230px}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 26px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:10}
-.topbar h2{font-size:18px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 26px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:10;gap:8px}
+.topbar h2{font-size:18px;white-space:nowrap}
+.menu-btn{display:none;background:none;border:none;color:var(--text);font-size:24px;padding:4px}
 .content{padding:22px 26px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:20px}
 .stat{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px}
 .stat .l{font-size:12px;color:var(--text3)}
-.stat .v{font-size:26px;font-weight:700;margin-top:4px}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px}
+.stat .v{font-size:22px;font-weight:700;margin-top:4px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;overflow-x:auto}
 .card h3{font-size:14px;margin-bottom:14px}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:9px 10px;color:var(--text3);font-size:11px;text-transform:uppercase;border-bottom:1px solid var(--border)}
+th{text-align:left;padding:9px 10px;color:var(--text3);font-size:11px;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap}
 td{padding:9px 10px;border-bottom:1px solid rgba(30,58,95,.5)}
-tr:hover td{background:rgba(16,185,129,.04)}
 .btn{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;border:none;display:inline-flex;align-items:center;gap:6px}
 .btn-primary{background:var(--primary);color:#fff}
 .btn-primary:hover{background:var(--primary2)}
 .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
-.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+.btn-danger{background:var(--red);color:#fff}
 .btn-sm{padding:4px 8px;font-size:12px}
-.input{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);outline:none}
+.input{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);outline:none;font-size:14px;width:100%}
 .input:focus{border-color:var(--primary)}
 .search{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 12px}
-.search input{background:none;border:none;color:var(--text);outline:none;flex:1}
+.search input{background:none;border:none;color:var(--text);outline:none;flex:1;font-size:14px}
 .badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
 .b-g{background:rgba(16,185,129,.15);color:var(--primary)}
 .b-r{background:rgba(239,68,68,.15);color:var(--red)}
@@ -66,29 +65,33 @@ tr:hover td{background:rgba(16,185,129,.04)}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .fg{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
 .fg label{font-size:12px;color:var(--text3)}
-.fg input,.fg select{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);outline:none}
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100}
-.modal{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;width:560px;max-height:88vh;overflow-y:auto}
+.fg input,.fg select{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);outline:none;font-size:14px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;width:560px;max-width:100%;max-height:88vh;overflow-y:auto}
 .modal h3{margin-bottom:16px}
 .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
 #toast{position:fixed;bottom:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:8px}
 .toast{padding:12px 18px;border-radius:8px;font-size:13px;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.3)}
 .toast.ok{background:#16a34a}.toast.err{background:#dc2626}.toast.warn{background:#d97706}.toast.info{background:#2563eb}
-.demo-badge{position:fixed;top:12px;right:12px;z-index:300;background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:1px;box-shadow:0 4px 15px rgba(168,85,247,.4)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40}
 @media(max-width:768px){
-  .sidebar{width:60px}.sidebar .brand .b-t,.sidebar .brand .b-s,.nav-item span,.sb-foot div{display:none}
-  .sidebar .brand{padding:12px;justify-content:center}.sidebar .brand .b-ic{width:36px;height:36px}
-  nav{padding:6px}.nav-item{padding:8px;justify-content:center}.nav-item svg{margin:0}
-  .main{margin-left:60px}.topbar h2{font-size:15px}.content{padding:14px}
-  .stats{grid-template-columns:1fr 1fr}.stat .v{font-size:20px}
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .overlay.open{display:block}
+  .main{margin-left:0}
+  .menu-btn{display:block}
+  .topbar{padding:10px 14px}
+  .topbar h2{font-size:15px}
+  .content{padding:14px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat .v{font-size:18px}
+  .form-grid{grid-template-columns:1fr}
+  .modal{padding:16px}
 }
 </style>
 </head>
 <body>
 
-<div class="demo-badge">DÉMO</div>
-
-<!-- LOGIN -->
 <div id="login">
   <div class="login-card">
     <div class="logo-badge">
@@ -103,29 +106,24 @@ tr:hover td{background:rgba(16,185,129,.04)}
   </div>
 </div>
 
-<!-- APP -->
 <div class="app hidden" id="app">
-  <aside class="sidebar">
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+  <aside class="sidebar" id="sidebar">
     <div class="brand">
       <div class="b-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg></div>
       <div><div class="b-t">SALAMA</div><div class="b-s">Dépôt médicaments</div></div>
     </div>
     <nav id="nav"></nav>
     <div class="sb-foot">
-      <div style="cursor:pointer;color:var(--text3);display:flex;align-items:center;justify-content:center;gap:6px" onclick="logout()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Déconnexion
-      </div>
+      <div style="cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px" onclick="logout()">Déconnexion</div>
       <div style="margin-top:6px;color:#334155">SALAMA v1.0 — Datalio</div>
     </div>
   </aside>
   <div class="main">
     <div class="topbar">
+      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
       <h2 id="pageTitle">Tableau de bord</h2>
-      <div class="search" style="max-width:320px">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input id="topSearch" placeholder="Rechercher / scanner un médicament...">
-      </div>
+      <div style="flex:1"></div>
     </div>
     <div class="content" id="content"></div>
   </div>
@@ -134,612 +132,534 @@ tr:hover td{background:rgba(16,185,129,.04)}
 <div id="toast"></div>
 
 <script>
-// =============== DONNÉES FICTIVES ===============
-var PRODUITS=[
-  {id:1,reference:'MED001',code_barre:'6901234567890',designation:'Paracétamol 500mg (Bte 100)',categorie:'Analgésique',stock:450,seuil_alerte:50,prix_achat:8500,prix_vente:12000,date_expiration:'2027-06-15'},
-  {id:2,reference:'MED002',code_barre:'6901234567891',designation:'Amoxicilline 500mg (Bte 30)',categorie:'Antibiotique',stock:120,seuil_alerte:30,prix_achat:15000,prix_vente:22000,date_expiration:'2027-03-20'},
-  {id:3,reference:'MED003',code_barre:'6901234567892',designation:'Ibuprofène 400mg (Bte 50)',categorie:'Anti-inflammatoire',stock:280,seuil_alerte:40,prix_achat:9500,prix_vente:14000,date_expiration:'2027-09-10'},
-  {id:4,reference:'MED004',code_barre:'6901234567893',designation:'Oméprazole 20mg (Bte 14)',categorie:'Gastro-entérologie',stock:85,seuil_alerte:20,prix_achat:12000,prix_vente:18000,date_expiration:'2026-12-31'},
-  {id:5,reference:'MED005',code_barre:'6901234567894',designation:'Métronidazole 250mg (Bte 20)',categorie:'Antibiotique',stock:15,seuil_alerte:25,prix_achat:7000,prix_vente:10500,date_expiration:'2027-01-15'},
-  {id:6,reference:'MED006',code_barre:'6901234567895',designation:'Diclofénac 50mg (Bte 30)',categorie:'Anti-inflammatoire',stock:200,seuil_alerte:30,prix_achat:8000,prix_vente:11500,date_expiration:'2027-08-20'},
-  {id:7,reference:'MED007',code_barre:'6901234567896',designation:'Cotrimoxazole 480mg (Bte 100)',categorie:'Antibiotique',stock:0,seuil_alerte:20,prix_achat:11000,prix_vente:16000,date_expiration:'2027-04-10'},
-  {id:8,reference:'MED008',code_barre:'6901234567897',designation:'Vitamine C 500mg (Bte 30)',categorie:'Vitamine',stock:350,seuil_alerte:40,prix_achat:5000,prix_vente:7500,date_expiration:'2028-01-01'},
-  {id:9,reference:'MED009',code_barre:'6901234567898',designation:'Chloroquine 100mg (Bte 50)',categorie:'Antipaludéen',stock:8,seuil_alerte:15,prix_achat:9000,prix_vente:13500,date_expiration:'2027-05-30'},
-  {id:10,reference:'MED010',code_barre:'6901234567899',designation:'Sérum physiologique 500ml',categorie:'Perfusion',stock:60,seuil_alerte:15,prix_achat:3500,prix_vente:5500,date_expiration:'2028-06-01'},
-  {id:11,reference:'MED011',code_barre:'6901234568900',designation:'Ciprofloxacine 500mg (Bte 10)',categorie:'Antibiotique',stock:95,seuil_alerte:20,prix_achat:18000,prix_vente:25000,date_expiration:'2027-07-15'},
-  {id:12,reference:'MED012',code_barre:'6901234568901',designation:'Doliprane 1000mg (Bte 8)',categorie:'Analgésique',stock:310,seuil_alerte:50,prix_achat:6000,prix_vente:9000,date_expiration:'2027-11-30'},
-];
-var ALERTES=[
-  {reference:'MED007',designation:'Cotrimoxazole 480mg (Bte 100)',stock:0,seuil_alerte:20,date_expiration:'2027-04-10'},
-  {reference:'MED009',designation:'Chloroquine 100mg (Bte 50)',stock:8,seuil_alerte:15,date_expiration:'2027-05-30'},
-  {reference:'MED005',designation:'Métronidazole 250mg (Bte 20)',stock:15,seuil_alerte:25,date_expiration:'2027-01-15'},
-];
-var VENTES_CIVIL=[
-  {id:1,numero:'VC-20260705-001',date:'2026-07-05T08:30:00',total:33500,caissier:'Admin',lignes:[{designation:'Paracétamol 500mg',quantite:2,prix_unitaire:12000,montant:24000},{designation:'Vitamine C 500mg',quantite:1,prix_unitaire:7500,montant:7500},{designation:'Sérum physiologique',quantite:1,prix_unitaire:2000,montant:2000}]},
-  {id:2,numero:'VC-20260705-002',date:'2026-07-05T09:15:00',total:47000,caissier:'Admin',lignes:[{designation:'Amoxicilline 500mg',quantite:1,prix_unitaire:22000,montant:22000},{designation:'Ibuprofène 400mg',quantite:1,prix_unitaire:14000,montant:14000},{designation:'Doliprane 1000mg',quantite:1,prix_unitaire:9000,montant:9000},{designation:'Sérum physiologique',quantite:1,prix_unitaire:2000,montant:2000}]},
-  {id:3,numero:'VC-20260705-003',date:'2026-07-05T10:45:00',total:21000,caissier:'Admin',lignes:[{designation:'Diclofénac 50mg',quantite:1,prix_unitaire:11500,montant:11500},{designation:'Vitamine C 500mg',quantite:1,prix_unitaire:7500,montant:7500},{designation:'Sérum physiologique',quantite:1,prix_unitaire:2000,montant:2000}]},
-];
-var ORDONNANCES=[
-  {id:1,num_pharmacie:'PH-2026-0412',num_hopital:'HP-2026-1055',date_ord:'2026-07-02',matricule:'10254',nom_prenom:'RAKOTO Jean',section_code:'A1',type_trav:'H',patient:'',nom_famille:'',total:45000,societe:'STAR Brasseries'},
-  {id:2,num_pharmacie:'PH-2026-0413',num_hopital:'HP-2026-1056',date_ord:'2026-07-02',matricule:'10389',nom_prenom:'RABE Marie',section_code:'A1',type_trav:'H',patient:'Enfant Rabe',nom_famille:'RABE',total:32000,societe:'STAR Brasseries'},
-  {id:3,num_pharmacie:'PH-2026-0414',num_hopital:'HP-2026-1057',date_ord:'2026-07-03',matricule:'20105',nom_prenom:'ANDRIA Paul',section_code:'B2',type_trav:'C',patient:'',nom_famille:'',total:28500,societe:'JIRAMA'},
-  {id:4,num_pharmacie:'PH-2026-0415',num_hopital:'HP-2026-1058',date_ord:'2026-07-03',matricule:'20210',nom_prenom:'RASOA Hanta',section_code:'B2',type_trav:'C',patient:'Conjoint Rasoa',nom_famille:'RASOA',total:18700,societe:'JIRAMA'},
-  {id:5,num_pharmacie:'PH-2026-0416',num_hopital:'HP-2026-1059',date_ord:'2026-07-04',matricule:'30044',nom_prenom:'RANDRIANA Fidy',section_code:'C1',type_trav:'H',patient:'',nom_famille:'',total:52000,societe:'TELMA'},
-  {id:6,num_pharmacie:'PH-2026-0417',num_hopital:'HP-2026-1060',date_ord:'2026-07-04',matricule:'10512',nom_prenom:'RAZAFY Luc',section_code:'A3',type_trav:'H',patient:'Enfant Razafy',nom_famille:'RAZAFY',total:15600,societe:'STAR Brasseries'},
-  {id:7,num_pharmacie:'PH-2026-0418',num_hopital:'HP-2026-1061',date_ord:'2026-07-05',matricule:'20315',nom_prenom:'SOLO Hery',section_code:'B1',type_trav:'P',patient:'',nom_famille:'',total:67000,societe:'JIRAMA'},
-  {id:8,num_pharmacie:'PH-2026-0419',num_hopital:'HP-2026-1062',date_ord:'2026-07-05',matricule:'30102',nom_prenom:'RAVELO Noro',section_code:'C2',type_trav:'H',patient:'Conjoint Ravelo',nom_famille:'RAVELO',total:23400,societe:'TELMA'},
-];
-var SOCIETES=[
-  {id:1,nom:'SALAMA'},
-  {id:2,nom:'STAR Brasseries'},
-  {id:3,nom:'JIRAMA'},
-  {id:4,nom:'TELMA'},
-];
-var TRAVAILLEURS=[
-  {id:1,matricule:'10254',nom_prenom:'RAKOTO Jean',section_code:'A1',type_trav:'H',societe_id:2},
-  {id:2,matricule:'10389',nom_prenom:'RABE Marie',section_code:'A1',type_trav:'H',societe_id:2},
-  {id:3,matricule:'20105',nom_prenom:'ANDRIA Paul',section_code:'B2',type_trav:'C',societe_id:3},
-  {id:4,matricule:'20210',nom_prenom:'RASOA Hanta',section_code:'B2',type_trav:'C',societe_id:3},
-  {id:5,matricule:'30044',nom_prenom:'RANDRIANA Fidy',section_code:'C1',type_trav:'H',societe_id:4},
-  {id:6,matricule:'10512',nom_prenom:'RAZAFY Luc',section_code:'A3',type_trav:'H',societe_id:2},
-  {id:7,matricule:'20315',nom_prenom:'SOLO Hery',section_code:'B1',type_trav:'P',societe_id:3},
-  {id:8,matricule:'30102',nom_prenom:'RAVELO Noro',section_code:'C2',type_trav:'H',societe_id:4},
-];
-var CONFIG={nom:'SALAMA',depositaire:'M. DEMO',adresse:'Ankarana - SIRANA',tel:'034 00 000 00',stat:'00000 00 000 0 00000',nif:'0000000000',cms:'000/CMS'};
+// ===================== DATABASE localStorage =====================
+var DB={
+  _get:function(k){try{return JSON.parse(localStorage.getItem('salama_'+k))||null}catch(e){return null}},
+  _set:function(k,v){localStorage.setItem('salama_'+k,JSON.stringify(v))},
+  produits:function(){return this._get('produits')||[]},
+  saveProduits:function(p){this._set('produits',p)},
+  ordonnances:function(){return this._get('ordonnances')||[]},
+  saveOrdonnances:function(o){this._set('ordonnances',o)},
+  ventesCivil:function(){return this._get('ventes_civil')||[]},
+  saveVentesCivil:function(v){this._set('ventes_civil',v)},
+  mouvements:function(){return this._get('mouvements')||[]},
+  saveMouvements:function(m){this._set('mouvements',m)},
+  societes:function(){return this._get('societes')||[]},
+  saveSocietes:function(s){this._set('societes',s)},
+  travailleurs:function(){return this._get('travailleurs')||[]},
+  saveTravailleurs:function(t){this._set('travailleurs',t)},
+  config:function(){return this._get('config')||{nom:'SALAMA',depositaire:'',adresse:'Ankarana - SIRANA',tel:'',stat:'',nif:'',cms:''}},
+  saveConfig:function(c){this._set('config',c)},
+  nextId:function(k){var n=(this._get('seq_'+k)||0)+1;this._set('seq_'+k,n);return n},
+  isInit:function(){return this._get('initialized')===true},
+  markInit:function(){this._set('initialized',true)},
+};
 
-// =============== UTILITAIRES ===============
+function initDB(){
+  if(DB.isInit())return;
+  var prods=[
+    {id:1,reference:'MED001',code_barre:'6901234567890',designation:'Paracétamol 500mg (Bte 100)',categorie:'Analgésique',stock:450,seuil_alerte:50,prix_achat:8500,prix_vente:12000,date_expiration:'2027-06-15',unite:'Boite',actif:true},
+    {id:2,reference:'MED002',code_barre:'6901234567891',designation:'Amoxicilline 500mg (Bte 30)',categorie:'Antibiotique',stock:120,seuil_alerte:30,prix_achat:15000,prix_vente:22000,date_expiration:'2027-03-20',unite:'Boite',actif:true},
+    {id:3,reference:'MED003',code_barre:'6901234567892',designation:'Ibuprofène 400mg (Bte 50)',categorie:'Anti-inflammatoire',stock:280,seuil_alerte:40,prix_achat:9500,prix_vente:14000,date_expiration:'2027-09-10',unite:'Boite',actif:true},
+    {id:4,reference:'MED004',code_barre:'6901234567893',designation:'Oméprazole 20mg (Bte 14)',categorie:'Gastro-entérologie',stock:85,seuil_alerte:20,prix_achat:12000,prix_vente:18000,date_expiration:'2026-12-31',unite:'Boite',actif:true},
+    {id:5,reference:'MED005',code_barre:'6901234567894',designation:'Métronidazole 250mg (Bte 20)',categorie:'Antibiotique',stock:15,seuil_alerte:25,prix_achat:7000,prix_vente:10500,date_expiration:'2027-01-15',unite:'Boite',actif:true},
+    {id:6,reference:'MED006',code_barre:'6901234567895',designation:'Diclofénac 50mg (Bte 30)',categorie:'Anti-inflammatoire',stock:200,seuil_alerte:30,prix_achat:8000,prix_vente:11500,date_expiration:'2027-08-20',unite:'Boite',actif:true},
+    {id:7,reference:'MED007',code_barre:'6901234567896',designation:'Cotrimoxazole 480mg (Bte 100)',categorie:'Antibiotique',stock:0,seuil_alerte:20,prix_achat:11000,prix_vente:16000,date_expiration:'2027-04-10',unite:'Boite',actif:true},
+    {id:8,reference:'MED008',code_barre:'6901234567897',designation:'Vitamine C 500mg (Bte 30)',categorie:'Vitamine',stock:350,seuil_alerte:40,prix_achat:5000,prix_vente:7500,date_expiration:'2028-01-01',unite:'Boite',actif:true},
+    {id:9,reference:'MED009',code_barre:'6901234567898',designation:'Chloroquine 100mg (Bte 50)',categorie:'Antipaludéen',stock:8,seuil_alerte:15,prix_achat:9000,prix_vente:13500,date_expiration:'2027-05-30',unite:'Boite',actif:true},
+    {id:10,reference:'MED010',code_barre:'6901234567899',designation:'Sérum physiologique 500ml',categorie:'Perfusion',stock:60,seuil_alerte:15,prix_achat:3500,prix_vente:5500,date_expiration:'2028-06-01',unite:'Flacon',actif:true},
+    {id:11,reference:'MED011',code_barre:'6901234568900',designation:'Ciprofloxacine 500mg (Bte 10)',categorie:'Antibiotique',stock:95,seuil_alerte:20,prix_achat:18000,prix_vente:25000,date_expiration:'2027-07-15',unite:'Boite',actif:true},
+    {id:12,reference:'MED012',code_barre:'6901234568901',designation:'Doliprane 1000mg (Bte 8)',categorie:'Analgésique',stock:310,seuil_alerte:50,prix_achat:6000,prix_vente:9000,date_expiration:'2027-11-30',unite:'Boite',actif:true},
+  ];
+  DB.saveProduits(prods);DB._set('seq_produit',12);
+  var socs=[{id:1,nom:'SALAMA'},{id:2,nom:'STAR Brasseries'},{id:3,nom:'JIRAMA'},{id:4,nom:'TELMA'}];
+  DB.saveSocietes(socs);DB._set('seq_societe',4);
+  var travs=[
+    {id:1,matricule:'10254',nom_prenom:'RAKOTO Jean',section_code:'A1',type_trav:'H',societe_id:2},
+    {id:2,matricule:'10389',nom_prenom:'RABE Marie',section_code:'A1',type_trav:'H',societe_id:2},
+    {id:3,matricule:'20105',nom_prenom:'ANDRIA Paul',section_code:'B2',type_trav:'C',societe_id:3},
+    {id:4,matricule:'20210',nom_prenom:'RASOA Hanta',section_code:'B2',type_trav:'C',societe_id:3},
+    {id:5,matricule:'30044',nom_prenom:'RANDRIANA Fidy',section_code:'C1',type_trav:'H',societe_id:4},
+    {id:6,matricule:'10512',nom_prenom:'RAZAFY Luc',section_code:'A3',type_trav:'H',societe_id:2},
+    {id:7,matricule:'20315',nom_prenom:'SOLO Hery',section_code:'B1',type_trav:'P',societe_id:3},
+    {id:8,matricule:'30102',nom_prenom:'RAVELO Noro',section_code:'C2',type_trav:'H',societe_id:4},
+  ];
+  DB.saveTravailleurs(travs);DB._set('seq_travailleur',8);
+  DB.saveOrdonnances([]);DB.saveVentesCivil([]);DB.saveMouvements([]);
+  DB.markInit();
+}
+
+// ===================== UTILITAIRES =====================
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function money(n){return Number(n||0).toLocaleString('fr-FR')+' Ar'}
 function toast(msg,kind){var d=document.createElement('div');d.className='toast '+(kind||'info');d.textContent=msg;document.getElementById('toast').appendChild(d);setTimeout(function(){d.remove()},2600)}
+function todayStr(){return new Date().toISOString().slice(0,10)}
+function nowStr(){return new Date().toISOString().replace('T',' ').slice(0,19)}
 function numEnLettres(n){
   n=Math.round(Number(n)||0);if(n===0)return 'zéro';
   var u=['','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize','dix-sept','dix-huit','dix-neuf'];
   var d=['','','vingt','trente','quarante','cinquante','soixante','soixante','quatre-vingt','quatre-vingt'];
-  function ss(x){
-    if(x<20)return u[x];
-    if(x<100){var q=Math.floor(x/10),r=x%10;if(q===7||q===9)return d[q]+(q===7&&r===1?' et ':'-')+u[10+r];if(q===8&&r===0)return 'quatre-vingts';return d[q]+(r===0?'':(r===1&&q!==8?' et ':'-')+u[r])}
-    if(x<1000){var c=Math.floor(x/100),r=x%100;return(c===1?'cent':u[c]+' cent'+(c>1&&r===0?'s':''))+(r===0?'':' '+ss(r))}
-    return String(x);
-  }
+  function ss(x){if(x<20)return u[x];if(x<100){var q=Math.floor(x/10),r=x%10;if(q===7||q===9)return d[q]+(q===7&&r===1?' et ':'-')+u[10+r];if(q===8&&r===0)return 'quatre-vingts';return d[q]+(r===0?'':(r===1&&q!==8?' et ':'-')+u[r])}if(x<1000){var c=Math.floor(x/100),r2=x%100;return(c===1?'cent':u[c]+' cent'+(c>1&&r2===0?'s':''))+(r2===0?'':' '+ss(r2))}return String(x)}
   function big(x,label,plural){if(x===0)return '';return(x===1?(label==='mille'?'':'un '):ss(x)+' ')+label+(x>1&&plural?'s':'')+' '}
   var mil=Math.floor(n/1000000000),mm=n%1000000000,m=Math.floor(mm/1000000),mm2=mm%1000000,k=Math.floor(mm2/1000),r=mm2%1000;
   return(big(mil,'milliard',true)+big(m,'million',true)+big(k,'mille',false)+(r>0?ss(r):'')).trim();
 }
+function g(id){var e=document.getElementById(id);return e?e.value.trim():''}
 
-// =============== NAVIGATION ===============
+// ===================== NAV =====================
 var CP='Dashboard';
 var MENU=[
-  {id:'Dashboard',label:'Tableau de bord',icon:'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z|M9 22V12h6v10'},
+  {id:'Dashboard',label:'Tableau de bord'},
   {sec:'STOCK'},
-  {id:'Produits',label:'Produits',icon:'M7.5 4.27l9 5.15|M21 8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16Z|M3.3 7L12 12l8.7-5|M12 22V12'},
-  {id:'Entrees',label:'Entrées',icon:'M12 5v14|M19 12l-7 7-7-7'},
-  {id:'Inventaire',label:'Inventaire par scan',icon:'M3 5v14|M8 5v14|M12 5v14|M17 5v14|M21 5v14'},
+  {id:'Produits',label:'Produits'},
+  {id:'Entrees',label:'Entrées de stock'},
   {sec:'VENTES'},
-  {id:'Caisse',label:'Vente Civil (caisse)',icon:'M8 21a1 1 0 100-2 1 1 0 000 2z|M19 21a1 1 0 100-2 1 1 0 000 2z|M2.05 2.05h2l2.66 12.42a2 2 0 002 1.58h9.78a2 2 0 001.95-1.57l1.65-7.43H5.12'},
-  {id:'Historique',label:'Historique ventes',icon:'M8 2h8a1 1 0 011 1v0H7v0a1 1 0 011-1z|M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2|M9 12h6|M9 16h4'},
+  {id:'Caisse',label:'Vente Civil (caisse)'},
+  {id:'Historique',label:'Historique ventes'},
   {sec:'SOCIÉTÉ'},
-  {id:'Travailleurs',label:'Sociétés & Travailleurs',icon:'M4 2h16a2 2 0 012 2v16a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2z|M9 22v-4h6v4'},
-  {id:'VenteSociete',label:'Vente Société',icon:'M8 21a1 1 0 100-2 1 1 0 000 2z|M19 21a1 1 0 100-2 1 1 0 000 2z|M2.05 2.05h2l2.66 12.42a2 2 0 002 1.58h9.78a2 2 0 001.95-1.57l1.65-7.43H5.12'},
-  {id:'HistOrd',label:'Historique ordonnances',icon:'M8 2h8a1 1 0 011 1v0H7v0a1 1 0 011-1z|M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2|M9 12h6|M9 16h4'},
+  {id:'Travailleurs',label:'Sociétés & Travailleurs'},
+  {id:'VenteSociete',label:'Vente Société'},
+  {id:'HistOrd',label:'Historique ordonnances'},
   {sec:'ÉTATS & RAPPORTS'},
-  {id:'FactureMens',label:'Facture mensuel',icon:'M8 2h8a1 1 0 011 1v0H7v0a1 1 0 011-1z|M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2|M9 12h6|M9 16h4'},
-  {id:'FactureDate',label:'Facture entre date',icon:'M8 2h8a1 1 0 011 1v0H7v0a1 1 0 011-1z|M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2|M9 12h6|M9 16h4'},
-  {id:'EtatControle',label:'Contrôle mensuel',icon:'M8 2h8a1 1 0 011 1v0H7v0a1 1 0 011-1z|M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2|M9 12h6|M9 16h4'},
-  {id:'ControleJour',label:'Contrôle par jour',icon:'M8 2h8a1 1 0 011 1v0H7v0a1 1 0 011-1z|M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2|M9 12h6|M9 16h4'},
-  {id:'EtatStockSoc',label:'État de stocks',icon:'M7.5 4.27l9 5.15|M21 8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16Z|M3.3 7L12 12l8.7-5|M12 22V12'},
+  {id:'FactureMens',label:'Facture mensuel'},
+  {id:'FactureDate',label:'Facture entre date'},
+  {id:'EtatControle',label:'Contrôle mensuel'},
+  {id:'ControleJour',label:'Contrôle par jour'},
+  {id:'EtatStockSoc',label:'État de stocks'},
   {sec:'SYSTÈME'},
-  {id:'Parametres',label:'Paramètres',icon:'M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2Z|M12 15a3 3 0 100-6 3 3 0 000 6z'},
+  {id:'Parametres',label:'Paramètres'},
 ];
-
-function svgIcon(paths,sz){
-  sz=sz||18;
-  var ps=paths.split('|').map(function(p){
-    if(p.trim().startsWith('M')&&p.indexOf(' ')>0)return '<path d="'+p+'"/>';
-    return '<path d="'+p+'"/>';
-  }).join('');
-  return '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">'+ps+'</svg>';
-}
-
-function doLogin(){
-  document.getElementById('login').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  renderNav();go('Dashboard');
-}
+function doLogin(){document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');renderNav();go('Dashboard')}
 function logout(){document.getElementById('app').classList.add('hidden');document.getElementById('login').classList.remove('hidden')}
-
-function renderNav(){
-  document.getElementById('nav').innerHTML=MENU.map(function(m){
-    if(m.sec)return '<div class="nav-sec">'+m.sec+'</div>';
-    return '<button class="nav-item" data-id="'+m.id+'" onclick="go(\''+m.id+'\')">'+svgIcon(m.icon,16)+' <span>'+m.label+'</span></button>';
-  }).join('');
-}
-
-function go(id){
-  CP=id;
-  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.toggle('active',b.dataset.id===id)});
-  var titles={Dashboard:'Tableau de bord',Produits:'Produits',Entrees:'Entrées de stock',Inventaire:'Inventaire par scan',Caisse:'Vente Civil (caisse)',Historique:'Historique des ventes',Travailleurs:'Sociétés & Travailleurs',VenteSociete:'Vente Société (ordonnances)',HistOrd:'Historique des ordonnances',FactureMens:'Facture mensuel',FactureDate:'Facture entre date',EtatControle:'Contrôle mensuel',ControleJour:'Contrôle par jour',EtatStockSoc:'État de stocks',Parametres:'Paramètres'};
-  document.getElementById('pageTitle').textContent=titles[id]||id;
-  var fn={Dashboard:loadDashboard,Produits:loadProduits,Entrees:loadEntrees,Inventaire:loadInventaire,Caisse:loadCaisse,Historique:loadHistorique,Travailleurs:loadTravailleurs,VenteSociete:loadVenteSociete,HistOrd:loadHistOrd,FactureMens:loadFactureMens,FactureDate:loadFactureDate,EtatControle:loadEtatControle,ControleJour:loadControleJour,EtatStockSoc:loadEtatStockSoc,Parametres:loadParametres};
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('open')}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
+function renderNav(){document.getElementById('nav').innerHTML=MENU.map(function(m){if(m.sec)return '<div class="nav-sec">'+m.sec+'</div>';return '<button class="nav-item" data-id="'+m.id+'" onclick="go(\''+m.id+'\')">'+m.label+'</button>'}).join('')}
+function go(id){CP=id;closeSidebar();document.querySelectorAll('.nav-item').forEach(function(b){b.classList.toggle('active',b.dataset.id===id)});
+  var t={Dashboard:'Tableau de bord',Produits:'Produits',Entrees:'Entrées de stock',Caisse:'Vente Civil (caisse)',Historique:'Historique ventes',Travailleurs:'Sociétés & Travailleurs',VenteSociete:'Vente Société',HistOrd:'Historique ordonnances',FactureMens:'Facture mensuel',FactureDate:'Facture entre date',EtatControle:'Contrôle mensuel',ControleJour:'Contrôle par jour',EtatStockSoc:'État de stocks',Parametres:'Paramètres'};
+  document.getElementById('pageTitle').textContent=t[id]||id;
+  var fn={Dashboard:loadDashboard,Produits:loadProduits,Entrees:loadEntrees,Caisse:loadCaisse,Historique:loadHistorique,Travailleurs:loadTravailleurs,VenteSociete:loadVenteSociete,HistOrd:loadHistOrd,FactureMens:loadFactureMens,FactureDate:loadFactureDate,EtatControle:loadEtatControle,ControleJour:loadControleJour,EtatStockSoc:loadEtatStockSoc,Parametres:loadParametres};
   if(fn[id])fn[id]();
 }
+function showModal(title,body,onOk){var bg=document.createElement('div');bg.className='modal-bg';bg.id='modalBg';bg.innerHTML='<div class="modal"><h3>'+title+'</h3><div>'+body+'</div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Annuler</button><button class="btn btn-primary" id="modalOk">Enregistrer</button></div></div>';document.body.appendChild(bg);document.getElementById('modalOk').onclick=onOk;bg.onclick=function(e){if(e.target===bg)closeModal()}}
+function closeModal(){var m=document.getElementById('modalBg');if(m)m.remove()}
 
-// =============== TABLEAU DE BORD ===============
+// ===================== DASHBOARD =====================
 function loadDashboard(){
-  var caJour=VENTES_CIVIL.reduce(function(s,v){return s+v.total},0)+ORDONNANCES.filter(function(o){return o.date_ord==='2026-07-05'}).reduce(function(s,o){return s+o.total},0);
+  var prods=DB.produits().filter(function(p){return p.actif});
+  var bas=prods.filter(function(p){return p.stock>0&&p.stock<=p.seuil_alerte}).length;
+  var rupt=prods.filter(function(p){return p.stock<=0}).length;
+  var today=todayStr();
+  var caCivil=DB.ventesCivil().filter(function(v){return v.date.slice(0,10)===today}).reduce(function(s,v){return s+v.total},0);
+  var caOrd=DB.ordonnances().filter(function(o){return o.date_ord===today}).reduce(function(s,o){return s+o.total},0);
+  var alertes=prods.filter(function(p){return p.stock<=p.seuil_alerte});
   document.getElementById('content').innerHTML=
-    '<div class="stats">'
-    +stat('Produits',PRODUITS.length,'var(--primary)')
-    +stat('Stock bas',ALERTES.filter(function(a){return a.stock>0}).length,'var(--yellow)')
-    +stat('En rupture',ALERTES.filter(function(a){return a.stock<=0}).length,'var(--red)')
-    +stat('CA du jour',money(caJour),'var(--blue)')
-    +'</div>'
-    +'<div class="card"><h3>⚠ Alertes stock & expirations</h3>'
-    +'<table><thead><tr><th>Réf</th><th>Désignation</th><th>Stock</th><th>Seuil</th><th>Expiration</th></tr></thead><tbody>'
-    +ALERTES.map(function(a){return '<tr><td style="font-family:monospace;color:var(--primary)">'+esc(a.reference)+'</td><td>'+esc(a.designation)+'</td>'
-      +'<td style="font-weight:700;color:'+(a.stock<=0?'var(--red)':'var(--yellow)')+'">'+a.stock+'</td><td>'+(a.seuil_alerte||'-')+'</td>'
-      +'<td>'+new Date(a.date_expiration).toLocaleDateString('fr')+'</td></tr>'}).join('')
-    +'</tbody></table></div>';
+    '<div class="stats">'+stat('Produits',prods.length,'var(--primary)')+stat('Stock bas',bas,'var(--yellow)')+stat('En rupture',rupt,'var(--red)')+stat('CA du jour',money(caCivil+caOrd),'var(--blue)')+'</div>'
+    +'<div class="card"><h3>Alertes stock</h3>'+(alertes.length===0?'<div class="empty">Aucune alerte</div>':'<table><thead><tr><th>Réf</th><th>Désignation</th><th>Stock</th><th>Seuil</th></tr></thead><tbody>'+alertes.map(function(a){return '<tr><td style="font-family:monospace;color:var(--primary)">'+esc(a.reference)+'</td><td>'+esc(a.designation)+'</td><td style="font-weight:700;color:'+(a.stock<=0?'var(--red)':'var(--yellow)')+'">'+a.stock+'</td><td>'+a.seuil_alerte+'</td></tr>'}).join('')+'</tbody></table>')+'</div>';
 }
 function stat(l,v,c){return '<div class="stat"><div class="l">'+l+'</div><div class="v" style="color:'+c+'">'+v+'</div></div>'}
 
-// =============== PRODUITS ===============
+// ===================== PRODUITS =====================
 function loadProduits(){
   document.getElementById('content').innerHTML=
-    '<div style="display:flex;justify-content:space-between;margin-bottom:16px">'
-    +'<div class="search" style="max-width:340px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input id="pSearch" placeholder="Rechercher..." oninput="filterProd()"></div>'
-    +'<button class="btn btn-primary" onclick="toast(\'Fonctionnalité disponible dans l\\\'app complète\',\'info\')">+ Nouveau produit</button></div>'
+    '<div style="display:flex;justify-content:space-between;margin-bottom:16px;gap:8px;flex-wrap:wrap">'
+    +'<div class="search" style="flex:1;min-width:200px"><input id="pSearch" placeholder="Rechercher..." oninput="refreshP()"></div>'
+    +'<button class="btn btn-primary" onclick="produitModal()">+ Nouveau</button></div>'
     +'<div class="card"><div id="pTable"></div></div>';
-  renderProduits(PRODUITS);
+  refreshP();
 }
-function filterProd(){
-  var q=document.getElementById('pSearch').value.toLowerCase();
-  renderProduits(q?PRODUITS.filter(function(p){return p.designation.toLowerCase().indexOf(q)>=0||p.reference.toLowerCase().indexOf(q)>=0||(p.code_barre||'').indexOf(q)>=0}):PRODUITS);
-}
-function renderProduits(prods){
-  document.getElementById('pTable').innerHTML=prods.length===0?'<div class="empty">Aucun produit trouvé</div>':
-    '<table><thead><tr><th>Réf</th><th>Code-barres</th><th>Désignation</th><th>Catégorie</th><th>Stock</th><th>P. Achat</th><th>P. Vente</th></tr></thead><tbody>'
-    +prods.map(function(p){return '<tr><td style="font-family:monospace;color:var(--primary)">'+esc(p.reference)+'</td>'
-      +'<td style="font-family:monospace;font-size:11px;color:var(--text3)">'+esc(p.code_barre||'—')+'</td>'
-      +'<td style="font-weight:500">'+esc(p.designation)+'</td><td>'+esc(p.categorie||'—')+'</td>'
+function refreshP(){var q=g('pSearch').toLowerCase();var prods=DB.produits().filter(function(p){return p.actif&&(!q||p.designation.toLowerCase().indexOf(q)>=0||p.reference.toLowerCase().indexOf(q)>=0||(p.code_barre||'').indexOf(q)>=0)});
+  document.getElementById('pTable').innerHTML=prods.length===0?'<div class="empty">Aucun produit</div>':
+    '<table><thead><tr><th>Réf</th><th>Désignation</th><th>Stock</th><th>P.Achat</th><th>P.Vente</th><th></th></tr></thead><tbody>'
+    +prods.map(function(p){return '<tr><td style="font-family:monospace;color:var(--primary);font-size:11px">'+esc(p.reference)+'</td>'
+      +'<td style="font-weight:500">'+esc(p.designation)+'</td>'
       +'<td style="font-weight:700;color:'+(p.stock<=0?'var(--red)':p.stock<=p.seuil_alerte?'var(--yellow)':'var(--primary)')+'">'+p.stock+'</td>'
-      +'<td>'+money(p.prix_achat)+'</td>'
-      +'<td>'+money(p.prix_vente)+'</td></tr>'}).join('')
-    +'</tbody></table>';
+      +'<td style="font-size:12px">'+money(p.prix_achat)+'</td><td style="font-size:12px">'+money(p.prix_vente)+'</td>'
+      +'<td><button class="btn btn-outline btn-sm" onclick="produitModal('+p.id+')">Mod.</button></td></tr>'}).join('')+'</tbody></table>'}
+function produitModal(pid){
+  var p=pid?DB.produits().find(function(x){return x.id===pid})||{}:{};
+  showModal((p.id?'Modifier':'Nouveau')+' produit',
+    '<div class="form-grid">'
+    +'<div class="fg"><label>Référence</label><input id="pf_ref" class="input" value="'+esc(p.reference||'')+'"></div>'
+    +'<div class="fg"><label>Code-barres</label><input id="pf_cb" class="input" value="'+esc(p.code_barre||'')+'"></div>'
+    +'<div class="fg" style="grid-column:1/-1"><label>Désignation</label><input id="pf_des" class="input" value="'+esc(p.designation||'')+'"></div>'
+    +'<div class="fg"><label>Catégorie</label><input id="pf_cat" class="input" value="'+esc(p.categorie||'')+'"></div>'
+    +'<div class="fg"><label>Unité</label><input id="pf_un" class="input" value="'+esc(p.unite||'Boite')+'"></div>'
+    +'<div class="fg"><label>Prix achat</label><input id="pf_pa" type="number" class="input" value="'+(p.prix_achat||0)+'"></div>'
+    +'<div class="fg"><label>Prix vente</label><input id="pf_pv" type="number" class="input" value="'+(p.prix_vente||0)+'"></div>'
+    +'<div class="fg"><label>Stock</label><input id="pf_st" type="number" class="input" value="'+(p.stock||0)+'"></div>'
+    +'<div class="fg"><label>Seuil alerte</label><input id="pf_sa" type="number" class="input" value="'+(p.seuil_alerte||0)+'"></div>'
+    +'<div class="fg"><label>Date expiration</label><input id="pf_exp" type="date" class="input" value="'+(p.date_expiration||'')+'"></div>'
+    +'</div>',
+    function(){
+      var all=DB.produits();var np={id:p.id||DB.nextId('produit'),reference:g('pf_ref'),code_barre:g('pf_cb'),designation:g('pf_des'),categorie:g('pf_cat'),unite:g('pf_un'),prix_achat:Number(g('pf_pa')),prix_vente:Number(g('pf_pv')),stock:Number(g('pf_st')),seuil_alerte:Number(g('pf_sa')),date_expiration:g('pf_exp'),actif:true};
+      if(!np.designation){toast('Désignation requise','warn');return}
+      if(p.id){var idx=all.findIndex(function(x){return x.id===p.id});if(idx>=0)all[idx]=np}else{all.push(np)}
+      DB.saveProduits(all);closeModal();toast('Produit enregistré','ok');refreshP();
+    });
 }
 
-// =============== ENTRÉES ===============
+// ===================== ENTRÉES =====================
 function loadEntrees(){
-  var entrees=[
-    {date:'2026-07-05 07:30',ref:'MED001',produit:'Paracétamol 500mg (Bte 100)',qte:100},
-    {date:'2026-07-04 14:00',ref:'MED008',produit:'Vitamine C 500mg (Bte 30)',qte:50},
-    {date:'2026-07-03 09:45',ref:'MED002',produit:'Amoxicilline 500mg (Bte 30)',qte:30},
-  ];
+  var prods=DB.produits().filter(function(p){return p.actif});
+  var mvs=DB.mouvements().filter(function(m){return m.type==='entree'}).slice(-20).reverse();
   document.getElementById('content').innerHTML=
-    '<div class="card"><h3>📦 Nouvelle entrée de stock</h3>'
+    '<div class="card"><h3>Nouvelle entrée de stock</h3>'
     +'<div class="form-grid">'
-    +'<div class="fg" style="grid-column:1/-1"><label>Produit</label><select class="input">'+PRODUITS.map(function(p){return '<option>'+esc(p.reference)+' — '+esc(p.designation)+' (stock: '+p.stock+')</option>'}).join('')+'</select></div>'
-    +'<div class="fg"><label>Quantité</label><input type="number" class="input" placeholder="0"></div>'
-    +'<div class="fg"><label>Prix achat (opt.)</label><input type="number" class="input"></div>'
-    +'</div><div style="text-align:right"><button class="btn btn-primary" onclick="toast(\'Démo — entrée non enregistrée\',\'info\')">Enregistrer l\'entrée</button></div></div>'
-    +'<div class="card"><h3>Historique des entrées</h3>'
-    +'<table><thead><tr><th>Date</th><th>Réf</th><th>Produit</th><th>Qté</th></tr></thead><tbody>'
-    +entrees.map(function(e){return '<tr><td style="font-size:12px;color:var(--text3)">'+e.date+'</td><td style="font-family:monospace">'+e.ref+'</td><td>'+e.produit+'</td><td style="color:var(--primary);font-weight:600">+'+e.qte+'</td></tr>'}).join('')
-    +'</tbody></table></div>';
+    +'<div class="fg" style="grid-column:1/-1"><label>Produit</label><select id="e_prod" class="input">'+prods.map(function(p){return '<option value="'+p.id+'">'+esc(p.reference)+' — '+esc(p.designation)+' ('+p.stock+')</option>'}).join('')+'</select></div>'
+    +'<div class="fg"><label>Quantité</label><input id="e_qte" type="number" class="input"></div>'
+    +'<div class="fg"><label>Prix achat (opt.)</label><input id="e_pa" type="number" class="input"></div>'
+    +'</div><div style="text-align:right"><button class="btn btn-primary" onclick="doEntree()">Enregistrer</button></div></div>'
+    +'<div class="card"><h3>Dernières entrées</h3>'+(mvs.length===0?'<div class="empty">Aucune</div>':'<table><thead><tr><th>Date</th><th>Réf</th><th>Qté</th></tr></thead><tbody>'+mvs.map(function(m){return '<tr><td style="font-size:12px;color:var(--text3)">'+m.date+'</td><td style="font-family:monospace">'+esc(m.reference)+'</td><td style="color:var(--primary);font-weight:600">+'+m.quantite+'</td></tr>'}).join('')+'</tbody></table>')+'</div>';
+}
+function doEntree(){
+  var pid=Number(g('e_prod')),q=Number(g('e_qte'));
+  if(!pid||!q||q<=0){toast('Produit et quantité requis','warn');return}
+  var prods=DB.produits();var p=prods.find(function(x){return x.id===pid});if(!p)return;
+  p.stock+=q;if(g('e_pa'))p.prix_achat=Number(g('e_pa'));
+  DB.saveProduits(prods);
+  var mvs=DB.mouvements();mvs.push({type:'entree',produit_id:pid,reference:p.reference,designation:p.designation,quantite:q,date:nowStr()});DB.saveMouvements(mvs);
+  toast('Entrée +'+q+' enregistrée','ok');loadEntrees();
 }
 
-// =============== INVENTAIRE ===============
-function loadInventaire(){
-  document.getElementById('content').innerHTML=
-    '<div class="card"><h3>📋 Inventaire par scan de code-barres</h3>'
-    +'<p style="color:var(--text2);margin-bottom:16px">Scannez le code-barres de chaque médicament pour enregistrer le stock physique. La douchette USB fonctionne comme un clavier.</p>'
-    +'<div style="display:flex;gap:8px;margin-bottom:16px"><input class="input" style="flex:1" placeholder="Scanner ou saisir le code-barres..."><button class="btn btn-primary" onclick="toast(\'Démo — scan simulé\',\'info\')">Scanner</button></div>'
-    +'<table><thead><tr><th>Code-barres</th><th>Produit</th><th>Stock système</th><th>Stock physique</th><th>Écart</th></tr></thead><tbody>'
-    +'<tr><td style="font-family:monospace">6901234567890</td><td>Paracétamol 500mg (Bte 100)</td><td>450</td><td><input type="number" class="input" style="width:80px" value="448"></td><td style="color:var(--red);font-weight:600">-2</td></tr>'
-    +'<tr><td style="font-family:monospace">6901234567891</td><td>Amoxicilline 500mg (Bte 30)</td><td>120</td><td><input type="number" class="input" style="width:80px" value="120"></td><td style="color:var(--primary);font-weight:600">0</td></tr>'
-    +'</tbody></table></div>';
-}
-
-// =============== CAISSE (VENTE CIVIL) ===============
+// ===================== CAISSE =====================
+var _cart=[];
 function loadCaisse(){
-  var items=PRODUITS.slice(0,8);
+  var prods=DB.produits().filter(function(p){return p.actif&&p.stock>0});
   document.getElementById('content').innerHTML=
-    '<div style="display:flex;gap:16px">'
-    +'<div style="flex:1">'
-    +'<div class="search" style="margin-bottom:12px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input placeholder="Rechercher ou scanner..."></div>'
-    +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">'
-    +items.map(function(p){return '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer" onclick="toast(\'Ajouté au panier (démo)\',\'ok\')">'
-      +'<div style="font-size:11px;color:var(--primary);font-family:monospace">'+p.reference+'</div>'
-      +'<div style="font-size:12px;font-weight:500;margin:4px 0">'+p.designation.split('(')[0].trim()+'</div>'
-      +'<div style="font-size:12px;color:var(--text3)">'+money(p.prix_vente)+'</div>'
-      +'<div style="font-size:11px;color:'+(p.stock>p.seuil_alerte?'var(--primary)':'var(--red)')+'">Stock: '+p.stock+'</div></div>'}).join('')
-    +'</div></div>'
-    +'<div style="width:320px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;height:fit-content">'
-    +'<h3 style="font-size:14px;margin-bottom:12px">🛒 Panier</h3>'
-    +'<div style="border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:8px">'
-    +'<div style="display:flex;justify-content:space-between;font-size:13px"><span>Paracétamol 500mg x2</span><span>24 000 Ar</span></div>'
-    +'<div style="display:flex;justify-content:space-between;font-size:13px"><span>Vitamine C 500mg x1</span><span>7 500 Ar</span></div></div>'
-    +'<div style="display:flex;justify-content:space-between;font-weight:700;font-size:16px;margin-bottom:12px"><span>TOTAL</span><span style="color:var(--primary)">31 500 Ar</span></div>'
-    +'<button class="btn btn-primary" style="width:100%;justify-content:center" onclick="toast(\'Vente enregistrée (démo)\',\'ok\')">Valider la vente</button>'
-    +'</div></div>';
+    '<div class="search" style="margin-bottom:12px"><input id="posSearch" placeholder="Rechercher produit..." oninput="posFilter()"></div>'
+    +'<div id="posGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:16px"></div>'
+    +'<div class="card"><h3>Panier</h3><div id="cartView"></div>'
+    +'<div style="margin-top:12px;text-align:right"><button class="btn btn-primary" onclick="validerVente()">Valider la vente</button></div></div>';
+  window._posProds=prods;posFilter();renderCart();
+}
+function posFilter(){
+  var q=(document.getElementById('posSearch')?document.getElementById('posSearch').value:'').toLowerCase();
+  var prods=window._posProds||[];
+  var filtered=q?prods.filter(function(p){return p.designation.toLowerCase().indexOf(q)>=0||p.reference.toLowerCase().indexOf(q)>=0||(p.code_barre||'').indexOf(q)>=0}):prods;
+  document.getElementById('posGrid').innerHTML=filtered.slice(0,20).map(function(p){return '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer" onclick="addToCart('+p.id+')">'
+    +'<div style="font-size:11px;color:var(--primary);font-family:monospace">'+p.reference+'</div>'
+    +'<div style="font-size:12px;font-weight:500;margin:4px 0;line-height:1.3">'+p.designation.split('(')[0].trim()+'</div>'
+    +'<div style="font-size:12px;color:var(--text3)">'+money(p.prix_vente)+'</div>'
+    +'<div style="font-size:11px;color:var(--primary)">Stock: '+p.stock+'</div></div>'}).join('');
+}
+function addToCart(pid){
+  var p=DB.produits().find(function(x){return x.id===pid});if(!p)return;
+  var existing=_cart.find(function(c){return c.id===pid});
+  if(existing){if(existing.qte<p.stock)existing.qte++;else{toast('Stock insuffisant','warn');return}}
+  else _cart.push({id:pid,designation:p.designation,prix:p.prix_vente,qte:1});
+  renderCart();toast(p.designation.split('(')[0].trim()+' ajouté','ok');
+}
+function renderCart(){
+  var el=document.getElementById('cartView');if(!el)return;
+  if(_cart.length===0){el.innerHTML='<div class="empty">Panier vide</div>';return}
+  var total=_cart.reduce(function(s,c){return s+c.prix*c.qte},0);
+  el.innerHTML='<table><thead><tr><th>Produit</th><th>Qté</th><th class="r">Montant</th><th></th></tr></thead><tbody>'
+    +_cart.map(function(c,i){return '<tr><td>'+esc(c.designation.split('(')[0].trim())+'</td><td>'+c.qte+'</td><td class="r">'+money(c.prix*c.qte)+'</td><td><button class="btn btn-danger btn-sm" onclick="removeCart('+i+')">X</button></td></tr>'}).join('')
+    +'<tr><td colspan="2" style="font-weight:700">TOTAL</td><td class="r" style="font-weight:700;color:var(--primary);font-size:16px">'+money(total)+'</td><td></td></tr></tbody></table>';
+}
+function removeCart(i){_cart.splice(i,1);renderCart()}
+function validerVente(){
+  if(_cart.length===0){toast('Panier vide','warn');return}
+  var prods=DB.produits();var total=0;
+  var lignes=_cart.map(function(c){
+    var p=prods.find(function(x){return x.id===c.id});
+    if(p)p.stock-=c.qte;
+    var mt=c.prix*c.qte;total+=mt;
+    return{designation:c.designation,quantite:c.qte,prix_unitaire:c.prix,montant:mt};
+  });
+  DB.saveProduits(prods);
+  var ventes=DB.ventesCivil();var vid=DB.nextId('vente');
+  var num='VC-'+todayStr().replace(/-/g,'')+'-'+String(vid).padStart(3,'0');
+  ventes.push({id:vid,numero:num,date:nowStr(),total:total,lignes:lignes});
+  DB.saveVentesCivil(ventes);
+  _cart=[];toast('Vente '+num+' enregistrée — '+money(total),'ok');loadCaisse();
 }
 
-// =============== HISTORIQUE VENTES ===============
+// ===================== HISTORIQUE VENTES =====================
 function loadHistorique(){
-  document.getElementById('content').innerHTML=
-    '<div class="card"><h3>Ventes civiles récentes</h3>'
-    +'<table><thead><tr><th>N° Facture</th><th>Date</th><th>Articles</th><th class="r">Total</th><th></th></tr></thead><tbody>'
-    +VENTES_CIVIL.map(function(v){return '<tr><td style="font-family:monospace;color:var(--primary)">'+esc(v.numero)+'</td>'
-      +'<td style="font-size:12px;color:var(--text3)">'+new Date(v.date).toLocaleString('fr')+'</td>'
-      +'<td>'+v.lignes.length+' article(s)</td>'
-      +'<td class="r" style="font-weight:600;color:var(--primary)">'+money(v.total)+'</td>'
-      +'<td><button class="btn btn-outline btn-sm" onclick="demoFacture('+v.id+')">Facture A4</button></td></tr>'}).join('')
-    +'</tbody></table></div>';
+  var ventes=DB.ventesCivil().slice().reverse();
+  document.getElementById('content').innerHTML='<div class="card"><h3>Ventes civiles</h3>'+(ventes.length===0?'<div class="empty">Aucune vente</div>':'<table><thead><tr><th>N°</th><th>Date</th><th>Articles</th><th class="r">Total</th></tr></thead><tbody>'+ventes.map(function(v){return '<tr><td style="font-family:monospace;color:var(--primary);font-size:11px">'+esc(v.numero)+'</td><td style="font-size:12px">'+v.date.slice(0,16)+'</td><td>'+v.lignes.length+'</td><td class="r" style="font-weight:600">'+money(v.total)+'</td></tr>'}).join('')+'</tbody></table>')+'</div>';
 }
 
-// =============== SOCIÉTÉS & TRAVAILLEURS ===============
+// ===================== SOCIÉTÉS & TRAVAILLEURS =====================
 function loadTravailleurs(){
+  var socs=DB.societes();var travs=DB.travailleurs();
   document.getElementById('content').innerHTML=
     '<div class="card"><h3>Sociétés</h3>'
-    +'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:20px">'
-    +SOCIETES.filter(function(s){return s.id>1}).map(function(s){return '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px">'
-      +'<div style="font-weight:600;color:var(--primary)">'+esc(s.nom)+'</div>'
-      +'<div style="font-size:12px;color:var(--text3)">'+TRAVAILLEURS.filter(function(t){return t.societe_id===s.id}).length+' travailleurs</div></div>'}).join('')
-    +'</div></div>'
+    +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">'+socs.filter(function(s){return s.id>1}).map(function(s){return '<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;min-width:150px"><div style="font-weight:600;color:var(--primary)">'+esc(s.nom)+'</div><div style="font-size:12px;color:var(--text3)">'+travs.filter(function(t){return t.societe_id===s.id}).length+' travailleurs</div></div>'}).join('')+'</div>'
+    +'<button class="btn btn-primary btn-sm" onclick="addSocieteModal()">+ Société</button></div>'
     +'<div class="card"><h3>Travailleurs</h3>'
-    +'<table><thead><tr><th>Matricule</th><th>Nom et Prénoms</th><th>Section</th><th>Type</th><th>Société</th></tr></thead><tbody>'
-    +TRAVAILLEURS.map(function(t){var soc=SOCIETES.find(function(s){return s.id===t.societe_id});return '<tr>'
-      +'<td style="font-family:monospace">'+esc(t.matricule)+'</td>'
-      +'<td style="font-weight:500">'+esc(t.nom_prenom)+'</td>'
-      +'<td>'+esc(t.section_code)+'</td>'
-      +'<td><span class="badge b-g">'+esc(t.type_trav)+'</span></td>'
-      +'<td>'+esc(soc?soc.nom:'')+'</td></tr>'}).join('')
-    +'</tbody></table></div>';
+    +'<button class="btn btn-primary btn-sm" onclick="addTravModal()" style="margin-bottom:12px">+ Travailleur</button>'
+    +'<table><thead><tr><th>Matr.</th><th>Nom</th><th>Sec.</th><th>Type</th><th>Société</th></tr></thead><tbody>'
+    +travs.map(function(t){var s=socs.find(function(x){return x.id===t.societe_id});return '<tr><td style="font-family:monospace">'+esc(t.matricule)+'</td><td>'+esc(t.nom_prenom)+'</td><td>'+esc(t.section_code)+'</td><td><span class="badge b-g">'+esc(t.type_trav)+'</span></td><td>'+esc(s?s.nom:'')+'</td></tr>'}).join('')+'</tbody></table></div>';
+}
+function addSocieteModal(){
+  showModal('Nouvelle société','<div class="fg"><label>Nom</label><input id="sf_nom" class="input"></div>',function(){
+    var socs=DB.societes();socs.push({id:DB.nextId('societe'),nom:g('sf_nom')});DB.saveSocietes(socs);closeModal();toast('Société ajoutée','ok');loadTravailleurs()});
+}
+function addTravModal(){
+  var socs=DB.societes().filter(function(s){return s.id>1});
+  showModal('Nouveau travailleur',
+    '<div class="form-grid">'
+    +'<div class="fg"><label>Matricule</label><input id="tf_mat" class="input"></div>'
+    +'<div class="fg"><label>Nom et prénoms</label><input id="tf_nom" class="input"></div>'
+    +'<div class="fg"><label>Section</label><input id="tf_sec" class="input"></div>'
+    +'<div class="fg"><label>Type</label><select id="tf_typ" class="input"><option value="H">H - Horaire</option><option value="C">C - Cadre</option><option value="P">P - Permanent</option><option value="A">A - Agent de maîtrise</option></select></div>'
+    +'<div class="fg" style="grid-column:1/-1"><label>Société</label><select id="tf_soc" class="input">'+socs.map(function(s){return '<option value="'+s.id+'">'+esc(s.nom)+'</option>'}).join('')+'</select></div>'
+    +'</div>',function(){
+      var travs=DB.travailleurs();travs.push({id:DB.nextId('travailleur'),matricule:g('tf_mat'),nom_prenom:g('tf_nom'),section_code:g('tf_sec'),type_trav:g('tf_typ'),societe_id:Number(g('tf_soc'))});
+      DB.saveTravailleurs(travs);closeModal();toast('Travailleur ajouté','ok');loadTravailleurs()});
 }
 
-// =============== VENTE SOCIÉTÉ ===============
+// ===================== VENTE SOCIÉTÉ (ORDONNANCE) =====================
+var _ordCart=[];
 function loadVenteSociete(){
+  var travs=DB.travailleurs();var prods=DB.produits().filter(function(p){return p.actif&&p.stock>0});
+  _ordCart=[];
   document.getElementById('content').innerHTML=
     '<div class="card"><h3>Nouvelle ordonnance</h3>'
     +'<div class="form-grid">'
-    +'<div class="fg"><label>N° Pharmacie</label><input class="input" placeholder="PH-2026-XXXX"></div>'
-    +'<div class="fg"><label>N° Hôpital</label><input class="input" placeholder="HP-2026-XXXX"></div>'
-    +'<div class="fg"><label>Matricule</label><input class="input" placeholder="Rechercher matricule..."></div>'
-    +'<div class="fg"><label>Section</label><input class="input" readonly value="(auto)"></div>'
-    +'<div class="fg"><label>Patient (si famille)</label><input class="input" placeholder="Nom du membre de famille"></div>'
-    +'<div class="fg"><label>Nom famille (si famille)</label><input class="input" placeholder="Laisser vide si travailleur"></div>'
+    +'<div class="fg"><label>N° Pharmacie</label><input id="o_nph" class="input" placeholder="PH-2026-XXXX"></div>'
+    +'<div class="fg"><label>N° Hôpital</label><input id="o_nhp" class="input" placeholder="HP-2026-XXXX"></div>'
+    +'<div class="fg" style="grid-column:1/-1"><label>Travailleur (matricule ou nom)</label><select id="o_trav" class="input" onchange="fillTravInfo()"><option value="">— Sélectionner —</option>'+travs.map(function(t){return '<option value="'+t.id+'">'+esc(t.matricule)+' — '+esc(t.nom_prenom)+'</option>'}).join('')+'</select></div>'
+    +'<div class="fg"><label>Section</label><input id="o_sec" class="input" readonly></div>'
+    +'<div class="fg"><label>Type</label><input id="o_typ" class="input" readonly></div>'
+    +'<div class="fg"><label>Patient (si famille)</label><input id="o_patient" class="input" placeholder="Nom du membre"></div>'
+    +'<div class="fg"><label>Nom famille (si famille)</label><input id="o_famille" class="input" placeholder="Vide si travailleur"></div>'
     +'</div>'
     +'<h4 style="font-size:13px;margin:12px 0 8px">Médicaments</h4>'
-    +'<table><thead><tr><th>Produit</th><th>Qté</th><th class="r">P.U.</th><th class="r">Montant</th></tr></thead><tbody>'
-    +'<tr><td>Paracétamol 500mg</td><td>3</td><td class="r">12 000</td><td class="r">36 000</td></tr>'
-    +'<tr><td>Ibuprofène 400mg</td><td>1</td><td class="r">14 000</td><td class="r">14 000</td></tr>'
-    +'</tbody></table>'
-    +'<div style="text-align:right;margin-top:12px;font-size:16px;font-weight:700">Total: <span style="color:var(--primary)">50 000 Ar</span></div>'
-    +'<div style="text-align:right;margin-top:8px"><button class="btn btn-primary" onclick="toast(\'Ordonnance enregistrée (démo)\',\'ok\')">Valider l\'ordonnance</button></div></div>';
+    +'<div style="display:flex;gap:8px;margin-bottom:8px"><select id="o_prod" class="input" style="flex:1">'+prods.map(function(p){return '<option value="'+p.id+'">'+esc(p.designation)+' ('+money(p.prix_vente)+') — stock: '+p.stock+'</option>'}).join('')+'</select><input id="o_qty" type="number" class="input" style="width:70px" placeholder="Qté" value="1"><button class="btn btn-primary btn-sm" onclick="addOrdItem()">+</button></div>'
+    +'<div id="ordCartView"></div>'
+    +'<div style="text-align:right;margin-top:12px"><button class="btn btn-primary" onclick="validerOrdonnance()">Valider l\'ordonnance</button></div></div>';
+  renderOrdCart();
+}
+function fillTravInfo(){
+  var tid=Number(g('o_trav'));var t=DB.travailleurs().find(function(x){return x.id===tid});
+  document.getElementById('o_sec').value=t?t.section_code:'';
+  document.getElementById('o_typ').value=t?t.type_trav:'';
+}
+function addOrdItem(){
+  var pid=Number(g('o_prod')),qty=Number(g('o_qty'))||1;
+  var p=DB.produits().find(function(x){return x.id===pid});if(!p)return;
+  var existing=_ordCart.find(function(c){return c.id===pid});
+  if(existing)existing.qte+=qty;else _ordCart.push({id:pid,designation:p.designation,prix:p.prix_vente,qte:qty});
+  renderOrdCart();
+}
+function renderOrdCart(){
+  var el=document.getElementById('ordCartView');if(!el)return;
+  if(_ordCart.length===0){el.innerHTML='<div class="empty" style="padding:16px">Aucun médicament ajouté</div>';return}
+  var total=_ordCart.reduce(function(s,c){return s+c.prix*c.qte},0);
+  el.innerHTML='<table><thead><tr><th>Produit</th><th>Qté</th><th class="r">P.U.</th><th class="r">Montant</th><th></th></tr></thead><tbody>'
+    +_ordCart.map(function(c,i){return '<tr><td>'+esc(c.designation.split('(')[0].trim())+'</td><td>'+c.qte+'</td><td class="r">'+money(c.prix)+'</td><td class="r">'+money(c.prix*c.qte)+'</td><td><button class="btn btn-danger btn-sm" onclick="_ordCart.splice('+i+',1);renderOrdCart()">X</button></td></tr>'}).join('')
+    +'<tr><td colspan="3" style="font-weight:700">TOTAL</td><td class="r" style="font-weight:700;color:var(--primary);font-size:16px">'+money(total)+'</td><td></td></tr></tbody></table>';
+}
+function validerOrdonnance(){
+  if(_ordCart.length===0){toast('Ajoutez des médicaments','warn');return}
+  var tid=Number(g('o_trav'));if(!tid){toast('Sélectionnez un travailleur','warn');return}
+  var t=DB.travailleurs().find(function(x){return x.id===tid});if(!t)return;
+  var soc=DB.societes().find(function(x){return x.id===t.societe_id});
+  var total=_ordCart.reduce(function(s,c){return s+c.prix*c.qte},0);
+  var prods=DB.produits();
+  _ordCart.forEach(function(c){var p=prods.find(function(x){return x.id===c.id});if(p)p.stock-=c.qte});
+  DB.saveProduits(prods);
+  var ords=DB.ordonnances();var oid=DB.nextId('ordonnance');
+  ords.push({id:oid,num_pharmacie:g('o_nph'),num_hopital:g('o_nhp'),date_ord:todayStr(),matricule:t.matricule,nom_prenom:t.nom_prenom,section_code:t.section_code,type_trav:t.type_trav,patient:g('o_patient'),nom_famille:g('o_famille'),total:total,societe:soc?soc.nom:'',lignes:_ordCart.slice()});
+  DB.saveOrdonnances(ords);
+  _ordCart=[];toast('Ordonnance enregistrée — '+money(total),'ok');loadVenteSociete();
 }
 
-// =============== HISTORIQUE ORDONNANCES ===============
+// ===================== HISTORIQUE ORDONNANCES =====================
 function loadHistOrd(){
-  document.getElementById('content').innerHTML=
-    '<div class="card"><h3>Ordonnances récentes</h3>'
-    +'<table><thead><tr><th>N° Pharmacie</th><th>Date</th><th>Matricule</th><th>Nom</th><th>Section</th><th>Patient</th><th class="r">Total</th></tr></thead><tbody>'
-    +ORDONNANCES.map(function(o){return '<tr>'
-      +'<td style="font-family:monospace;color:var(--primary)">'+esc(o.num_pharmacie)+'</td>'
-      +'<td style="font-size:12px">'+new Date(o.date_ord).toLocaleDateString('fr')+'</td>'
-      +'<td style="font-family:monospace">'+esc(o.matricule)+'</td>'
-      +'<td>'+esc(o.nom_prenom)+'</td>'
-      +'<td>'+esc(o.section_code)+'</td>'
-      +'<td>'+(o.patient?esc(o.patient):'—')+'</td>'
-      +'<td class="r" style="font-weight:600">'+money(o.total)+'</td></tr>'}).join('')
-    +'</tbody></table></div>';
+  var ords=DB.ordonnances().slice().reverse();
+  document.getElementById('content').innerHTML='<div class="card"><h3>Ordonnances</h3>'+(ords.length===0?'<div class="empty">Aucune ordonnance</div>':'<table><thead><tr><th>N° Phar</th><th>Date</th><th>Matr.</th><th>Nom</th><th class="r">Total</th></tr></thead><tbody>'+ords.map(function(o){return '<tr><td style="font-family:monospace;color:var(--primary);font-size:11px">'+esc(o.num_pharmacie)+'</td><td style="font-size:12px">'+o.date_ord+'</td><td style="font-family:monospace">'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td><td class="r" style="font-weight:600">'+money(o.total)+'</td></tr>'}).join('')+'</tbody></table>')+'</div>';
 }
 
-// =============== FACTURE MENSUEL ===============
+// ===================== FACTURE MENSUEL =====================
 function loadFactureMens(){
+  var d=new Date();
+  var moisOpts='';for(var m=1;m<=12;m++)moisOpts+='<option value="'+m+'"'+(m===d.getMonth()+1?' selected':'')+'>'+['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][m]+'</option>';
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
-    +'<select class="input" id="fmMois"><option value="7" selected>Juillet</option><option value="6">Juin</option></select>'
-    +'<select class="input"><option>2026</option></select>'
-    +'<button class="btn btn-primary" onclick="showFactureMens()">🔍 Charger</button>'
-    +'<button class="btn btn-outline" onclick="imprimerFactureMensDemo()">📋 Imprimer Facture A4</button>'
-    +'</div><div class="card"><div id="fmTable"><div class="empty">Sélectionnez un mois et cliquez Charger</div></div></div>';
+    +'<select class="input" id="fmMois" style="width:auto">'+moisOpts+'</select>'
+    +'<select class="input" id="fmAn" style="width:auto"><option>'+d.getFullYear()+'</option><option>'+(d.getFullYear()-1)+'</option></select>'
+    +'<button class="btn btn-primary" onclick="showFM()">Charger</button>'
+    +'<button class="btn btn-outline" onclick="imprimerFM()">Imprimer A4</button>'
+    +'</div><div class="card"><div id="fmTable"><div class="empty">Cliquez Charger</div></div></div>';
 }
-function showFactureMens(){
-  var grouped=_groupFacture(ORDONNANCES);
-  var tot=ORDONNANCES.reduce(function(s,o){return s+o.total},0);
-  var html='<table><thead><tr><th>TYPE</th><th>FAMILLE</th><th>TRAVAILLEUR</th><th class="r">Nombre</th><th class="r">Montant hors Taxe</th></tr></thead><tbody>';
-  grouped.forEach(function(g){
-    html+='<tr><td>'+esc(g.type)+'</td><td>'+esc(g.famille)+'</td><td>'+esc(g.travailleur)+'</td><td class="r">'+g.nombre+'</td><td class="r" style="font-weight:600">'+Number(g.total).toLocaleString('fr-FR')+'</td></tr>';
-  });
-  html+='<tr style="background:#4c1d95;color:#fff"><td colspan="3" style="font-weight:700">TOTAL</td><td class="r" style="font-weight:700">'+ORDONNANCES.length+'</td><td class="r" style="font-weight:700">'+Number(tot).toLocaleString('fr-FR')+'</td></tr>';
-  html+='</tbody></table>';
-  document.getElementById('fmTable').innerHTML=html;
+function _getFMData(){
+  var mois=Number(g('fmMois')),an=Number(g('fmAn'));
+  return DB.ordonnances().filter(function(o){var d=new Date(o.date_ord);return d.getMonth()+1===mois&&d.getFullYear()===an});
 }
 function _groupFacture(lignes){
-  var map={};
-  lignes.forEach(function(l){
-    var type=l.type_trav||'—';
-    var famille=l.nom_famille||'—';
-    var travailleur=l.nom_prenom||'—';
-    var k=type+'|'+famille+'|'+travailleur;
-    if(!map[k])map[k]={type:type,famille:famille,travailleur:travailleur,nombre:0,total:0};
-    map[k].nombre++;map[k].total+=Number(l.total);
-  });
+  var map={};lignes.forEach(function(l){var k=(l.type_trav||'—')+'|'+(l.nom_famille||'—')+'|'+(l.nom_prenom||'—');if(!map[k])map[k]={type:l.type_trav||'—',famille:l.nom_famille||'—',travailleur:l.nom_prenom||'—',nombre:0,total:0};map[k].nombre++;map[k].total+=Number(l.total)});
   return Object.values(map);
 }
+function showFM(){
+  var data=_getFMData();var el=document.getElementById('fmTable');
+  if(data.length===0){el.innerHTML='<div class="empty">Aucune ordonnance</div>';return}
+  var grouped=_groupFacture(data);var tot=data.reduce(function(s,o){return s+o.total},0);
+  el.innerHTML='<table><thead><tr><th>TYPE</th><th>FAMILLE</th><th>TRAVAILLEUR</th><th class="r">Nombre</th><th class="r">Montant HT</th></tr></thead><tbody>'
+    +grouped.map(function(g){return '<tr><td>'+esc(g.type)+'</td><td>'+esc(g.famille)+'</td><td>'+esc(g.travailleur)+'</td><td class="r">'+g.nombre+'</td><td class="r" style="font-weight:600">'+Number(g.total).toLocaleString('fr-FR')+'</td></tr>'}).join('')
+    +'<tr style="background:#4c1d95;color:#fff"><td colspan="3" style="font-weight:700">TOTAL</td><td class="r" style="font-weight:700">'+data.length+'</td><td class="r" style="font-weight:700">'+Number(tot).toLocaleString('fr-FR')+'</td></tr></tbody></table>';
+}
+function imprimerFM(){
+  var data=_getFMData();if(data.length===0){toast('Chargez d\'abord','warn');return}
+  var cfg=DB.config();var grouped=_groupFacture(data);var ht=data.reduce(function(s,o){return s+o.total},0);var tva=Math.round(ht*0.2);var ttc=ht+tva;
+  var moisNom=['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][Number(g('fmMois'))];
+  var rows=grouped.map(function(g){return '<tr><td>'+esc(g.type)+'</td><td>'+esc(g.famille)+'</td><td>'+esc(g.travailleur)+'</td><td class="r">'+g.nombre+'</td><td class="r">'+Number(g.total).toLocaleString('fr-FR')+'</td></tr>'}).join('');
+  var html='<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Facture</title><style>@page{size:A4;margin:12mm}body{font-family:Arial,sans-serif;color:#000;font-size:11px;margin:10px}table{width:100%;border-collapse:collapse;margin:10px 0}th,td{border:1px solid #000;padding:5px 8px;font-size:10px}th{background:#f0f0f0;text-align:center;font-weight:700}.r{text-align:right}.totbox{width:250px;margin-left:auto;margin-top:8px}.totbox td{font-size:10px;padding:3px 8px}.totbox .net{font-weight:700;background:#f0f0f0}</style></head><body>'
+    +'<div style="display:flex;justify-content:space-between"><div><b style="font-size:14px">DEPOT DE MEDICAMENTS<br>SALAMA</b><br>'+esc(cfg.depositaire)+'<br>'+esc(cfg.adresse)+'<br>N°STAT: '+esc(cfg.stat)+'<br>NIF: '+esc(cfg.nif)+'<br>CMS: '+esc(cfg.cms)+'</div><div style="font-size:28px;color:#2e7d32;font-weight:900;text-align:center">✚</div><div style="text-align:right">Ankarana, le '+new Date().toLocaleDateString('fr-FR')+'<br><br><b>#Fact</b><br>Doit: Société<br>Ankarana-AMBILOBE</div></div>'
+    +'<table><thead><tr><th>TYPE</th><th>FAMILLE</th><th>TRAVAILLEUR</th><th>Nombre</th><th>Montant HT (Ariary)</th></tr></thead><tbody>'+rows
+    +'<tr style="font-weight:700"><td colspan="3">T O T A L</td><td class="r">'+data.length+'</td><td class="r">'+Number(ht).toLocaleString('fr-FR')+'</td></tr></tbody></table>'
+    +'<table class="totbox"><tr><td>Total HT</td><td class="r">'+Number(ht).toLocaleString('fr-FR')+'</td></tr><tr><td>TVA 20%</td><td class="r">'+Number(tva).toLocaleString('fr-FR')+'</td></tr><tr class="net"><td>Total net</td><td class="r">'+Number(ttc).toLocaleString('fr-FR')+'</td></tr></table>'
+    +'<div style="margin-top:14px">Arrête la présente facture à: <b>'+numEnLettres(Math.round(ttc))+', Ariary</b></div>'
+    +'<div style="text-align:right;margin-top:50px">Le dépositaire,<br><br><br>'+esc(cfg.depositaire)+'</div></body></html>';
+  var w=window.open('','_blank');w.document.open();w.document.write(html);w.document.close();
+}
 
-// =============== FACTURE ENTRE DATE ===============
+// ===================== FACTURE ENTRE DATE =====================
 function loadFactureDate(){
+  var today=todayStr();
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
-    +'<label style="font-size:12px">Du</label><input type="date" class="input" value="2026-07-01">'
-    +'<label style="font-size:12px">Au</label><input type="date" class="input" value="2026-07-05">'
-    +'<button class="btn btn-primary" onclick="showFactureMens()">🔍 Charger</button>'
-    +'<button class="btn btn-outline" onclick="imprimerFactureMensDemo()">📋 Imprimer Facture A4</button>'
-    +'</div><div class="card"><div id="fmTable"><div class="empty">Sélectionnez une période et cliquez Charger</div></div></div>';
+    +'<label style="font-size:12px">Du</label><input type="date" class="input" id="fdDeb" value="'+today.slice(0,8)+'01" style="width:auto">'
+    +'<label style="font-size:12px">Au</label><input type="date" class="input" id="fdFin" value="'+today+'" style="width:auto">'
+    +'<button class="btn btn-primary" onclick="showFD()">Charger</button>'
+    +'<button class="btn btn-outline" onclick="imprimerFM()">Imprimer A4</button>'
+    +'</div><div class="card"><div id="fmTable"><div class="empty">Cliquez Charger</div></div></div>';
+}
+function showFD(){
+  var deb=g('fdDeb'),fin=g('fdFin');
+  var data=DB.ordonnances().filter(function(o){return o.date_ord>=deb&&o.date_ord<=fin});
+  var el=document.getElementById('fmTable');
+  if(data.length===0){el.innerHTML='<div class="empty">Aucune ordonnance</div>';return}
+  var grouped=_groupFacture(data);var tot=data.reduce(function(s,o){return s+o.total},0);
+  el.innerHTML='<table><thead><tr><th>TYPE</th><th>FAMILLE</th><th>TRAVAILLEUR</th><th class="r">Nombre</th><th class="r">Montant HT</th></tr></thead><tbody>'
+    +grouped.map(function(g){return '<tr><td>'+esc(g.type)+'</td><td>'+esc(g.famille)+'</td><td>'+esc(g.travailleur)+'</td><td class="r">'+g.nombre+'</td><td class="r" style="font-weight:600">'+Number(g.total).toLocaleString('fr-FR')+'</td></tr>'}).join('')
+    +'<tr style="background:#4c1d95;color:#fff"><td colspan="3" style="font-weight:700">TOTAL</td><td class="r" style="font-weight:700">'+data.length+'</td><td class="r" style="font-weight:700">'+Number(tot).toLocaleString('fr-FR')+'</td></tr></tbody></table>';
 }
 
-// =============== CONTRÔLE MENSUEL ===============
+// ===================== CONTRÔLE MENSUEL =====================
 function loadEtatControle(){
+  var d=new Date();
+  var moisOpts='';for(var m=1;m<=12;m++)moisOpts+='<option value="'+m+'"'+(m===d.getMonth()+1?' selected':'')+'>'+['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][m]+'</option>';
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
-    +'<select class="input" id="ecType"><option value="">Tous types</option><option value="H">H - Horaire</option><option value="C">C - Cadre</option><option value="P">P - Permanent</option></select>'
-    +'<select class="input"><option>Juillet</option></select>'
-    +'<select class="input"><option>2026</option></select>'
-    +'<button class="btn btn-primary" onclick="showEtatControle()">🔍 Charger</button>'
-    +'<button class="btn btn-outline" onclick="imprimerEtatControleDemo()">📋 Imprimer A4</button>'
-    +'<div style="flex:1"></div><div id="ecStats" style="font-size:12px;color:var(--text3)"></div>'
-    +'</div><div class="card"><div id="ecTable"><div class="empty">Sélectionnez un mois et cliquez Charger</div></div></div>';
+    +'<select class="input" id="ecType" style="width:auto"><option value="">Tous</option><option value="H">H</option><option value="C">C</option><option value="P">P</option></select>'
+    +'<select class="input" id="ecMois" style="width:auto">'+moisOpts+'</select>'
+    +'<select class="input" id="ecAn" style="width:auto"><option>'+d.getFullYear()+'</option><option>'+(d.getFullYear()-1)+'</option></select>'
+    +'<button class="btn btn-primary" onclick="showEC()">Charger</button>'
+    +'<button class="btn btn-outline" onclick="imprimerEC()">Imprimer A4</button>'
+    +'</div><div class="card"><div id="ecTable"><div class="empty">Cliquez Charger</div></div></div>';
 }
-function showEtatControle(){
-  var typeF=document.getElementById('ecType')?document.getElementById('ecType').value:'';
-  var data=typeF?ORDONNANCES.filter(function(o){return o.type_trav===typeF}):ORDONNANCES;
-  var tot=data.reduce(function(s,o){return s+Number(o.total)},0);
-  document.getElementById('ecStats').innerHTML='Ordonnances : <b style="color:var(--primary)">'+data.length+'</b> • Total : <b style="color:#a855f7">'+money(tot)+'</b>';
-  var cumul=0;
-  var html='<table><thead><tr><th>SEC</th><th>MATR</th><th>NOM ET PRENOMS</th><th>N° PHAR</th><th>N° HÔP</th><th>DU</th><th class="r">FAMILLE</th><th class="r">TRAVAILLEUR</th><th class="r">TOTAL</th></tr></thead><tbody>';
-  data.forEach(function(o){
-    var mt=Number(o.total);cumul+=mt;
-    var isFam=o.nom_famille&&o.nom_famille.trim()!=='';
-    html+='<tr><td>'+esc(o.section_code||'')+'</td><td style="font-family:monospace">'+esc(o.matricule||'')+'</td>'
-      +'<td>'+esc(o.nom_prenom||'')+'</td>'
-      +'<td style="font-family:monospace;font-size:10px">'+esc(o.num_pharmacie||'')+'</td>'
-      +'<td style="font-family:monospace;font-size:10px">'+esc(o.num_hopital||'')+'</td>'
+function _getECData(){
+  var mois=Number(g('ecMois')),an=Number(g('ecAn')),typeF=g('ecType');
+  return DB.ordonnances().filter(function(o){var d=new Date(o.date_ord);return d.getMonth()+1===mois&&d.getFullYear()===an&&(!typeF||o.type_trav===typeF)});
+}
+function showEC(){
+  var data=_getECData();var el=document.getElementById('ecTable');
+  if(data.length===0){el.innerHTML='<div class="empty">Aucune ordonnance</div>';return}
+  var tot=data.reduce(function(s,o){return s+Number(o.total)},0);var cumul=0;
+  var html='<table><thead><tr><th>SEC</th><th>MATR</th><th>NOM</th><th>N°PH</th><th>N°HP</th><th>DU</th><th class="r">FAMILLE</th><th class="r">TRAVAILLEUR</th><th class="r">TOTAL</th></tr></thead><tbody>';
+  data.forEach(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.nom_famille&&o.nom_famille.trim()!=='';
+    html+='<tr><td>'+esc(o.section_code)+'</td><td style="font-family:monospace;font-size:11px">'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td>'
+      +'<td style="font-size:10px">'+esc(o.num_pharmacie)+'</td><td style="font-size:10px">'+esc(o.num_hopital)+'</td>'
       +'<td style="font-size:11px">'+new Date(o.date_ord).toLocaleDateString('fr-FR')+'</td>'
       +'<td class="r">'+(isFam?mt.toLocaleString('fr-FR'):'')+'</td>'
       +'<td class="r">'+(!isFam?mt.toLocaleString('fr-FR'):'')+'</td>'
-      +'<td class="r" style="font-weight:600">'+cumul.toLocaleString('fr-FR')+'</td></tr>';
-  });
-  html+='</tbody></table>'
-    +'<div style="margin-top:8px;font-size:12px"><b>EN LETTRE:</b> '+numEnLettres(Math.round(tot))+', Ariary</div>';
-  document.getElementById('ecTable').innerHTML=html;
+      +'<td class="r" style="font-weight:600">'+cumul.toLocaleString('fr-FR')+'</td></tr>'});
+  html+='</tbody></table><div style="margin-top:8px;font-size:12px"><b>EN LETTRE:</b> '+numEnLettres(Math.round(tot))+', Ariary</div>';
+  el.innerHTML=html;
+}
+function imprimerEC(){
+  var data=_getECData();if(data.length===0){toast('Chargez d\'abord','warn');return}
+  var cfg=DB.config();var tot=data.reduce(function(s,o){return s+Number(o.total)},0);var cumul=0;
+  var moisNom=['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][Number(g('ecMois'))];
+  var rows=data.map(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.nom_famille&&o.nom_famille.trim()!=='';
+    return '<tr><td>'+esc(o.section_code)+'</td><td>'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td><td>'+esc(o.num_pharmacie)+'</td><td>'+esc(o.num_hopital)+'</td><td>'+new Date(o.date_ord).toLocaleDateString('fr-FR')+'</td><td class="r">'+(isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+(!isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+cumul.toLocaleString('fr-FR')+'</td></tr>'}).join('');
+  var pd=new Date().toLocaleDateString('fr-FR');
+  var html='<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Contrôle '+moisNom+'</title><style>@page{size:A4 landscape;margin:8mm}body{font-family:Arial,sans-serif;color:#2244bb;font-size:9px;margin:8px}table{width:100%;border-collapse:collapse}th{border:1px solid #5577cc;padding:4px 5px;font-size:8px;text-align:center;background:#e8eef8}td{border:1px solid #5577cc;padding:3px 5px;font-size:8px}.r{text-align:right}</style></head><body>'
+    +'<div style="display:flex;justify-content:space-between;margin-bottom:10px"><div><b style="font-size:12px">DEPOT DE MEDICAMENTS<br>SALAMA</b></div><div style="text-align:center;flex:1"><div style="font-size:13px;font-weight:700">ETAT DE CONTRÔLES FRAIS PHARMACEUTIQUES</div><div style="font-size:11px">'+esc(moisNom)+' '+g('ecAn')+'</div></div><div style="text-align:right;font-size:10px">CE '+pd+'<br>Page 1</div></div>'
+    +'<table><thead><tr><th rowspan="2">SEC</th><th rowspan="2">MATR</th><th rowspan="2">NOM ET PRENOMS</th><th colspan="3">ORDONNANCE</th><th colspan="2">PATIENT</th><th rowspan="2">TOTAL</th></tr><tr><th>N° PHARMACIE</th><th>N° HÔPITAL</th><th>DU</th><th>FAMILLE</th><th>TRAVAILLEUR</th></tr></thead><tbody>'+rows+'</tbody></table>'
+    +'<div style="margin-top:8px;font-size:10px;font-weight:700">EN LETTRE: '+numEnLettres(Math.round(tot))+', Ariary</div>'
+    +'<div style="margin-top:6px;font-size:8px">Ankarana, le '+pd+'</div></body></html>';
+  var w=window.open('','_blank');w.document.open();w.document.write(html);w.document.close();
 }
 
-// =============== CONTRÔLE PAR JOUR ===============
+// ===================== CONTRÔLE PAR JOUR =====================
 function loadControleJour(){
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
-    +'<input type="date" class="input" id="cjDate" value="2026-07-05">'
-    +'<button class="btn btn-primary" onclick="showControleJour()">🔍 Charger</button>'
-    +'<button class="btn btn-outline" onclick="imprimerControleJourDemo()">📋 Imprimer A4</button>'
-    +'<div style="flex:1"></div><div id="cjStats" style="font-size:12px;color:var(--text3)"></div>'
-    +'</div><div class="card"><div id="cjTable"><div class="empty">Sélectionnez une date et cliquez Charger</div></div></div>';
+    +'<input type="date" class="input" id="cjDate" value="'+todayStr()+'" style="width:auto">'
+    +'<button class="btn btn-primary" onclick="showCJ()">Charger</button>'
+    +'<button class="btn btn-outline" onclick="imprimerCJ()">Imprimer A4</button>'
+    +'</div><div class="card"><div id="cjTable"><div class="empty">Cliquez Charger</div></div></div>';
 }
-function showControleJour(){
-  var dateVal=document.getElementById('cjDate').value;
-  var data=ORDONNANCES.filter(function(o){return o.date_ord===dateVal});
-  var tot=data.reduce(function(s,o){return s+Number(o.total)},0);
-  document.getElementById('cjStats').innerHTML='Ordonnances : <b style="color:var(--primary)">'+data.length+'</b> • Total : <b style="color:#a855f7">'+money(tot)+'</b>';
-  if(data.length===0){document.getElementById('cjTable').innerHTML='<div class="empty">Aucune ordonnance ce jour</div>';return}
-  var cumul=0;
-  var html='<table><thead><tr><th>SEC</th><th>MATR</th><th>NOM ET PRENOMS</th><th>N° PHAR</th><th>N° HÔP</th><th class="r">FAMILLE</th><th class="r">TRAVAILLEUR</th><th class="r">TOTAL</th></tr></thead><tbody>';
-  data.forEach(function(o){
-    var mt=Number(o.total);cumul+=mt;
-    var isFam=o.nom_famille&&o.nom_famille.trim()!=='';
-    html+='<tr><td>'+esc(o.section_code||'')+'</td><td style="font-family:monospace">'+esc(o.matricule||'')+'</td>'
-      +'<td>'+esc(o.nom_prenom||'')+'</td>'
-      +'<td style="font-family:monospace;font-size:10px">'+esc(o.num_pharmacie||'')+'</td>'
-      +'<td style="font-family:monospace;font-size:10px">'+esc(o.num_hopital||'')+'</td>'
-      +'<td class="r">'+(isFam?mt.toLocaleString('fr-FR'):'')+'</td>'
-      +'<td class="r">'+(!isFam?mt.toLocaleString('fr-FR'):'')+'</td>'
-      +'<td class="r" style="font-weight:600">'+cumul.toLocaleString('fr-FR')+'</td></tr>';
-  });
-  html+='<tr style="background:#4c1d95;color:#fff"><td colspan="7" style="text-align:right;font-weight:700">TOTAL</td><td class="r" style="font-weight:700">'+Number(tot).toLocaleString('fr-FR')+'</td></tr>';
-  html+='</tbody></table>'
-    +'<div style="margin-top:8px;font-size:12px"><b>EN LETTRE:</b> '+numEnLettres(Math.round(tot))+', Ariary</div>';
-  document.getElementById('cjTable').innerHTML=html;
+function showCJ(){
+  var dateVal=g('cjDate');var data=DB.ordonnances().filter(function(o){return o.date_ord===dateVal});
+  var el=document.getElementById('cjTable');
+  if(data.length===0){el.innerHTML='<div class="empty">Aucune ordonnance ce jour</div>';return}
+  var tot=data.reduce(function(s,o){return s+Number(o.total)},0);var cumul=0;
+  var html='<table><thead><tr><th>SEC</th><th>MATR</th><th>NOM</th><th>N°PH</th><th>N°HP</th><th class="r">FAMILLE</th><th class="r">TRAVAILLEUR</th><th class="r">TOTAL</th></tr></thead><tbody>';
+  data.forEach(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.nom_famille&&o.nom_famille.trim()!=='';
+    html+='<tr><td>'+esc(o.section_code)+'</td><td style="font-family:monospace;font-size:11px">'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td><td style="font-size:10px">'+esc(o.num_pharmacie)+'</td><td style="font-size:10px">'+esc(o.num_hopital)+'</td><td class="r">'+(isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+(!isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r" style="font-weight:600">'+cumul.toLocaleString('fr-FR')+'</td></tr>'});
+  html+='<tr style="background:#4c1d95;color:#fff"><td colspan="7" class="r" style="font-weight:700">TOTAL</td><td class="r" style="font-weight:700">'+Number(tot).toLocaleString('fr-FR')+'</td></tr></tbody></table><div style="margin-top:8px;font-size:12px"><b>EN LETTRE:</b> '+numEnLettres(Math.round(tot))+', Ariary</div>';
+  el.innerHTML=html;
+}
+function imprimerCJ(){
+  var dateVal=g('cjDate');var data=DB.ordonnances().filter(function(o){return o.date_ord===dateVal});
+  if(data.length===0){toast('Chargez d\'abord','warn');return}
+  var tot=data.reduce(function(s,o){return s+Number(o.total)},0);var cumul=0;
+  var dateAff=new Date(dateVal+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  var rows=data.map(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.nom_famille&&o.nom_famille.trim()!=='';return '<tr><td>'+esc(o.section_code)+'</td><td>'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td><td>'+esc(o.num_pharmacie)+'</td><td>'+esc(o.num_hopital)+'</td><td class="r">'+(isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+(!isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+cumul.toLocaleString('fr-FR')+'</td></tr>'}).join('');
+  var html='<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Contrôle '+dateAff+'</title><style>@page{size:A4 landscape;margin:8mm}body{font-family:Arial,sans-serif;color:#000;font-size:9px;margin:8px}table{width:100%;border-collapse:collapse}th{border:1px solid #000;padding:4px 5px;font-size:8px;text-align:center;background:#f0f0f0}td{border:1px solid #000;padding:3px 5px;font-size:8px}.r{text-align:right}.grand td{font-weight:700;background:#ddd;font-size:9px}</style></head><body>'
+    +'<div style="display:flex;justify-content:space-between;margin-bottom:10px"><div><b style="font-size:12px">DEPOT DE MEDICAMENTS<br>SALAMA</b><br>Ankarana - SIRANA</div><div style="text-align:right;font-size:12px;font-weight:700">FACTURATION JOURNALIÈRE<br>'+dateAff+'</div></div>'
+    +'<table><thead><tr><th>SEC</th><th>MATR</th><th>NOM ET PRENOMS</th><th>N° PHAR</th><th>N° HÔP</th><th>FAMILLE</th><th>TRAVAILLEUR</th><th>TOTAL</th></tr></thead><tbody>'+rows+'<tr class="grand"><td colspan="7" class="r">T =</td><td class="r">'+Number(tot).toLocaleString('fr-FR')+' Ariary</td></tr></tbody></table>'
+    +'<div style="font-style:italic;color:#1565c0;font-size:11px;margin-top:10px">'+numEnLettres(Math.round(tot))+' Ariary</div></body></html>';
+  var w=window.open('','_blank');w.document.open();w.document.write(html);w.document.close();
 }
 
-// =============== ÉTAT DE STOCKS ===============
+// ===================== ÉTAT DE STOCKS =====================
 function loadEtatStockSoc(){
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
-    +'<input type="date" class="input" value="2026-07-05">'
-    +'<button class="btn btn-primary" onclick="showEtatStock()">🔍 Charger</button>'
-    +'<button class="btn btn-outline" onclick="toast(\'Impression dans l\\\'app complète\',\'info\')">📦 Imprimer A4</button>'
-    +'</div><div class="card"><div id="lsTable"><div class="empty">Sélectionnez une date et cliquez Charger</div></div></div>';
+    +'<button class="btn btn-primary" onclick="showLS()">Charger état actuel</button>'
+    +'</div><div class="card"><div id="lsTable"><div class="empty">Cliquez Charger</div></div></div>';
 }
-function showEtatStock(){
-  var html='<table><thead><tr><th>REF</th><th>PRODUIT</th><th class="r">QUANTITÉ ENTRÉE</th><th class="r">SORTIE</th><th class="r">STOCKS DISPO</th><th>OBSERVATION</th></tr></thead><tbody>';
-  PRODUITS.forEach(function(p){
-    var entree=p.stock+Math.floor(Math.random()*30);
-    var sortie=entree-p.stock;
-    var obs='';var obsColor='';
-    if(p.stock<=0){obs='Rupture';obsColor='#d32f2f'}
-    else if(p.stock<=p.seuil_alerte){obs='Alerte';obsColor='#e65100'}
-    html+='<tr><td style="font-family:monospace;font-size:11px">'+esc(p.reference)+'</td>'
-      +'<td>'+esc(p.designation)+'</td>'
-      +'<td class="r">'+entree.toLocaleString('fr-FR')+'</td>'
-      +'<td class="r">'+sortie.toLocaleString('fr-FR')+'</td>'
-      +'<td class="r" style="font-weight:600">'+p.stock.toLocaleString('fr-FR')+'</td>'
-      +'<td style="color:'+obsColor+';font-weight:600">'+obs+'</td></tr>';
-  });
+function showLS(){
+  var prods=DB.produits().filter(function(p){return p.actif});
+  var mvs=DB.mouvements();
+  var html='<table><thead><tr><th>REF</th><th>PRODUIT</th><th class="r">ENTRÉES</th><th class="r">SORTIES</th><th class="r">STOCK</th><th>OBS</th></tr></thead><tbody>';
+  prods.forEach(function(p){
+    var entrees=mvs.filter(function(m){return m.produit_id===p.id&&m.type==='entree'}).reduce(function(s,m){return s+m.quantite},0);
+    var obs='';var oc='';if(p.stock<=0){obs='Rupture';oc='#d32f2f'}else if(p.stock<=p.seuil_alerte){obs='Alerte';oc='#e65100'}
+    html+='<tr><td style="font-family:monospace;font-size:11px">'+esc(p.reference)+'</td><td>'+esc(p.designation)+'</td><td class="r">'+entrees+'</td><td class="r">—</td><td class="r" style="font-weight:600">'+p.stock+'</td><td style="color:'+oc+';font-weight:600">'+obs+'</td></tr>'});
   html+='</tbody></table>';
   document.getElementById('lsTable').innerHTML=html;
 }
 
-// =============== PARAMÈTRES ===============
+// ===================== PARAMÈTRES =====================
 function loadParametres(){
+  var c=DB.config();
   document.getElementById('content').innerHTML=
-    '<div class="card"><h3>⚙ Configuration du dépôt</h3>'
-    +'<div class="form-grid">'
-    +'<div class="fg"><label>Nom du dépôt</label><input class="input" value="'+esc(CONFIG.nom)+'"></div>'
-    +'<div class="fg"><label>Dépositaire</label><input class="input" value="'+esc(CONFIG.depositaire)+'"></div>'
-    +'<div class="fg"><label>Adresse</label><input class="input" value="'+esc(CONFIG.adresse)+'"></div>'
-    +'<div class="fg"><label>Téléphone</label><input class="input" value="'+esc(CONFIG.tel)+'"></div>'
-    +'<div class="fg"><label>N° STAT</label><input class="input" value="'+esc(CONFIG.stat)+'"></div>'
-    +'<div class="fg"><label>NIF</label><input class="input" value="'+esc(CONFIG.nif)+'"></div>'
-    +'<div class="fg"><label>CMS</label><input class="input" value="'+esc(CONFIG.cms)+'"></div>'
-    +'</div><div style="text-align:right"><button class="btn btn-primary" onclick="toast(\'Configuration sauvegardée (démo)\',\'ok\')">Enregistrer</button></div></div>'
-    +'<div class="card"><h3>👤 Gestion des utilisateurs</h3>'
-    +'<table><thead><tr><th>Nom</th><th>Login</th><th>Rôle</th><th>Statut</th></tr></thead><tbody>'
-    +'<tr><td>Administrateur</td><td style="font-family:monospace">admin</td><td><span class="badge b-g">admin</span></td><td><span class="badge b-g">Actif</span></td></tr>'
-    +'<tr><td>Caissier 1</td><td style="font-family:monospace">caisse1</td><td><span class="badge b-y">caissier</span></td><td><span class="badge b-g">Actif</span></td></tr>'
-    +'</tbody></table></div>';
+    '<div class="card"><h3>Configuration du dépôt</h3><div class="form-grid">'
+    +'<div class="fg"><label>Nom</label><input id="cf_nom" class="input" value="'+esc(c.nom)+'"></div>'
+    +'<div class="fg"><label>Dépositaire</label><input id="cf_dep" class="input" value="'+esc(c.depositaire)+'"></div>'
+    +'<div class="fg"><label>Adresse</label><input id="cf_adr" class="input" value="'+esc(c.adresse)+'"></div>'
+    +'<div class="fg"><label>Téléphone</label><input id="cf_tel" class="input" value="'+esc(c.tel)+'"></div>'
+    +'<div class="fg"><label>N° STAT</label><input id="cf_stat" class="input" value="'+esc(c.stat)+'"></div>'
+    +'<div class="fg"><label>NIF</label><input id="cf_nif" class="input" value="'+esc(c.nif)+'"></div>'
+    +'<div class="fg"><label>CMS</label><input id="cf_cms" class="input" value="'+esc(c.cms)+'"></div>'
+    +'</div><div style="text-align:right"><button class="btn btn-primary" onclick="saveConfig()">Enregistrer</button></div></div>'
+    +'<div class="card"><button class="btn btn-danger" onclick="if(confirm(\'Réinitialiser toutes les données ?\')){localStorage.clear();location.reload()}">Réinitialiser les données</button></div>';
+}
+function saveConfig(){
+  DB.saveConfig({nom:g('cf_nom'),depositaire:g('cf_dep'),adresse:g('cf_adr'),tel:g('cf_tel'),stat:g('cf_stat'),nif:g('cf_nif'),cms:g('cf_cms')});
+  toast('Configuration sauvegardée','ok');
 }
 
-// =============== IMPRESSION DÉMO ===============
-function demoFacture(id){
-  var v=VENTES_CIVIL.find(function(x){return x.id===id});if(!v)return;
-  var d=new Date(v.date);var ttc=v.total;var ht=Math.round(ttc/1.2);var tva=ttc-ht;
-  var lignes=v.lignes.map(function(l,i){return '<tr><td>'+(i+1)+'</td><td>'+esc(l.designation)+'</td><td class="c">'+l.quantite+'</td><td class="r">'+Number(l.prix_unitaire).toLocaleString('fr-FR')+'</td><td class="r">'+Number(l.montant).toLocaleString('fr-FR')+'</td></tr>'}).join('');
-  var html='<!doctype html><html><head><meta charset="utf-8"><title>Facture '+esc(v.numero)+'</title>'
-    +'<style>@page{size:A4;margin:15mm}body{font-family:"Segoe UI",Arial,sans-serif;color:#111;font-size:12px;margin:0}'
-    +'.h{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #10b981;padding-bottom:10px;margin-bottom:14px}'
-    +'.h .nom{font-size:22px;font-weight:800;color:#10b981}.h .sub{font-size:11px;color:#555;margin-top:2px}.h .fisc{font-size:10px;color:#666;margin-top:6px;line-height:1.4}'
-    +'.h-r{text-align:right}.fac-num{font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px}.fac-num b{display:block;font-size:16px;color:#111;letter-spacing:0}'
-    +'.doit{margin:20px 0;padding:10px 14px;background:#f1f5f9;border-left:4px solid #10b981}.doit .lbl{font-size:10px;color:#666;text-transform:uppercase;letter-spacing:1px}.doit .cli{font-size:14px;font-weight:700}'
-    +'table{width:100%;border-collapse:collapse;margin-top:10px}th{background:#0f1d32;color:#fff;padding:8px 10px;text-align:left;font-size:11px}td{padding:8px 10px;border-bottom:1px solid #e5e7eb}'
-    +'.c{text-align:center}.r{text-align:right}'
-    +'.tots{display:flex;justify-content:flex-end;margin-top:14px}.tots table{width:270px}.tots td{padding:6px 10px;border:none}.tots tr.ttc td{background:#10b981;color:#fff;font-weight:700;font-size:15px}'
-    +'.enlettres{margin-top:14px;font-size:11px;font-style:italic;padding:8px 10px;background:#f8fafc;border-radius:4px}'
-    +'@media screen{body{max-width:210mm;margin:14px auto;padding:15mm;background:#fff;box-shadow:0 0 20px rgba(0,0,0,.15)}}'
-    +'</style></head><body>'
-    +'<div class="h"><div><div style="font-size:10px;color:#10b981;letter-spacing:3px;text-transform:uppercase">Dépôt de médicaments</div><div class="nom">SALAMA</div>'
-    +'<div class="sub">Dépositaire : '+esc(CONFIG.depositaire)+'</div><div class="sub">'+esc(CONFIG.adresse)+' • '+esc(CONFIG.tel)+'</div>'
-    +'<div class="fisc">N° STAT : '+esc(CONFIG.stat)+'<br>NIF : '+esc(CONFIG.nif)+'<br>CMS : '+esc(CONFIG.cms)+'</div></div>'
-    +'<div class="h-r"><div class="fac-num">Facture N°<b>'+esc(v.numero)+'</b></div>'
-    +'<div style="margin-top:8px;font-size:11px;color:#666">Date : <b style="color:#111">'+d.toLocaleDateString('fr-FR')+'</b></div>'
-    +'<div style="font-size:11px;color:#666">Heure : '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+'</div></div></div>'
-    +'<div class="doit"><div class="lbl">Doit</div><div class="cli">Client de passage</div></div>'
-    +'<table><thead><tr><th style="width:40px">#</th><th>Désignation</th><th class="c" style="width:60px">Qté</th><th class="r" style="width:110px">Prix unitaire</th><th class="r" style="width:130px">Montant</th></tr></thead><tbody>'+lignes+'</tbody></table>'
-    +'<div class="tots"><table><tr><td>Total HT</td><td class="r">'+ht.toLocaleString('fr-FR')+' Ar</td></tr>'
-    +'<tr><td>TVA 20%</td><td class="r">'+tva.toLocaleString('fr-FR')+' Ar</td></tr>'
-    +'<tr class="ttc"><td>TOTAL TTC</td><td class="r">'+ttc.toLocaleString('fr-FR')+' Ar</td></tr></table></div>'
-    +'<div class="enlettres">Arrêtée la présente facture à la somme de <b>'+numEnLettres(ttc)+' Ariary</b>.</div>'
-    +'</body></html>';
-  var w=window.open('','_blank','width=900,height=1000');w.document.open();w.document.write(html);w.document.close();
-}
-
-function imprimerEtatControleDemo(){
-  var typeF=document.getElementById('ecType')?document.getElementById('ecType').value:'';
-  var data=typeF?ORDONNANCES.filter(function(o){return o.type_trav===typeF}):ORDONNANCES;
-  if(data.length===0){toast('Chargez d\'abord les données','warn');return}
-  var tot=data.reduce(function(s,o){return s+Number(o.total)},0);
-  var cumul=0;
-  var rows=data.map(function(o){
-    var mt=Number(o.total);cumul+=mt;
-    var isFam=o.nom_famille&&o.nom_famille.trim()!=='';
-    return '<tr><td>'+esc(o.section_code)+'</td><td>'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td>'
-      +'<td>'+esc(o.num_pharmacie)+'</td><td>'+esc(o.num_hopital)+'</td>'
-      +'<td>'+new Date(o.date_ord).toLocaleDateString('fr-FR')+'</td>'
-      +'<td class="r">'+(isFam?mt.toLocaleString('fr-FR'):'')+'</td>'
-      +'<td class="r">'+(!isFam?mt.toLocaleString('fr-FR'):'')+'</td>'
-      +'<td class="r">'+cumul.toLocaleString('fr-FR')+'</td></tr>';
-  }).join('');
-  var pageDate=new Date().toLocaleDateString('fr-FR');
-  var html='<!doctype html><html><head><meta charset="utf-8"><title>Contrôle mensuel Juillet 2026</title>'
-    +'<style>@page{size:A4 landscape;margin:8mm}body{font-family:"Segoe UI",Arial,sans-serif;color:#2244bb;font-size:9px;margin:0}'
-    +'.header{display:flex;justify-content:space-between;margin-bottom:10px}'
-    +'.left{font-size:9px;line-height:1.4}.left b{font-size:12px}'
-    +'.right{text-align:right;font-size:10px}'
-    +'.title-center{text-align:center;font-size:13px;font-weight:700;margin-bottom:4px}'
-    +'.sub-center{text-align:center;font-size:11px;margin-bottom:8px}'
-    +'table{width:100%;border-collapse:collapse}'
-    +'th{border:1px solid #5577cc;padding:4px 5px;font-size:8px;text-align:center;background:#e8eef8}'
-    +'td{border:1px solid #5577cc;padding:3px 5px;font-size:8px}'
-    +'.r{text-align:right}'
-    +'.lettre{margin-top:8px;font-size:10px;font-weight:700}'
-    +'.foot{margin-top:6px;font-size:8px}'
-    +'@media screen{body{margin:10px auto;padding:8mm;max-width:297mm;background:#fff;box-shadow:0 0 20px rgba(0,0,0,.15)}}'
-    +'</style></head><body>'
-    +'<div class="header"><div class="left"><b>DEPOT DE MEDICAMENTS<br>SALAMA</b></div>'
-    +'<div style="text-align:center;flex:1"><div class="title-center">ETAT DE CONTRÔLES FRAIS PHARMACEUTIQUES</div><div class="sub-center">Juillet 2026</div></div>'
-    +'<div class="right">CE '+pageDate+'<br>Page 1</div></div>'
-    +'<table><thead><tr><th rowspan="2">SEC</th><th rowspan="2">MATR</th><th rowspan="2">NOM ET PRENOMS</th><th colspan="3">ORDONNANCE</th><th colspan="2">PATIENT</th><th rowspan="2">TOTAL</th></tr>'
-    +'<tr><th>N° PHARMACIE</th><th>N° HÔPITAL</th><th>DU</th><th>FAMILLE</th><th>TRAVAILLEUR</th></tr></thead><tbody>'
-    +rows+'</tbody></table>'
-    +'<div class="lettre">EN LETTRE: '+numEnLettres(Math.round(tot))+', Ariary</div>'
-    +'<div class="foot">Ankarana, le '+pageDate+'</div>'
-    +'</body></html>';
-  var w=window.open('','_blank','width=1100,height=800');w.document.open();w.document.write(html);w.document.close();
-}
-
-function imprimerControleJourDemo(){
-  var dateVal=document.getElementById('cjDate')?document.getElementById('cjDate').value:'2026-07-05';
-  var data=ORDONNANCES.filter(function(o){return o.date_ord===dateVal});
-  if(data.length===0){toast('Chargez d\'abord les données','warn');return}
-  var tot=data.reduce(function(s,o){return s+Number(o.total)},0);
-  var cumul=0;
-  var rows=data.map(function(o){
-    var mt=Number(o.total);cumul+=mt;
-    var isFam=o.nom_famille&&o.nom_famille.trim()!=='';
-    return '<tr><td>'+esc(o.section_code)+'</td><td>'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td>'
-      +'<td>'+esc(o.num_pharmacie)+'</td><td>'+esc(o.num_hopital)+'</td>'
-      +'<td class="r">'+(isFam?mt.toLocaleString('fr-FR'):'')+'</td>'
-      +'<td class="r">'+(!isFam?mt.toLocaleString('fr-FR'):'')+'</td>'
-      +'<td class="r">'+cumul.toLocaleString('fr-FR')+'</td></tr>';
-  }).join('');
-  var dateAff=new Date(dateVal+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
-  var html='<!doctype html><html><head><meta charset="utf-8"><title>Contrôle du '+dateAff+'</title>'
-    +'<style>@page{size:A4 landscape;margin:8mm}body{font-family:"Segoe UI",Arial,sans-serif;color:#000;font-size:9px;margin:0}'
-    +'.header{display:flex;justify-content:space-between;margin-bottom:10px}.left{font-size:9px;line-height:1.4}.left b{font-size:12px}'
-    +'.right{text-align:right;font-size:12px;font-weight:700}'
-    +'table{width:100%;border-collapse:collapse}th{border:1px solid #000;padding:4px 5px;font-size:8px;text-align:center;background:#f0f0f0}'
-    +'td{border:1px solid #000;padding:3px 5px;font-size:8px}.r{text-align:right}'
-    +'.grand td{font-weight:700;background:#ddd;font-size:9px}'
-    +'.lettre{font-style:italic;color:#1565c0;font-size:11px}'
-    +'@media screen{body{margin:10px auto;padding:8mm;max-width:297mm;background:#fff;box-shadow:0 0 20px rgba(0,0,0,.15)}}'
-    +'</style></head><body>'
-    +'<div class="header"><div class="left"><b>DEPOT DE MEDICAMENTS<br>SALAMA</b><br>Ankarana - SIRANA</div>'
-    +'<div class="right">FACTURATION JOURNALIÈRE<br>'+dateAff+'</div></div>'
-    +'<table><thead><tr><th>SEC</th><th>MATR</th><th>NOM ET PRENOMS</th><th>N° PHAR</th><th>N° HÔP</th><th>FAMILLE</th><th>TRAVAILLEUR</th><th>TOTAL</th></tr></thead><tbody>'
-    +rows
-    +'<tr class="grand"><td colspan="7" class="r">T =</td><td class="r">'+Number(tot).toLocaleString('fr-FR')+' Ariary</td></tr>'
-    +'</tbody></table>'
-    +'<div class="lettre" style="margin-top:10px">'+numEnLettres(Math.round(tot))+' Ariary</div>'
-    +'<div style="margin-top:6px;font-size:8px;color:#555">Ankarana, le '+new Date().toLocaleDateString('fr-FR')+'</div>'
-    +'</body></html>';
-  var w=window.open('','_blank','width=1100,height=800');w.document.open();w.document.write(html);w.document.close();
-}
-
-function imprimerFactureMensDemo(){
-  var grouped=_groupFacture(ORDONNANCES);
-  var tot=ORDONNANCES.reduce(function(s,o){return s+o.total},0);
-  var ht=tot;var tva=Math.round(ht*0.2);var ttc=ht+tva;
-  var rows=grouped.map(function(g){return '<tr><td>'+esc(g.type)+'</td><td>'+esc(g.famille)+'</td><td>'+esc(g.travailleur)+'</td><td class="r">'+g.nombre+'</td><td class="r">'+Number(g.total).toLocaleString('fr-FR')+'</td></tr>'}).join('');
-  var html='<!doctype html><html><head><meta charset="utf-8"><title>Facture Juillet 2026</title>'
-    +'<style>@page{size:A4;margin:12mm}body{font-family:"Segoe UI",Arial,sans-serif;color:#000;font-size:11px;margin:0}'
-    +'.header{display:flex;justify-content:space-between;margin-bottom:16px}.left{font-size:10px;line-height:1.5}.left b{font-size:14px}'
-    +'.right{text-align:right;font-size:11px}.logo{text-align:center;color:#2e7d32;font-size:28px;font-weight:900}'
-    +'table{width:100%;border-collapse:collapse;margin:10px 0}th,td{border:1px solid #000;padding:5px 8px;font-size:10px}th{background:#f0f0f0;text-align:center;font-weight:700}.r{text-align:right}'
-    +'.totbox{width:250px;margin-left:auto;margin-top:8px}.totbox td{font-size:10px;padding:3px 8px}.totbox .net{font-weight:700;background:#f0f0f0}'
-    +'.lettre{margin-top:14px;font-size:11px}.sig{text-align:right;margin-top:50px;font-size:11px}'
-    +'@media screen{body{max-width:210mm;margin:14px auto;padding:12mm;background:#fff;box-shadow:0 0 20px rgba(0,0,0,.15)}}'
-    +'</style></head><body>'
-    +'<div class="header"><div class="left"><b>DEPOT DE MEDICAMENTS<br>SALAMA</b><br>'+esc(CONFIG.depositaire)+'<br>Ankarana - SIRANA<br>N°STAT : '+esc(CONFIG.stat)+'<br>NIF : '+esc(CONFIG.nif)+'<br>CMS : '+esc(CONFIG.cms)+'</div>'
-    +'<div class="logo">✚</div>'
-    +'<div class="right">Ankarana, le '+new Date().toLocaleDateString('fr-FR')+'<br><br><b>#Fact</b><br>Doit: Société<br>Ankarana-AMBILOBE</div></div>'
-    +'<table><thead><tr><th>TYPE</th><th>FAMILLE</th><th>TRAVAILLEUR</th><th>Nombre</th><th>Montant hors Taxe<br>(en Ariary)</th></tr></thead><tbody>'
-    +rows
-    +'<tr style="font-weight:700"><td colspan="3">T O T A L</td><td class="r">'+ORDONNANCES.length+'</td><td class="r">'+Number(ht).toLocaleString('fr-FR')+'</td></tr></tbody></table>'
-    +'<table class="totbox"><tr><td>Total hors taxe</td><td class="r">'+Number(ht).toLocaleString('fr-FR')+'</td></tr>'
-    +'<tr><td>T.V.A 20%</td><td class="r">'+Number(tva).toLocaleString('fr-FR')+'</td></tr>'
-    +'<tr class="net"><td>Total net à payer</td><td class="r">'+Number(ttc).toLocaleString('fr-FR')+'</td></tr></table>'
-    +'<div class="lettre">Arrête la présente facture à la somme de: <b>'+numEnLettres(Math.round(ttc))+', Ariary</b></div>'
-    +'<div class="sig">Le dépositaire,<br><br><br>'+esc(CONFIG.depositaire)+'</div>'
-    +'</body></html>';
-  var w=window.open('','_blank','width=900,height=1000');w.document.open();w.document.write(html);w.document.close();
-}
+// ===================== INIT =====================
+initDB();
 </script>
 </body>
 </html>

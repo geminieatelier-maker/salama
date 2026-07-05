@@ -269,6 +269,7 @@ var MENU=[
   {sec:'VENTES'},
   {id:'Caisse',label:'Vente Civil (caisse)'},
   {id:'Historique',label:'Historique ventes'},
+  {id:'RapportZ',label:'Rapport Z (caisse)'},
   {sec:'SOCIÉTÉ'},
   {id:'Travailleurs',label:'Sociétés & Travailleurs'},
   {id:'VenteSociete',label:'Vente Société'},
@@ -288,9 +289,9 @@ function toggleSidebar(){document.getElementById('sidebar').classList.toggle('op
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('open')}
 function renderNav(){document.getElementById('nav').innerHTML=MENU.map(function(m){if(m.sec)return '<div class="nav-sec">'+m.sec+'</div>';return '<button class="nav-item" data-id="'+m.id+'" onclick="go(\''+m.id+'\')">'+m.label+'</button>'}).join('')}
 function go(id){CP=id;closeSidebar();document.querySelectorAll('.nav-item').forEach(function(b){b.classList.toggle('active',b.dataset.id===id)});
-  var t={Dashboard:'Tableau de bord',Produits:'Produits',Entrees:'Entrées de stock',Caisse:'Vente Civil (caisse)',Historique:'Historique ventes',Travailleurs:'Sociétés & Travailleurs',VenteSociete:'Vente Société',HistOrd:'Historique ordonnances',FactureMens:'Facture mensuel',FactureDate:'Facture entre date',EtatControle:'Contrôle mensuel',ControleJour:'Contrôle par jour',EtatStockSoc:'État de stocks',Parametres:'Paramètres'};
+  var t={Dashboard:'Tableau de bord',Produits:'Produits',Entrees:'Entrées de stock',Caisse:'Vente Civil (caisse)',Historique:'Historique ventes',RapportZ:'Rapport Z (caisse)',Travailleurs:'Sociétés & Travailleurs',VenteSociete:'Vente Société',HistOrd:'Historique ordonnances',FactureMens:'Facture mensuel',FactureDate:'Facture entre date',EtatControle:'Contrôle mensuel',ControleJour:'Contrôle par jour',EtatStockSoc:'État de stocks',Parametres:'Paramètres'};
   document.getElementById('pageTitle').textContent=t[id]||id;
-  var fn={Dashboard:loadDashboard,Produits:loadProduits,Entrees:loadEntrees,Caisse:loadCaisse,Historique:loadHistorique,Travailleurs:loadTravailleurs,VenteSociete:loadVenteSociete,HistOrd:loadHistOrd,FactureMens:loadFactureMens,FactureDate:loadFactureDate,EtatControle:loadEtatControle,ControleJour:loadControleJour,EtatStockSoc:loadEtatStockSoc,Parametres:loadParametres};
+  var fn={Dashboard:loadDashboard,Produits:loadProduits,Entrees:loadEntrees,Caisse:loadCaisse,Historique:loadHistorique,RapportZ:loadRapportZ,Travailleurs:loadTravailleurs,VenteSociete:loadVenteSociete,HistOrd:loadHistOrd,FactureMens:loadFactureMens,FactureDate:loadFactureDate,EtatControle:loadEtatControle,ControleJour:loadControleJour,EtatStockSoc:loadEtatStockSoc,Parametres:loadParametres};
   if(fn[id])fn[id]();
 }
 function showModal(title,body,onOk){var bg=document.createElement('div');bg.className='modal-bg';bg.id='modalBg';bg.innerHTML='<div class="modal"><h3>'+title+'</h3><div>'+body+'</div><div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Annuler</button><button class="btn btn-primary" id="modalOk">Enregistrer</button></div></div>';document.body.appendChild(bg);document.getElementById('modalOk').onclick=onOk;bg.onclick=function(e){if(e.target===bg)closeModal()}}
@@ -425,7 +426,51 @@ function validerVente(){
   var num='VC-'+todayStr().replace(/-/g,'')+'-'+String(vid).padStart(3,'0');
   ventes.push({id:vid,numero:num,date:nowStr(),total:total,lignes:lignes});
   DB.saveVentesCivil(ventes);
-  _cart=[];toast('Vente '+num+' enregistrée — '+money(total),'ok');loadCaisse();
+  _cart=[];toast('Vente '+num+' enregistrée — '+money(total),'ok');
+  imprimerTicket({numero:num,date:nowStr(),total:total,lignes:lignes});
+  loadCaisse();
+}
+function imprimerTicket(v){
+  var cfg=DB.config();
+  var head=cfg.nom||'DEPOT DE MEDICAMENTS SALAMA';
+  var sub=[cfg.adresse,cfg.tel].filter(Boolean).join(' • ');
+  var fisc=[cfg.stat&&('STAT: '+cfg.stat),cfg.nif&&('NIF: '+cfg.nif),cfg.cms&&('CMS: '+cfg.cms)].filter(Boolean).join(' • ');
+  var d=new Date(v.date);
+  var dstr=d.toLocaleDateString('fr-FR')+' '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  var lignesHTML=v.lignes.map(function(l){
+    return '<div class="l"><div class="d">'+esc(l.designation)+'</div>'
+      +'<div class="q">'+l.quantite+' x '+Number(l.prix_unitaire).toLocaleString('fr-FR')+'</div>'
+      +'<div class="m">'+Number(l.montant).toLocaleString('fr-FR')+'</div></div>';
+  }).join('');
+  var html='<!doctype html><html><head><meta charset="utf-8"><title>Ticket '+esc(v.numero)+'</title>'
+    +'<style>'
+    +'@page{size:80mm auto;margin:0}'
+    +'body{width:76mm;margin:0 auto;padding:6mm 2mm;font-family:"Courier New",monospace;color:#000;font-size:12px;line-height:1.35}'
+    +'.c{text-align:center}.b{font-weight:700}.big{font-size:15px}.hr{border-top:1px dashed #000;margin:6px 0}'
+    +'.l{display:flex;justify-content:space-between;gap:6px;margin:2px 0}'
+    +'.l .d{flex:1;font-size:12px}.l .q{font-size:10px;color:#333;min-width:70px;text-align:right}'
+    +'.l .m{min-width:60px;text-align:right;font-weight:600}'
+    +'.tot{display:flex;justify-content:space-between;font-size:14px;font-weight:700;margin:6px 0}'
+    +'.row{display:flex;justify-content:space-between;margin:2px 0}'
+    +'.foot{text-align:center;font-size:11px;margin-top:10px}'
+    +'@media screen{body{background:#fff;box-shadow:0 0 12px rgba(0,0,0,.15);margin:14px auto}}'
+    +'</style></head><body>'
+    +'<div class="c b big">'+esc(head)+'</div>'
+    +(sub?'<div class="c" style="font-size:10px">'+esc(sub)+'</div>':'')
+    +(fisc?'<div class="c" style="font-size:10px">'+esc(fisc)+'</div>':'')
+    +'<div class="hr"></div>'
+    +'<div class="row"><span>N°</span><span class="b">'+esc(v.numero)+'</span></div>'
+    +'<div class="row"><span>Date</span><span>'+dstr+'</span></div>'
+    +'<div class="hr"></div>'
+    +lignesHTML
+    +'<div class="hr"></div>'
+    +'<div class="tot"><span>TOTAL</span><span>'+Number(v.total).toLocaleString('fr-FR')+' Ar</span></div>'
+    +'<div class="hr"></div>'
+    +'<div class="foot">Merci de votre visite<br>SALAMA — Bonne santé</div>'
+    +'<script>window.onload=function(){setTimeout(function(){window.print()},250)}<\/script>'
+    +'</body></html>';
+  var w=window.open('','_blank','width=380,height=640');
+  w.document.open();w.document.write(html);w.document.close();
 }
 
 // ===================== HISTORIQUE VENTES =====================
@@ -692,6 +737,74 @@ function showLS(){
     html+='<tr><td style="font-family:monospace;font-size:11px">'+esc(p.reference)+'</td><td>'+esc(p.designation)+'</td><td class="r">'+entrees+'</td><td class="r">—</td><td class="r" style="font-weight:600">'+p.stock+'</td><td style="color:'+oc+';font-weight:600">'+obs+'</td></tr>'});
   html+='</tbody></table>';
   document.getElementById('lsTable').innerHTML=html;
+}
+
+// ===================== RAPPORT Z =====================
+var _zPeriode='today';
+function loadRapportZ(){
+  var ventes=DB.ventesCivil();var today=todayStr();
+  var filtered;
+  if(_zPeriode==='today')filtered=ventes.filter(function(v){return v.date.slice(0,10)===today});
+  else if(_zPeriode==='hier'){var h=new Date();h.setDate(h.getDate()-1);var hs=h.toISOString().slice(0,10);filtered=ventes.filter(function(v){return v.date.slice(0,10)===hs})}
+  else if(_zPeriode==='7j'){var d7=new Date();d7.setDate(d7.getDate()-7);var s7=d7.toISOString().slice(0,10);filtered=ventes.filter(function(v){return v.date.slice(0,10)>=s7})}
+  else{var d30=new Date();d30.setDate(d30.getDate()-30);var s30=d30.toISOString().slice(0,10);filtered=ventes.filter(function(v){return v.date.slice(0,10)>=s30})}
+  var nb=filtered.length;var tot=filtered.reduce(function(s,v){return s+v.total},0);
+  var topMap={};filtered.forEach(function(v){v.lignes.forEach(function(l){var k=l.designation;if(!topMap[k])topMap[k]={designation:k,qte:0,montant:0};topMap[k].qte+=l.quantite;topMap[k].montant+=l.montant})});
+  var top=Object.values(topMap).sort(function(a,b){return b.montant-a.montant}).slice(0,10);
+  var btns=['today','hier','7j','30j'];var lbls={today:"Aujourd'hui",hier:'Hier','7j':'7 jours','30j':'30 jours'};
+  document.getElementById('content').innerHTML=
+    '<div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">'
+    +btns.map(function(b){return '<button class="btn '+(_zPeriode===b?'btn-primary':'btn-outline')+'" onclick="_zPeriode=\''+b+'\';loadRapportZ()">'+lbls[b]+'</button>'}).join('')
+    +'<div style="flex:1"></div><button class="btn btn-outline" onclick="imprimerRapportZ()">Imprimer</button></div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">'
+    +'<div class="card" style="text-align:center"><div style="font-size:12px;color:var(--text3)">Nombre de ventes</div><div style="font-size:28px;font-weight:800;color:var(--primary)">'+nb+'</div></div>'
+    +'<div class="card" style="text-align:center"><div style="font-size:12px;color:var(--text3)">Chiffre d\'affaires</div><div style="font-size:28px;font-weight:800;color:#3b82f6">'+money(tot)+'</div></div></div>'
+    +'<div class="card"><h3>Top 10 médicaments vendus</h3>'
+    +(top.length===0?'<div class="empty">Aucune vente</div>':
+      '<table><thead><tr><th>#</th><th>Médicament</th><th class="r">Qté</th><th class="r">Total</th></tr></thead><tbody>'
+      +top.map(function(t,i){return '<tr><td style="color:var(--primary);font-weight:600">'+(i+1)+'</td><td>'+esc(t.designation)+'</td><td class="r">'+t.qte+'</td><td class="r" style="font-weight:600">'+money(t.montant)+'</td></tr>'}).join('')
+      +'</tbody></table>')+'</div>';
+}
+function imprimerRapportZ(){
+  var cfg=DB.config();var ventes=DB.ventesCivil();var today=todayStr();
+  var lbls={today:"AUJOURD'HUI",hier:'HIER','7j':'7 DERNIERS JOURS','30j':'30 DERNIERS JOURS'};
+  var filtered;
+  if(_zPeriode==='today')filtered=ventes.filter(function(v){return v.date.slice(0,10)===today});
+  else if(_zPeriode==='hier'){var h=new Date();h.setDate(h.getDate()-1);var hs=h.toISOString().slice(0,10);filtered=ventes.filter(function(v){return v.date.slice(0,10)===hs})}
+  else if(_zPeriode==='7j'){var d7=new Date();d7.setDate(d7.getDate()-7);var s7=d7.toISOString().slice(0,10);filtered=ventes.filter(function(v){return v.date.slice(0,10)>=s7})}
+  else{var d30=new Date();d30.setDate(d30.getDate()-30);var s30=d30.toISOString().slice(0,10);filtered=ventes.filter(function(v){return v.date.slice(0,10)>=s30})}
+  var nb=filtered.length;var tot=filtered.reduce(function(s,v){return s+v.total},0);
+  var topMap={};filtered.forEach(function(v){v.lignes.forEach(function(l){var k=l.designation;if(!topMap[k])topMap[k]={designation:k,qte:0,montant:0};topMap[k].qte+=l.quantite;topMap[k].montant+=l.montant})});
+  var top=Object.values(topMap).sort(function(a,b){return b.montant-a.montant}).slice(0,10);
+  var d=new Date();
+  var topRows=top.map(function(t,i){return '<tr><td>'+(i+1)+'</td><td>'+esc(t.designation)+'</td><td class="c">'+t.qte+'</td><td class="r">'+money(t.montant)+'</td></tr>'}).join('');
+  var html='<!doctype html><html><head><meta charset="utf-8"><title>Rapport Z</title>'
+    +'<style>@page{size:A4;margin:15mm}body{font-family:"Segoe UI",Arial,sans-serif;color:#111;font-size:12px;margin:0}'
+    +'.h{display:flex;justify-content:space-between;border-bottom:3px solid #10b981;padding-bottom:10px;margin-bottom:14px}'
+    +'.h .nom{font-size:22px;font-weight:800;color:#10b981}'
+    +'.h .sub{font-size:11px;color:#555;margin-top:2px}'
+    +'.periode{margin:20px 0;padding:10px 14px;background:#f1f5f9;border-left:4px solid #10b981}'
+    +'.kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}'
+    +'.kpi{border:1px solid #e5e7eb;border-radius:8px;padding:14px}'
+    +'.kpi .k-lbl{font-size:11px;color:#666;text-transform:uppercase}'
+    +'.kpi .k-val{font-size:24px;font-weight:800;margin-top:4px}'
+    +'.kpi.pri .k-val{color:#10b981}'
+    +'h3{font-size:13px;margin:20px 0 8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px}'
+    +'table{width:100%;border-collapse:collapse}th{background:#0f1d32;color:#fff;padding:7px 10px;text-align:left;font-size:11px}td{padding:7px 10px;border-bottom:1px solid #e5e7eb}.c{text-align:center}.r{text-align:right}'
+    +'.sig{display:flex;justify-content:space-between;margin-top:60px;font-size:11px}.sig .box{width:200px;text-align:center}.sig .box .lbl{color:#666;margin-bottom:50px}.sig .box .n{border-top:1px solid #999;padding-top:4px}'
+    +'@media screen{body{max-width:210mm;margin:14px auto;padding:15mm;background:#fff;box-shadow:0 0 20px rgba(0,0,0,.15)}}'
+    +'</style></head><body>'
+    +'<div class="h"><div><div style="font-size:10px;color:#10b981;letter-spacing:3px;text-transform:uppercase">Dépôt de médicaments</div><div class="nom">'+esc(cfg.nom||'SALAMA')+'</div>'
+    +(cfg.adresse?'<div class="sub">'+esc(cfg.adresse)+'</div>':'')+'</div>'
+    +'<div style="text-align:right"><div style="font-size:11px;color:#666">Rapport de caisse</div><div style="font-size:18px;font-weight:700">Z '+d.toLocaleDateString('fr-FR').replace(/\//g,'')+'</div><div style="font-size:11px;color:#666;margin-top:4px">Édité le '+d.toLocaleDateString('fr-FR')+' à '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+'</div></div></div>'
+    +'<div class="periode"><div style="font-size:10px;color:#666;text-transform:uppercase">Période</div><div style="font-size:14px;font-weight:700">'+lbls[_zPeriode]+'</div></div>'
+    +'<div class="kpis"><div class="kpi"><div class="k-lbl">Nombre de ventes</div><div class="k-val">'+nb+'</div></div><div class="kpi pri"><div class="k-lbl">Chiffre d\'affaires</div><div class="k-val">'+money(tot)+'</div></div></div>'
+    +(top.length?'<h3>Top médicaments vendus</h3><table><thead><tr><th style="width:40px">#</th><th>Désignation</th><th class="c" style="width:60px">Qté</th><th class="r" style="width:130px">Montant</th></tr></thead><tbody>'+topRows+'</tbody></table>':'<div style="text-align:center;color:#999;padding:20px">Aucune vente</div>')
+    +'<div class="sig"><div class="box"><div class="lbl">Le caissier</div><div class="n">Signature</div></div><div class="box"><div class="lbl">Le dépositaire</div><div class="n">'+esc(cfg.depositaire||'')+'</div></div></div>'
+    +'<script>window.onload=function(){setTimeout(function(){window.print()},350)}<\/script>'
+    +'</body></html>';
+  var w=window.open('','_blank','width=900,height=1000');
+  w.document.open();w.document.write(html);w.document.close();
 }
 
 // ===================== PARAMÈTRES =====================

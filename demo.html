@@ -156,7 +156,7 @@ var DB={
 };
 
 function initDB(){
-  var DEMO_VERSION=3;
+  var DEMO_VERSION=4;
   if(DB._get('demo_version')===DEMO_VERSION)return;
   Object.keys(localStorage).forEach(function(k){if(k.indexOf('salama_')===0)localStorage.removeItem(k)});
   var prods=[
@@ -249,9 +249,9 @@ function initDB(){
   ];
   var medPrix=[12000,22000,14000,18000,10500,11500,16000,7500,13500,5500,25000,9000];
   var medNom=['Paracétamol 500mg','Amoxicilline 500mg','Ibuprofène 400mg','Oméprazole 20mg','Métronidazole 250mg','Diclofénac 50mg','Cotrimoxazole 480mg','Vitamine C 500mg','Chloroquine 100mg','Sérum physio 500ml','Ciprofloxacine 500mg','Doliprane 1000mg'];
-  // Juin: ~8 ordonnances/jour x 26 jours = ~208 lignes (4+ pages)
+  // Juin: 8-10 ordonnances/jour x 26 jours = ~230 lignes (4+ pages)
   joursJuin.forEach(function(jour){
-    var nbOrd=6+Math.floor(Math.random()*5);
+    var nbOrd=8+Math.floor(Math.random()*3);
     for(var i=0;i<nbOrd;i++){
       oid++;var c=combos[Math.floor(Math.random()*combos.length)];
       var pat=Math.random()<0.3?'F':'T';
@@ -637,8 +637,8 @@ function loadHistOrd(){
 
 // ===================== FACTURE MENSUEL =====================
 function loadFactureMens(){
-  var d=new Date();
-  var moisOpts='';for(var m=1;m<=12;m++)moisOpts+='<option value="'+m+'"'+(m===d.getMonth()+1?' selected':'')+'>'+['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][m]+'</option>';
+  var d=new Date();var defMois=6;
+  var moisOpts='';for(var m=1;m<=12;m++)moisOpts+='<option value="'+m+'"'+(m===defMois?' selected':'')+'>'+['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][m]+'</option>';
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
     +'<select class="input" id="fmMois" style="width:auto" onchange="showFM()">'+moisOpts+'</select>'
@@ -702,8 +702,8 @@ function showFD(){
 
 // ===================== CONTRÔLE MENSUEL =====================
 function loadEtatControle(){
-  var d=new Date();
-  var moisOpts='';for(var m=1;m<=12;m++)moisOpts+='<option value="'+m+'"'+(m===d.getMonth()+1?' selected':'')+'>'+['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][m]+'</option>';
+  var d=new Date();var defMois=6;
+  var moisOpts='';for(var m=1;m<=12;m++)moisOpts+='<option value="'+m+'"'+(m===defMois?' selected':'')+'>'+['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][m]+'</option>';
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
     +'<select class="input" id="ecType" style="width:auto" onchange="showEC()"><option value="">Tous</option><option value="H">H</option><option value="C">C</option><option value="P">P</option></select>'

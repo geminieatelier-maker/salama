@@ -484,11 +484,11 @@ function loadFactureMens(){
   var moisOpts='';for(var m=1;m<=12;m++)moisOpts+='<option value="'+m+'"'+(m===d.getMonth()+1?' selected':'')+'>'+['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][m]+'</option>';
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
-    +'<select class="input" id="fmMois" style="width:auto">'+moisOpts+'</select>'
-    +'<select class="input" id="fmAn" style="width:auto"><option>'+d.getFullYear()+'</option><option>'+(d.getFullYear()-1)+'</option></select>'
-    +'<button class="btn btn-primary" onclick="showFM()">Charger</button>'
+    +'<select class="input" id="fmMois" style="width:auto" onchange="showFM()">'+moisOpts+'</select>'
+    +'<select class="input" id="fmAn" style="width:auto" onchange="showFM()"><option>'+d.getFullYear()+'</option><option>'+(d.getFullYear()-1)+'</option></select>'
     +'<button class="btn btn-outline" onclick="imprimerFM()">Imprimer A4</button>'
-    +'</div><div class="card"><div id="fmTable"><div class="empty">Cliquez Charger</div></div></div>';
+    +'</div><div class="card"><div id="fmTable"></div></div>';
+  showFM();
 }
 function _getFMData(){
   var mois=Number(g('fmMois')),an=Number(g('fmAn'));
@@ -526,11 +526,11 @@ function loadFactureDate(){
   var today=todayStr();
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
-    +'<label style="font-size:12px">Du</label><input type="date" class="input" id="fdDeb" value="'+today.slice(0,8)+'01" style="width:auto">'
-    +'<label style="font-size:12px">Au</label><input type="date" class="input" id="fdFin" value="'+today+'" style="width:auto">'
-    +'<button class="btn btn-primary" onclick="showFD()">Charger</button>'
+    +'<label style="font-size:12px">Du</label><input type="date" class="input" id="fdDeb" value="'+today.slice(0,8)+'01" style="width:auto" onchange="showFD()">'
+    +'<label style="font-size:12px">Au</label><input type="date" class="input" id="fdFin" value="'+today+'" style="width:auto" onchange="showFD()">'
     +'<button class="btn btn-outline" onclick="imprimerFM()">Imprimer A4</button>'
-    +'</div><div class="card"><div id="fmTable"><div class="empty">Cliquez Charger</div></div></div>';
+    +'</div><div class="card"><div id="fmTable"></div></div>';
+  showFD();
 }
 function showFD(){
   var deb=g('fdDeb'),fin=g('fdFin');
@@ -549,12 +549,12 @@ function loadEtatControle(){
   var moisOpts='';for(var m=1;m<=12;m++)moisOpts+='<option value="'+m+'"'+(m===d.getMonth()+1?' selected':'')+'>'+['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][m]+'</option>';
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
-    +'<select class="input" id="ecType" style="width:auto"><option value="">Tous</option><option value="H">H</option><option value="C">C</option><option value="P">P</option></select>'
-    +'<select class="input" id="ecMois" style="width:auto">'+moisOpts+'</select>'
-    +'<select class="input" id="ecAn" style="width:auto"><option>'+d.getFullYear()+'</option><option>'+(d.getFullYear()-1)+'</option></select>'
-    +'<button class="btn btn-primary" onclick="showEC()">Charger</button>'
+    +'<select class="input" id="ecType" style="width:auto" onchange="showEC()"><option value="">Tous</option><option value="H">H</option><option value="C">C</option><option value="P">P</option></select>'
+    +'<select class="input" id="ecMois" style="width:auto" onchange="showEC()">'+moisOpts+'</select>'
+    +'<select class="input" id="ecAn" style="width:auto" onchange="showEC()"><option>'+d.getFullYear()+'</option><option>'+(d.getFullYear()-1)+'</option></select>'
     +'<button class="btn btn-outline" onclick="imprimerEC()">Imprimer A4</button>'
-    +'</div><div class="card"><div id="ecTable"><div class="empty">Cliquez Charger</div></div></div>';
+    +'</div><div class="card"><div id="ecTable"></div></div>';
+  showEC();
 }
 function _getECData(){
   var mois=Number(g('ecMois')),an=Number(g('ecAn')),typeF=g('ecType');
@@ -594,10 +594,10 @@ function imprimerEC(){
 function loadControleJour(){
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
-    +'<input type="date" class="input" id="cjDate" value="'+todayStr()+'" style="width:auto">'
-    +'<button class="btn btn-primary" onclick="showCJ()">Charger</button>'
+    +'<input type="date" class="input" id="cjDate" value="'+todayStr()+'" style="width:auto" onchange="showCJ()">'
     +'<button class="btn btn-outline" onclick="imprimerCJ()">Imprimer A4</button>'
-    +'</div><div class="card"><div id="cjTable"><div class="empty">Cliquez Charger</div></div></div>';
+    +'</div><div class="card"><div id="cjTable"></div></div>';
+  showCJ();
 }
 function showCJ(){
   var dateVal=g('cjDate');var data=DB.ordonnances().filter(function(o){return o.date_ord===dateVal});
@@ -627,8 +627,9 @@ function imprimerCJ(){
 function loadEtatStockSoc(){
   document.getElementById('content').innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">'
-    +'<button class="btn btn-primary" onclick="showLS()">Charger état actuel</button>'
-    +'</div><div class="card"><div id="lsTable"><div class="empty">Cliquez Charger</div></div></div>';
+    +'<button class="btn btn-outline" onclick="imprimerLS()">Imprimer A4</button>'
+    +'</div><div class="card"><div id="lsTable"></div></div>';
+  showLS();
 }
 function showLS(){
   var prods=DB.produits().filter(function(p){return p.actif});

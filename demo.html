@@ -156,7 +156,7 @@ var DB={
 };
 
 function initDB(){
-  var DEMO_VERSION=2;
+  var DEMO_VERSION=3;
   if(DB._get('demo_version')===DEMO_VERSION)return;
   Object.keys(localStorage).forEach(function(k){if(k.indexOf('salama_')===0)localStorage.removeItem(k)});
   var prods=[
@@ -179,32 +179,93 @@ function initDB(){
   var travs=[
     {id:1,matricule:'10254',nom_prenom:'RAKOTO Jean',section_code:'A1',type_trav:'H',societe_id:2},
     {id:2,matricule:'10389',nom_prenom:'RABE Marie',section_code:'A1',type_trav:'H',societe_id:2},
-    {id:3,matricule:'20105',nom_prenom:'ANDRIA Paul',section_code:'B2',type_trav:'C',societe_id:3},
-    {id:4,matricule:'20210',nom_prenom:'RASOA Hanta',section_code:'B2',type_trav:'C',societe_id:3},
-    {id:5,matricule:'30044',nom_prenom:'RANDRIANA Fidy',section_code:'C1',type_trav:'H',societe_id:4},
-    {id:6,matricule:'10512',nom_prenom:'RAZAFY Luc',section_code:'A3',type_trav:'H',societe_id:2},
-    {id:7,matricule:'20315',nom_prenom:'SOLO Hery',section_code:'B1',type_trav:'P',societe_id:3},
-    {id:8,matricule:'30102',nom_prenom:'RAVELO Noro',section_code:'C2',type_trav:'H',societe_id:4},
+    {id:3,matricule:'10512',nom_prenom:'RAZAFY Luc',section_code:'A1',type_trav:'H',societe_id:2},
+    {id:4,matricule:'10601',nom_prenom:'RABEARISON Feno',section_code:'A1',type_trav:'C',societe_id:2},
+    {id:5,matricule:'10715',nom_prenom:'RAKOTONDRABE Haja',section_code:'A2',type_trav:'H',societe_id:2},
+    {id:6,matricule:'10823',nom_prenom:'RAMILISON Tiana',section_code:'A2',type_trav:'H',societe_id:2},
+    {id:7,matricule:'10934',nom_prenom:'RANDRIAMAHEFA Vola',section_code:'A3',type_trav:'C',societe_id:2},
+    {id:8,matricule:'11042',nom_prenom:'RASOLOFONIAINA Bema',section_code:'A3',type_trav:'H',societe_id:2},
+    {id:9,matricule:'20315',nom_prenom:'SOLO Hery',section_code:'B1',type_trav:'P',societe_id:3},
+    {id:10,matricule:'20418',nom_prenom:'ANDRIANASOLO Zo',section_code:'B1',type_trav:'H',societe_id:3},
+    {id:11,matricule:'20520',nom_prenom:'RABEMANANJARA Lova',section_code:'B1',type_trav:'C',societe_id:3},
+    {id:12,matricule:'20105',nom_prenom:'ANDRIA Paul',section_code:'B2',type_trav:'C',societe_id:3},
+    {id:13,matricule:'20210',nom_prenom:'RASOA Hanta',section_code:'B2',type_trav:'C',societe_id:3},
+    {id:14,matricule:'20633',nom_prenom:'RAZAFINDRAKOTO Mamy',section_code:'B2',type_trav:'H',societe_id:3},
+    {id:15,matricule:'20741',nom_prenom:'RAKOTONIRINA Solo',section_code:'B3',type_trav:'H',societe_id:3},
+    {id:16,matricule:'20855',nom_prenom:'RAHARISON Nirina',section_code:'B3',type_trav:'P',societe_id:3},
+    {id:17,matricule:'30044',nom_prenom:'RANDRIANA Fidy',section_code:'C1',type_trav:'H',societe_id:4},
+    {id:18,matricule:'30156',nom_prenom:'ANDRIANIRINA Toky',section_code:'C1',type_trav:'H',societe_id:4},
+    {id:19,matricule:'30268',nom_prenom:'RAJAONARISON Mika',section_code:'C1',type_trav:'C',societe_id:4},
+    {id:20,matricule:'30102',nom_prenom:'RAVELO Noro',section_code:'C2',type_trav:'H',societe_id:4},
+    {id:21,matricule:'30371',nom_prenom:'RAKOTOMALALA Aina',section_code:'C2',type_trav:'H',societe_id:4},
+    {id:22,matricule:'30483',nom_prenom:'RASOANAIVO Tahiry',section_code:'C2',type_trav:'P',societe_id:4},
+    {id:23,matricule:'40101',nom_prenom:'ANDRIAMANALINA Fara',section_code:'D1',type_trav:'H',societe_id:2},
+    {id:24,matricule:'40215',nom_prenom:'RAVELOSON Hery',section_code:'D1',type_trav:'C',societe_id:3},
+    {id:25,matricule:'40328',nom_prenom:'RASOAMANANA Vony',section_code:'D2',type_trav:'H',societe_id:4},
+    {id:26,matricule:'40431',nom_prenom:'RAZANAMALALA Bako',section_code:'D2',type_trav:'H',societe_id:2},
+    {id:27,matricule:'50102',nom_prenom:'RATSIMBAZAFY Dina',section_code:'E1',type_trav:'H',societe_id:3},
+    {id:28,matricule:'50215',nom_prenom:'RANDRIANARISOA Koto',section_code:'E1',type_trav:'C',societe_id:4},
+    {id:29,matricule:'50328',nom_prenom:'RAMAROSON Fetra',section_code:'E2',type_trav:'H',societe_id:2},
+    {id:30,matricule:'50431',nom_prenom:'ANDRIATSARAFARA Ny',section_code:'E2',type_trav:'P',societe_id:3},
   ];
-  DB.saveTravailleurs(travs);DB._set('seq_travailleur',8);
+  DB.saveTravailleurs(travs);DB._set('seq_travailleur',30);
 
-  // --- DONNÉES FICTIVES MASSIVES ---
+  // --- DONNÉES FICTIVES MASSIVES (4+ pages état contrôle) ---
   var ords=[];var oid=0;
-  var jours=['2026-06-02','2026-06-03','2026-06-05','2026-06-06','2026-06-09','2026-06-10','2026-06-12','2026-06-13','2026-06-16','2026-06-17','2026-06-19','2026-06-20','2026-06-23','2026-06-24','2026-06-25','2026-06-27','2026-06-30','2026-07-01','2026-07-02','2026-07-03','2026-07-04','2026-07-05'];
+  var joursJuin=['2026-06-01','2026-06-02','2026-06-03','2026-06-04','2026-06-05','2026-06-06','2026-06-08','2026-06-09','2026-06-10','2026-06-11','2026-06-12','2026-06-13','2026-06-15','2026-06-16','2026-06-17','2026-06-18','2026-06-19','2026-06-20','2026-06-22','2026-06-23','2026-06-24','2026-06-25','2026-06-26','2026-06-27','2026-06-29','2026-06-30'];
+  var joursJuil=['2026-07-01','2026-07-02','2026-07-03','2026-07-04','2026-07-05'];
+  var jours=joursJuin.concat(joursJuil);
   var combos=[
-    {ti:1,s:'A1',tp:'H',n:'RAKOTO Jean',m:'10254',sc:'STAR Brasseries'},
-    {ti:2,s:'A1',tp:'H',n:'RABE Marie',m:'10389',sc:'STAR Brasseries'},
-    {ti:3,s:'B2',tp:'C',n:'ANDRIA Paul',m:'20105',sc:'JIRAMA'},
-    {ti:4,s:'B2',tp:'C',n:'RASOA Hanta',m:'20210',sc:'JIRAMA'},
-    {ti:5,s:'C1',tp:'H',n:'RANDRIANA Fidy',m:'30044',sc:'TELMA'},
-    {ti:6,s:'A3',tp:'H',n:'RAZAFY Luc',m:'10512',sc:'STAR Brasseries'},
-    {ti:7,s:'B1',tp:'P',n:'SOLO Hery',m:'20315',sc:'JIRAMA'},
-    {ti:8,s:'C2',tp:'H',n:'RAVELO Noro',m:'30102',sc:'TELMA'},
+    {s:'A1',tp:'H',n:'RAKOTO Jean',m:'10254',sc:'STAR Brasseries'},
+    {s:'A1',tp:'H',n:'RABE Marie',m:'10389',sc:'STAR Brasseries'},
+    {s:'A1',tp:'H',n:'RAZAFY Luc',m:'10512',sc:'STAR Brasseries'},
+    {s:'A1',tp:'C',n:'RABEARISON Feno',m:'10601',sc:'STAR Brasseries'},
+    {s:'A2',tp:'H',n:'RAKOTONDRABE Haja',m:'10715',sc:'STAR Brasseries'},
+    {s:'A2',tp:'H',n:'RAMILISON Tiana',m:'10823',sc:'STAR Brasseries'},
+    {s:'A3',tp:'C',n:'RANDRIAMAHEFA Vola',m:'10934',sc:'STAR Brasseries'},
+    {s:'A3',tp:'H',n:'RASOLOFONIAINA Bema',m:'11042',sc:'STAR Brasseries'},
+    {s:'B1',tp:'P',n:'SOLO Hery',m:'20315',sc:'JIRAMA'},
+    {s:'B1',tp:'H',n:'ANDRIANASOLO Zo',m:'20418',sc:'JIRAMA'},
+    {s:'B1',tp:'C',n:'RABEMANANJARA Lova',m:'20520',sc:'JIRAMA'},
+    {s:'B2',tp:'C',n:'ANDRIA Paul',m:'20105',sc:'JIRAMA'},
+    {s:'B2',tp:'C',n:'RASOA Hanta',m:'20210',sc:'JIRAMA'},
+    {s:'B2',tp:'H',n:'RAZAFINDRAKOTO Mamy',m:'20633',sc:'JIRAMA'},
+    {s:'B3',tp:'H',n:'RAKOTONIRINA Solo',m:'20741',sc:'JIRAMA'},
+    {s:'B3',tp:'P',n:'RAHARISON Nirina',m:'20855',sc:'JIRAMA'},
+    {s:'C1',tp:'H',n:'RANDRIANA Fidy',m:'30044',sc:'TELMA'},
+    {s:'C1',tp:'H',n:'ANDRIANIRINA Toky',m:'30156',sc:'TELMA'},
+    {s:'C1',tp:'C',n:'RAJAONARISON Mika',m:'30268',sc:'TELMA'},
+    {s:'C2',tp:'H',n:'RAVELO Noro',m:'30102',sc:'TELMA'},
+    {s:'C2',tp:'H',n:'RAKOTOMALALA Aina',m:'30371',sc:'TELMA'},
+    {s:'C2',tp:'P',n:'RASOANAIVO Tahiry',m:'30483',sc:'TELMA'},
+    {s:'D1',tp:'H',n:'ANDRIAMANALINA Fara',m:'40101',sc:'STAR Brasseries'},
+    {s:'D1',tp:'C',n:'RAVELOSON Hery',m:'40215',sc:'JIRAMA'},
+    {s:'D2',tp:'H',n:'RASOAMANANA Vony',m:'40328',sc:'TELMA'},
+    {s:'D2',tp:'H',n:'RAZANAMALALA Bako',m:'40431',sc:'STAR Brasseries'},
+    {s:'E1',tp:'H',n:'RATSIMBAZAFY Dina',m:'50102',sc:'JIRAMA'},
+    {s:'E1',tp:'C',n:'RANDRIANARISOA Koto',m:'50215',sc:'TELMA'},
+    {s:'E2',tp:'H',n:'RAMAROSON Fetra',m:'50328',sc:'STAR Brasseries'},
+    {s:'E2',tp:'P',n:'ANDRIATSARAFARA Ny',m:'50431',sc:'JIRAMA'},
   ];
   var medPrix=[12000,22000,14000,18000,10500,11500,16000,7500,13500,5500,25000,9000];
   var medNom=['Paracétamol 500mg','Amoxicilline 500mg','Ibuprofène 400mg','Oméprazole 20mg','Métronidazole 250mg','Diclofénac 50mg','Cotrimoxazole 480mg','Vitamine C 500mg','Chloroquine 100mg','Sérum physio 500ml','Ciprofloxacine 500mg','Doliprane 1000mg'];
-  jours.forEach(function(jour){
-    var nbOrd=2+Math.floor(Math.random()*4);
+  // Juin: ~8 ordonnances/jour x 26 jours = ~208 lignes (4+ pages)
+  joursJuin.forEach(function(jour){
+    var nbOrd=6+Math.floor(Math.random()*5);
+    for(var i=0;i<nbOrd;i++){
+      oid++;var c=combos[Math.floor(Math.random()*combos.length)];
+      var pat=Math.random()<0.3?'F':'T';
+      var nbLig=1+Math.floor(Math.random()*3);var lignes=[];var tot=0;
+      for(var j=0;j<nbLig;j++){
+        var mi=Math.floor(Math.random()*12);var q=1+Math.floor(Math.random()*3);var mt=medPrix[mi]*q;tot+=mt;
+        lignes.push({id:mi+1,designation:medNom[mi],prix:medPrix[mi],qte:q});
+      }
+      ords.push({id:oid,num_pharmacie:'PH-2026-'+String(oid).padStart(4,'0'),num_hopital:'HP-'+jour.slice(5).replace('-','')+'-'+String(oid).padStart(3,'0'),date_ord:jour,matricule:c.m,nom_prenom:c.n,section_code:c.s,type_trav:c.tp,patient:pat,pharmacien:'PH001',total:tot,societe:c.sc,lignes:lignes});
+    }
+  });
+  // Juillet: quelques ordonnances
+  joursJuil.forEach(function(jour){
+    var nbOrd=3+Math.floor(Math.random()*4);
     for(var i=0;i<nbOrd;i++){
       oid++;var c=combos[Math.floor(Math.random()*combos.length)];
       var pat=Math.random()<0.3?'F':'T';

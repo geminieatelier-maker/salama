@@ -424,8 +424,7 @@ function loadVenteSociete(){
     +'<div class="fg"><label>Type</label><input id="o_typ" class="input" readonly></div>'
     +'<div class="fg"><label>N° Ordonnance (hôpital)</label><input id="o_ord" class="input" placeholder="ex: 2026-4521"></div>'
     +'<div class="fg"><label>Date ordonnance</label><input id="o_date" type="date" class="input" value="'+todayStr()+'"></div>'
-    +'<div class="fg"><label>Patient</label><select id="o_patient" class="input" onchange="vsRenderPat()"><option value="T">T — Travailleur</option><option value="F">F — Famille</option></select></div>'
-    +'<div class="fg" id="vsFamBox" style="display:none"><label>Nom du bénéficiaire (famille)</label><input id="o_famille" class="input" placeholder="Nom du patient"></div>'
+    +'<div class="fg"><label>Patient</label><select id="o_patient" class="input"><option value="T">T — Travailleur</option><option value="F">F — Famille</option></select></div>'
     +'<div class="fg" style="grid-column:1/-1"><label>Pharmacien signataire</label><select id="o_pharm" class="input"><option value="PH001">PH001 — Dr RAKOTO</option><option value="PH002">PH002 — Dr ANDRIA</option></select></div>'
     +'</div>'
     +'<h4 style="font-size:13px;margin:12px 0 8px">Médicaments</h4>'
@@ -439,7 +438,6 @@ function fillTravInfo(){
   document.getElementById('o_sec').value=t?t.section_code:'';
   document.getElementById('o_typ').value=t?t.type_trav:'';
 }
-function vsRenderPat(){document.getElementById('vsFamBox').style.display=g('o_patient')==='F'?'':'none'}
 function addOrdItem(){
   var pid=Number(g('o_prod')),qty=Number(g('o_qty'))||1;
   var p=DB.produits().find(function(x){return x.id===pid});if(!p)return;
@@ -465,9 +463,9 @@ function validerOrdonnance(){
   _ordCart.forEach(function(c){var p=prods.find(function(x){return x.id===c.id});if(p)p.stock-=c.qte});
   DB.saveProduits(prods);
   var ords=DB.ordonnances();var oid=DB.nextId('ordonnance');
-  var patType=g('o_patient');var nomFam=patType==='F'?g('o_famille'):'';
+  var patType=g('o_patient');
   var numPh='PH-'+new Date().getFullYear()+'-'+String(oid).padStart(4,'0');
-  ords.push({id:oid,num_pharmacie:numPh,num_hopital:g('o_ord'),date_ord:g('o_date')||todayStr(),matricule:t.matricule,nom_prenom:t.nom_prenom,section_code:t.section_code,type_trav:t.type_trav,patient:patType,nom_famille:nomFam,pharmacien:g('o_pharm'),total:total,societe:soc?soc.nom:'',lignes:_ordCart.slice()});
+  ords.push({id:oid,num_pharmacie:numPh,num_hopital:g('o_ord'),date_ord:g('o_date')||todayStr(),matricule:t.matricule,nom_prenom:t.nom_prenom,section_code:t.section_code,type_trav:t.type_trav,patient:patType,pharmacien:g('o_pharm'),total:total,societe:soc?soc.nom:'',lignes:_ordCart.slice()});
   DB.saveOrdonnances(ords);
   _ordCart=[];toast('Ordonnance enregistrée — '+money(total),'ok');loadVenteSociete();
 }
@@ -565,7 +563,7 @@ function showEC(){
   if(data.length===0){el.innerHTML='<div class="empty">Aucune ordonnance</div>';return}
   var tot=data.reduce(function(s,o){return s+Number(o.total)},0);var cumul=0;
   var html='<table><thead><tr><th>SEC</th><th>MATR</th><th>NOM</th><th>N°PH</th><th>N°HP</th><th>DU</th><th class="r">FAMILLE</th><th class="r">TRAVAILLEUR</th><th class="r">TOTAL</th></tr></thead><tbody>';
-  data.forEach(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.nom_famille&&o.nom_famille.trim()!=='';
+  data.forEach(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.patient==='F';
     html+='<tr><td>'+esc(o.section_code)+'</td><td style="font-family:monospace;font-size:11px">'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td>'
       +'<td style="font-size:10px">'+esc(o.num_pharmacie)+'</td><td style="font-size:10px">'+esc(o.num_hopital)+'</td>'
       +'<td style="font-size:11px">'+new Date(o.date_ord).toLocaleDateString('fr-FR')+'</td>'
@@ -579,7 +577,7 @@ function imprimerEC(){
   var data=_getECData();if(data.length===0){toast('Chargez d\'abord','warn');return}
   var cfg=DB.config();var tot=data.reduce(function(s,o){return s+Number(o.total)},0);var cumul=0;
   var moisNom=['','Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'][Number(g('ecMois'))];
-  var rows=data.map(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.nom_famille&&o.nom_famille.trim()!=='';
+  var rows=data.map(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.patient==='F';
     return '<tr><td>'+esc(o.section_code)+'</td><td>'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td><td>'+esc(o.num_pharmacie)+'</td><td>'+esc(o.num_hopital)+'</td><td>'+new Date(o.date_ord).toLocaleDateString('fr-FR')+'</td><td class="r">'+(isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+(!isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+cumul.toLocaleString('fr-FR')+'</td></tr>'}).join('');
   var pd=new Date().toLocaleDateString('fr-FR');
   var html='<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Contrôle '+moisNom+'</title><style>@page{size:A4 landscape;margin:8mm}body{font-family:Arial,sans-serif;color:#2244bb;font-size:9px;margin:8px}table{width:100%;border-collapse:collapse}th{border:1px solid #5577cc;padding:4px 5px;font-size:8px;text-align:center;background:#e8eef8}td{border:1px solid #5577cc;padding:3px 5px;font-size:8px}.r{text-align:right}</style></head><body>'
@@ -605,7 +603,7 @@ function showCJ(){
   if(data.length===0){el.innerHTML='<div class="empty">Aucune ordonnance ce jour</div>';return}
   var tot=data.reduce(function(s,o){return s+Number(o.total)},0);var cumul=0;
   var html='<table><thead><tr><th>SEC</th><th>MATR</th><th>NOM</th><th>N°PH</th><th>N°HP</th><th class="r">FAMILLE</th><th class="r">TRAVAILLEUR</th><th class="r">TOTAL</th></tr></thead><tbody>';
-  data.forEach(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.nom_famille&&o.nom_famille.trim()!=='';
+  data.forEach(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.patient==='F';
     html+='<tr><td>'+esc(o.section_code)+'</td><td style="font-family:monospace;font-size:11px">'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td><td style="font-size:10px">'+esc(o.num_pharmacie)+'</td><td style="font-size:10px">'+esc(o.num_hopital)+'</td><td class="r">'+(isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+(!isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r" style="font-weight:600">'+cumul.toLocaleString('fr-FR')+'</td></tr>'});
   html+='<tr style="background:#4c1d95;color:#fff"><td colspan="7" class="r" style="font-weight:700">TOTAL</td><td class="r" style="font-weight:700">'+Number(tot).toLocaleString('fr-FR')+'</td></tr></tbody></table><div style="margin-top:8px;font-size:12px"><b>EN LETTRE:</b> '+numEnLettres(Math.round(tot))+', Ariary</div>';
   el.innerHTML=html;
@@ -615,7 +613,7 @@ function imprimerCJ(){
   if(data.length===0){toast('Chargez d\'abord','warn');return}
   var tot=data.reduce(function(s,o){return s+Number(o.total)},0);var cumul=0;
   var dateAff=new Date(dateVal+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
-  var rows=data.map(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.nom_famille&&o.nom_famille.trim()!=='';return '<tr><td>'+esc(o.section_code)+'</td><td>'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td><td>'+esc(o.num_pharmacie)+'</td><td>'+esc(o.num_hopital)+'</td><td class="r">'+(isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+(!isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+cumul.toLocaleString('fr-FR')+'</td></tr>'}).join('');
+  var rows=data.map(function(o){var mt=Number(o.total);cumul+=mt;var isFam=o.patient==='F';return '<tr><td>'+esc(o.section_code)+'</td><td>'+esc(o.matricule)+'</td><td>'+esc(o.nom_prenom)+'</td><td>'+esc(o.num_pharmacie)+'</td><td>'+esc(o.num_hopital)+'</td><td class="r">'+(isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+(!isFam?mt.toLocaleString('fr-FR'):'')+'</td><td class="r">'+cumul.toLocaleString('fr-FR')+'</td></tr>'}).join('');
   var html='<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Contrôle '+dateAff+'</title><style>@page{size:A4 landscape;margin:8mm}body{font-family:Arial,sans-serif;color:#000;font-size:9px;margin:8px}table{width:100%;border-collapse:collapse}th{border:1px solid #000;padding:4px 5px;font-size:8px;text-align:center;background:#f0f0f0}td{border:1px solid #000;padding:3px 5px;font-size:8px}.r{text-align:right}.grand td{font-weight:700;background:#ddd;font-size:9px}</style></head><body>'
     +'<div style="display:flex;justify-content:space-between;margin-bottom:10px"><div><b style="font-size:12px">DEPOT DE MEDICAMENTS<br>SALAMA</b><br>Ankarana - SIRANA</div><div style="text-align:right;font-size:12px;font-weight:700">FACTURATION JOURNALIÈRE<br>'+dateAff+'</div></div>'
     +'<table><thead><tr><th>SEC</th><th>MATR</th><th>NOM ET PRENOMS</th><th>N° PHAR</th><th>N° HÔP</th><th>FAMILLE</th><th>TRAVAILLEUR</th><th>TOTAL</th></tr></thead><tbody>'+rows+'<tr class="grand"><td colspan="7" class="r">T =</td><td class="r">'+Number(tot).toLocaleString('fr-FR')+' Ariary</td></tr></tbody></table>'

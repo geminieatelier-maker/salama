@@ -419,13 +419,14 @@ function loadVenteSociete(){
   document.getElementById('content').innerHTML=
     '<div class="card"><h3>Nouvelle ordonnance</h3>'
     +'<div class="form-grid">'
-    +'<div class="fg"><label>N° Pharmacie</label><input id="o_nph" class="input" placeholder="PH-2026-XXXX"></div>'
-    +'<div class="fg"><label>N° Hôpital</label><input id="o_nhp" class="input" placeholder="HP-2026-XXXX"></div>'
     +'<div class="fg" style="grid-column:1/-1"><label>Travailleur (matricule ou nom)</label><select id="o_trav" class="input" onchange="fillTravInfo()"><option value="">— Sélectionner —</option>'+travs.map(function(t){return '<option value="'+t.id+'">'+esc(t.matricule)+' — '+esc(t.nom_prenom)+'</option>'}).join('')+'</select></div>'
     +'<div class="fg"><label>Section</label><input id="o_sec" class="input" readonly></div>'
     +'<div class="fg"><label>Type</label><input id="o_typ" class="input" readonly></div>'
-    +'<div class="fg"><label>Patient (si famille)</label><input id="o_patient" class="input" placeholder="Nom du membre"></div>'
-    +'<div class="fg"><label>Nom famille (si famille)</label><input id="o_famille" class="input" placeholder="Vide si travailleur"></div>'
+    +'<div class="fg"><label>N° Ordonnance (hôpital)</label><input id="o_ord" class="input" placeholder="ex: 2026-4521"></div>'
+    +'<div class="fg"><label>Date ordonnance</label><input id="o_date" type="date" class="input" value="'+todayStr()+'"></div>'
+    +'<div class="fg"><label>Patient</label><select id="o_patient" class="input" onchange="vsRenderPat()"><option value="T">T — Travailleur</option><option value="F">F — Famille</option></select></div>'
+    +'<div class="fg" id="vsFamBox" style="display:none"><label>Nom du bénéficiaire (famille)</label><input id="o_famille" class="input" placeholder="Nom du patient"></div>'
+    +'<div class="fg" style="grid-column:1/-1"><label>Pharmacien signataire</label><select id="o_pharm" class="input"><option value="PH001">PH001 — Dr RAKOTO</option><option value="PH002">PH002 — Dr ANDRIA</option></select></div>'
     +'</div>'
     +'<h4 style="font-size:13px;margin:12px 0 8px">Médicaments</h4>'
     +'<div style="display:flex;gap:8px;margin-bottom:8px"><select id="o_prod" class="input" style="flex:1">'+prods.map(function(p){return '<option value="'+p.id+'">'+esc(p.designation)+' ('+money(p.prix_vente)+') — stock: '+p.stock+'</option>'}).join('')+'</select><input id="o_qty" type="number" class="input" style="width:70px" placeholder="Qté" value="1"><button class="btn btn-primary btn-sm" onclick="addOrdItem()">+</button></div>'
@@ -438,6 +439,7 @@ function fillTravInfo(){
   document.getElementById('o_sec').value=t?t.section_code:'';
   document.getElementById('o_typ').value=t?t.type_trav:'';
 }
+function vsRenderPat(){document.getElementById('vsFamBox').style.display=g('o_patient')==='F'?'':'none'}
 function addOrdItem(){
   var pid=Number(g('o_prod')),qty=Number(g('o_qty'))||1;
   var p=DB.produits().find(function(x){return x.id===pid});if(!p)return;
@@ -463,7 +465,9 @@ function validerOrdonnance(){
   _ordCart.forEach(function(c){var p=prods.find(function(x){return x.id===c.id});if(p)p.stock-=c.qte});
   DB.saveProduits(prods);
   var ords=DB.ordonnances();var oid=DB.nextId('ordonnance');
-  ords.push({id:oid,num_pharmacie:g('o_nph'),num_hopital:g('o_nhp'),date_ord:todayStr(),matricule:t.matricule,nom_prenom:t.nom_prenom,section_code:t.section_code,type_trav:t.type_trav,patient:g('o_patient'),nom_famille:g('o_famille'),total:total,societe:soc?soc.nom:'',lignes:_ordCart.slice()});
+  var patType=g('o_patient');var nomFam=patType==='F'?g('o_famille'):'';
+  var numPh='PH-'+new Date().getFullYear()+'-'+String(oid).padStart(4,'0');
+  ords.push({id:oid,num_pharmacie:numPh,num_hopital:g('o_ord'),date_ord:g('o_date')||todayStr(),matricule:t.matricule,nom_prenom:t.nom_prenom,section_code:t.section_code,type_trav:t.type_trav,patient:patType,nom_famille:nomFam,pharmacien:g('o_pharm'),total:total,societe:soc?soc.nom:'',lignes:_ordCart.slice()});
   DB.saveOrdonnances(ords);
   _ordCart=[];toast('Ordonnance enregistrée — '+money(total),'ok');loadVenteSociete();
 }
